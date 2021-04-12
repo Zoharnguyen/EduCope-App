@@ -1,6 +1,6 @@
 # edu_cope
 
-Project help to connect tutor and st
+Project help to connect tutor and student's parent
 
 ## Getting Started
 
