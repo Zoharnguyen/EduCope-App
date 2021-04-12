@@ -1,0 +1,5 @@
+enum CommonConstant{
+  MOVE_TO_CREATE_ACCOUNT_SCREEN,
+  USER_TYPE,
+  TOKEN,
+}
