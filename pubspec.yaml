@@ -69,6 +69,12 @@ flutter:
     - asset/image/payment.png
     - asset/image/message.png
     - asset/image/notification.png
+    - asset/image/comment.png
+    - asset/image/personal.png
+    - asset/image/setting.png
+    - asset/image/sign-out.png
+    - asset/image/rating-star.png
+    - asset/image/edit.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
