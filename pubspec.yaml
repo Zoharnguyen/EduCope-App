@@ -75,6 +75,8 @@ flutter:
     - asset/image/sign-out.png
     - asset/image/rating-star.png
     - asset/image/edit.png
+    - asset/image/file.png
+    - asset/image/adjust.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
