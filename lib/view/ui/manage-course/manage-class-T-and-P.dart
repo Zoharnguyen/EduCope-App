@@ -1,19 +1,20 @@
 import 'package:edu_cope/dto/offer.dart';
 import 'package:edu_cope/dto/user-profile.dart';
-import 'package:edu_cope/view/ui/create-offer-class.dart';
-import 'package:edu_cope/view/ui/manage-detail-learning-class.dart';
-import 'package:edu_cope/view/ui/manage-profile.dart';
+import 'package:edu_cope/view/ui/basic-operate-course/create-offer-class-T.dart';
+import 'package:edu_cope/view/ui/manage-course/manage-detail-learning-class-T-and-P.dart';
+import 'package:edu_cope/view/ui/manage-profile/manage-profile-T-and-P.dart';
+import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/material.dart';
 
-import 'homepage.dart';
-import 'manage-detail-openning-class.dart';
+import '../homepage-T.dart';
+import 'manage-detail-openning-class-T-and-P.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-double width = 411.4285;
-double height = 683.4285;
+final double width = CommonUtils.width;
+final double height = CommonUtils.height;
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -24,19 +25,19 @@ class MyApp extends StatelessWidget {
       // theme: ThemeData(
       //   primarySwatch: Colors.blue,
       // ),
-      home: ManageClass(),
+      home: ManageClassTandPPage(),
     );
   }
 }
 
-class ManageClass extends StatefulWidget {
-  ManageClass();
+class ManageClassTandPPage extends StatefulWidget {
+  ManageClassTandPPage();
 
   @override
-  _ManageClassState createState() => _ManageClassState();
+  _ManageClassTandPPageState createState() => _ManageClassTandPPageState();
 }
 
-class _ManageClassState extends State<ManageClass> {
+class _ManageClassTandPPageState extends State<ManageClassTandPPage> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -63,7 +64,7 @@ class _ManageClassState extends State<ManageClass> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => HomePage()));
+                                    builder: (context) => HomePageT()));
                           },
                         ),
                       ),
@@ -112,7 +113,7 @@ class _ManageClassState extends State<ManageClass> {
                   child: FlatButton(
                     onPressed: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomePage()));
+                          MaterialPageRoute(builder: (context) => HomePageT()));
                     },
                     child: new Image.asset('asset/image/homepage_green.jpg'),
                   ),
@@ -127,7 +128,7 @@ class _ManageClassState extends State<ManageClass> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => CreateOfferClass()));
+                              builder: (context) => CreateOfferClassTPage()));
                     },
                     child: new Image.asset('asset/image/add.png'),
                   ),
@@ -140,7 +141,7 @@ class _ManageClassState extends State<ManageClass> {
                     child: FlatButton(
                       onPressed: () {
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => ManageProfile()));
+                            MaterialPageRoute(builder: (context) => ManageProfileTandPPage()));
                       },
                       child: new Image.asset('asset/image/personal_blue.png'),
                     )),
@@ -344,7 +345,7 @@ Widget _jobsShowOpeningOffer(
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => ManageDetailOpeningClass()));
+                      builder: (context) => ManageDetailOpeningClassTandPPage()));
             },
             child: Text(
               'Chi tiet >>>',
@@ -548,7 +549,7 @@ Widget _jobsShowLearningClass(
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => ManageDetailLearningClass()));
+                      builder: (context) => ManageDetailLearningClassTandPPage()));
             },
             child: Text(
               'Chi tiet >>>',

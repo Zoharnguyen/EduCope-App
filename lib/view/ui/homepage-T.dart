@@ -6,16 +6,17 @@ import 'package:edu_cope/dto/offer.dart';
 import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/dto/user-profile.dart';
 import 'package:edu_cope/service/api-offer.dart';
-import 'package:edu_cope/view/ui/manage-class.dart';
-import 'package:edu_cope/view/ui/manage-detail-openning-class.dart';
-import 'package:edu_cope/view/ui/manage-profile.dart';
-import 'package:edu_cope/view/ui/show-all-notification.dart';
-import 'package:edu_cope/view/ui/show-all-offer-openning-course.dart';
+import 'package:edu_cope/view/ui/manage-course/manage-class-T-and-P.dart';
+import 'package:edu_cope/view/ui/manage-course/manage-detail-openning-class-T-and-P.dart';
+import 'package:edu_cope/view/ui/manage-profile/manage-profile-T-and-P.dart';
+import 'package:edu_cope/view/ui/notification/show-all-notification.dart';
+import 'package:edu_cope/view/ui/basic-operate-course/show-all-offer-openning-course-T-and-P.dart';
+import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
-import 'create-offer-class.dart';
+import 'basic-operate-course/create-offer-class-T.dart';
 
 void main() async {
   // Initialize Firebase
@@ -24,8 +25,8 @@ void main() async {
   runApp(MyApp());
 }
 
-double width = 411.4285;
-double height = 683.4285;
+final double height = CommonUtils.height;
+final double width = CommonUtils.width;
 var counter = 1;
 
 class MyApp extends StatelessWidget {
@@ -37,19 +38,19 @@ class MyApp extends StatelessWidget {
       // theme: ThemeData(
       //   primarySwatch: Colors.blue,
       // ),
-      home: HomePage(),
+      home: HomePageT(),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  HomePage();
+class HomePageT extends StatefulWidget {
+  HomePageT();
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomePageTState createState() => _HomePageTState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageTState extends State<HomePageT> {
   late FirebaseMessaging messaging;
 
   @override
@@ -73,10 +74,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    width = MediaQuery.of(context).size.width;
-    print(width);
-    height = MediaQuery.of(context).size.height;
-    print(height);
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.lightBlue,
@@ -229,7 +226,7 @@ class _HomePageState extends State<HomePage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ManageClass()));
+                                    builder: (context) => ManageClassTandPPage()));
                           },
                           child: new Image.asset('asset/image/class.png'),
                         ),
@@ -375,7 +372,7 @@ class _HomePageState extends State<HomePage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  ShowAllOfferOpenningCourse()));
+                                  ShowAllOfferOpenningCourseTandPPage()));
                     },
                     child: Text(
                       'Xem tat ca >>>',
@@ -408,7 +405,7 @@ class _HomePageState extends State<HomePage> {
                   child: FlatButton(
                     onPressed: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomePage()));
+                          MaterialPageRoute(builder: (context) => HomePageT()));
                     },
                     child: new Image.asset('asset/image/homepage_green.jpg'),
                   ),
@@ -423,7 +420,7 @@ class _HomePageState extends State<HomePage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => CreateOfferClass()));
+                              builder: (context) => CreateOfferClassTPage()));
                     },
                     child: new Image.asset('asset/image/add.png'),
                   ),
@@ -436,7 +433,7 @@ class _HomePageState extends State<HomePage> {
                     child: FlatButton(
                       onPressed: () {
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => ManageProfile()));
+                            MaterialPageRoute(builder: (context) => ManageProfileTandPPage()));
                       },
                       child: new Image.asset('asset/image/personal_blue.png'),
                     )),
@@ -678,7 +675,7 @@ Widget _jobsShowOffer(String subject, String salary, String formatLearning,
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          ManageDetailOpeningClass()));
+                          ManageDetailOpeningClassTandPPage()));
             },
             child: Text(
               'Chi tiet >>>',

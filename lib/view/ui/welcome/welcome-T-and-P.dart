@@ -1,12 +1,12 @@
 
-import 'package:edu_cope/view/ui/sign-in.dart';
+import 'package:edu_cope/view/ui/welcome/sign-in-T-and-P.dart';
 import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'choose-user-type.dart';
-import '../../constant/common-constant.dart';
+import 'choose-user-type-T-and-P.dart';
+import '../../../constant/common-constant.dart';
 
 void main() {
   runApp(MyApp());
@@ -21,19 +21,19 @@ class MyApp extends StatelessWidget {
       // theme: ThemeData(
       //   primarySwatch: Colors.blue,
       // ),
-      home: WelcomePage(),
+      home: WelcomeTandPPage(),
     );
   }
 }
 
-class WelcomePage extends StatefulWidget {
-  WelcomePage();
+class WelcomeTandPPage extends StatefulWidget {
+  WelcomeTandPPage();
 
   @override
-  _WelcomePageState createState() => _WelcomePageState();
+  _WelcomeTandPPageState createState() => _WelcomeTandPPageState();
 }
 
-class _WelcomePageState extends State<WelcomePage> {
+class _WelcomeTandPPageState extends State<WelcomeTandPPage> {
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +117,7 @@ class _WelcomePageState extends State<WelcomePage> {
               child: FlatButton(
                 onPressed: () {
                   CommonUtils.saveValue(describeEnum(CommonConstant.MOVE_TO_CREATE_ACCOUNT_SCREEN).toString(), "false");
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => SignInPage()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => SignInTandPPage()));
                 },
                 child: Text(
                   "Sign In",
@@ -141,7 +141,7 @@ class _WelcomePageState extends State<WelcomePage> {
               child: FlatButton(
                 onPressed: () {
                   CommonUtils.saveValue(describeEnum(CommonConstant.MOVE_TO_CREATE_ACCOUNT_SCREEN).toString(), "false");
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => ChooseUserTypePage()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => ChooseUserTypeTandPPage()));
                 },
                 child: Text(
                   "View as a guest",
@@ -179,7 +179,7 @@ class _WelcomePageState extends State<WelcomePage> {
               child: FlatButton(
                 onPressed: () {
                   CommonUtils.saveValue(describeEnum(CommonConstant.MOVE_TO_CREATE_ACCOUNT_SCREEN).toString(), "true");
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => ChooseUserTypePage()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => ChooseUserTypeTandPPage()));
                 },
                 child: Text(
                   "Create Account",

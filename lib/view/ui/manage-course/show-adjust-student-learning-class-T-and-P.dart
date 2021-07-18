@@ -1,4 +1,4 @@
-import 'package:edu_cope/view/ui/add-new-adjust-student-learning-class.dart';
+import 'package:edu_cope/view/ui/manage-course/add-new-adjust-student-learning-class-T.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,21 +10,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: AdjustStudentLearningClass(),
+      home: ShowAdjustStudentLearningClassTandPPage(),
     );
   }
 }
 
-class AdjustStudentLearningClass extends StatefulWidget {
-  AdjustStudentLearningClass();
+class ShowAdjustStudentLearningClassTandPPage extends StatefulWidget {
+  ShowAdjustStudentLearningClassTandPPage();
 
   @override
-  _AdjustStudentLearningClassState createState() =>
-      _AdjustStudentLearningClassState();
+  _ShowAdjustStudentLearningClassTandPPageState createState() =>
+      _ShowAdjustStudentLearningClassTandPPageState();
 }
 
-class _AdjustStudentLearningClassState
-    extends State<AdjustStudentLearningClass> {
+class _ShowAdjustStudentLearningClassTandPPageState
+    extends State<ShowAdjustStudentLearningClassTandPPage> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -227,7 +227,7 @@ class _AdjustStudentLearningClassState
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            AddNewAdjustStudentLearningClass()));
+                            AddNewAdjustStudentLearningClassTPage()));
               },
               child: new Image.asset('asset/image/add.png'),
             ),

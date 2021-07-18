@@ -6,9 +6,9 @@ import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/dto/schedule-offer.dart';
 import 'package:edu_cope/dto/user-profile.dart';
 import 'package:edu_cope/service/api-offer.dart';
-import 'package:edu_cope/view/ui/detail-information-opening-and-not-offer-class-edit.dart';
-import 'package:edu_cope/view/ui/manage-detail-openning-class.dart';
-import 'package:edu_cope/view/ui/manage-profile.dart';
+import 'package:edu_cope/view/ui/manage-course/edit-detail-information-opening-and-not-offer-class-T.dart';
+import 'package:edu_cope/view/ui/manage-course/manage-detail-openning-class-T-and-P.dart';
+import 'package:edu_cope/view/ui/manage-profile/manage-profile-T-and-P.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -23,21 +23,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: DetailInformationOpeningAndNotOfferClass(),
+      home: DetailInformationOpeningAndNotOfferClassTandPPage(),
     );
   }
 }
 
-class DetailInformationOpeningAndNotOfferClass extends StatefulWidget {
-  DetailInformationOpeningAndNotOfferClass();
+class DetailInformationOpeningAndNotOfferClassTandPPage extends StatefulWidget {
+  DetailInformationOpeningAndNotOfferClassTandPPage();
 
   @override
-  _DetailInformationOpeningAndNotOfferClassState createState() =>
-      _DetailInformationOpeningAndNotOfferClassState();
+  _DetailInformationOpeningAndNotOfferClassTandPPageState createState() =>
+      _DetailInformationOpeningAndNotOfferClassTandPPageState();
 }
 
-class _DetailInformationOpeningAndNotOfferClassState
-    extends State<DetailInformationOpeningAndNotOfferClass> {
+class _DetailInformationOpeningAndNotOfferClassTandPPageState
+    extends State<DetailInformationOpeningAndNotOfferClassTandPPage> {
   Offer _offer = _initializeOffer();
 
   @override
@@ -75,7 +75,7 @@ class _DetailInformationOpeningAndNotOfferClassState
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => ManageDetailOpeningClass()));
+                      builder: (context) => ManageDetailOpeningClassTandPPage()));
               ;
             },
           ),
@@ -88,7 +88,7 @@ class _DetailInformationOpeningAndNotOfferClassState
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            DetailInformationOpeningAndNotOfferClassEdit()));
+                            EditDetailInformationOpeningAndNotOfferClassTPage()));
               },
               child: Text(
                 "Sửa",
@@ -227,7 +227,7 @@ class _DetailInformationOpeningAndNotOfferClassState
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => ManageProfile()));
+                                            builder: (context) => ManageProfileTandPPage()));
                                   },
                                   child: Text(
                                     'Chi tiết >>>',

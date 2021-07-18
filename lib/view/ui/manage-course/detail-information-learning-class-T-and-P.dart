@@ -1,15 +1,12 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:edu_cope/dto/adjust-user-profile.dart';
 import 'package:edu_cope/dto/offer.dart';
 import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/dto/schedule-offer.dart';
 import 'package:edu_cope/dto/user-profile.dart';
-import 'package:edu_cope/service/api-account.dart';
 import 'package:edu_cope/service/api-offer.dart';
-import 'package:edu_cope/view/ui/manage-detail-learning-class.dart';
-import 'package:edu_cope/view/ui/show-adjust-account.dart';
+import 'package:edu_cope/view/ui/manage-course/manage-detail-learning-class-T-and-P.dart';
 import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/material.dart';
 
@@ -20,26 +17,27 @@ void main() {
 double width = 411.4285;
 double height = 683.4285;
 String courseId = '60e394825ded485c37a643f1';
-String userBeAdjustedId = "607a8b832ea23669aaea68e3";
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: ManageAdjustMemInClass(),
+      home: DetailInformationLearingClassTandPPage(),
     );
   }
 }
 
-class ManageAdjustMemInClass extends StatefulWidget {
-  ManageAdjustMemInClass();
+class DetailInformationLearingClassTandPPage extends StatefulWidget {
+  DetailInformationLearingClassTandPPage();
 
   @override
-  _ManageAdjustMemInClassState createState() => _ManageAdjustMemInClassState();
+  _DetailInformationLearingClassTandPPageState createState() =>
+      _DetailInformationLearingClassTandPPageState();
 }
 
-class _ManageAdjustMemInClassState extends State<ManageAdjustMemInClass> {
+class _DetailInformationLearingClassTandPPageState
+    extends State<DetailInformationLearingClassTandPPage> {
   Offer _offer = _initializeOffer();
 
   @override
@@ -62,7 +60,7 @@ class _ManageAdjustMemInClassState extends State<ManageAdjustMemInClass> {
                     centerTitle: true,
                     title: Container(
                       child: Text(
-                        'Đánh giá',
+                        'Thông tin lớp học',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 22,
@@ -79,18 +77,18 @@ class _ManageAdjustMemInClassState extends State<ManageAdjustMemInClass> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      ManageDetailLearningClass()));
+                                      ManageDetailLearningClassTandPPage()));
                         },
                       ),
                     ),
                     bottom: TabBar(
                       tabs: <Widget>[
                         Text(
-                          'Đã đánh giá',
+                          'Thông tin chung',
                           style: TextStyle(fontSize: 20),
                         ),
                         Text(
-                          'Chưa đánh giá',
+                          'Thành viên',
                           style: TextStyle(fontSize: 20),
                         ),
                       ],
@@ -98,12 +96,8 @@ class _ManageAdjustMemInClassState extends State<ManageAdjustMemInClass> {
                   ),
                 ),
                 body: TabBarView(children: <Widget>[
-                  membersClass(
-                      getMemByAdjustStatus(_offer.memberClassList, 'true'),
-                      'true'),
-                  membersClass(
-                      getMemByAdjustStatus(_offer.memberClassList, 'false'),
-                      'false'),
+                  generalInformationClass(_offer),
+                  membersClass(_offer.memberClassList),
                 ]),
               ));
         } else
@@ -113,17 +107,16 @@ class _ManageAdjustMemInClassState extends State<ManageAdjustMemInClass> {
   }
 }
 
-ListView membersClass(data, String adjustStatus) {
+ListView membersClass(data) {
   return ListView.builder(
       scrollDirection: Axis.vertical,
       itemCount: data.length,
       itemBuilder: (context, index) {
-        return _showMemberClass(data[index], context, adjustStatus);
+        return _showMemberClass(data[index]);
       });
 }
 
-Widget _showMemberClass(
-    UserProfile userProfile, BuildContext context, String adjustStatus) {
+Widget _showMemberClass(UserProfile userProfile) {
   return Container(
     height: height * 0.5 / 5,
     width: width * 1.6 / 2,
@@ -152,25 +145,9 @@ Widget _showMemberClass(
     child: Row(
       children: <Widget>[
         Container(
-          width: width * 1.5 / 2,
-          margin: EdgeInsets.only(
-            left: width * 0.1 / 2,
-          ),
+          width: width * 1 / 2,
           child: TextButton(
-            onPressed: () {
-              if ('false' == adjustStatus) {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AdjustMember();
-                    });
-              } else {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ShowAdjustAccount()));
-              }
-            },
+            onPressed: () {},
             child: Row(
               children: <Widget>[
                 Container(
@@ -178,9 +155,6 @@ Widget _showMemberClass(
                   child: new Image.asset('asset/image/personal.png'),
                 ),
                 Container(
-                  margin: EdgeInsets.only(
-                    left: width * 0.1 / 2,
-                  ),
                   child: Column(
                     children: <Widget>[
                       Container(
@@ -210,7 +184,187 @@ Widget _showMemberClass(
             ),
           ),
         ),
+        Container(
+          // width: width * 1 / 2,
+          margin: EdgeInsets.only(
+            bottom: height * 0.1 / 5,
+            left: width * 0.2 / 2,
+          ),
+          child: Align(
+            child: Text(
+              CommonUtils.mappingRoleWithUserTypeInClass(
+                  _catchCaseStringNull(userProfile.userType.toString())),
+              style: TextStyle(fontSize: 16, color: Colors.lightBlue),
+            ),
+          ),
+        ),
       ],
+    ),
+  );
+}
+
+Widget generalInformationClass(Offer offer) {
+  return SingleChildScrollView(
+      reverse: false,
+      // padding: EdgeInsets.only(
+      //   bottom: bottomKeyboard * 0.1,
+      // ),
+      child: Column(
+        // Make list containers in Column start with left screen
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          titleForItems('Môn học'),
+          inputShortContentItem(_catchCaseStringNull(offer.subject)),
+          titleForItems('Hình thức học'),
+          inputShortContentItem(_catchCaseStringNull(offer.formatLearning)),
+          titleForItems('Cấp học'),
+          inputShortContentItem(_catchCaseStringNull(offer.level)),
+          titleForItems('Ngày học trong tuần'),
+          inputShortContentItem(
+              _catchCaseStringNull(offer.scheduleOffer.overview)),
+          titleForItems('Thời gian học'),
+          inputShortContentItem(
+              _catchCaseStringNull(offer.scheduleOffer.detail)),
+          titleForItems('Địa điểm'),
+          inputLongContentItem(_catchCaseStringNull(offer.preferAddress)),
+          titleForItems('Lưu ý'),
+          inputLongContentItem(_catchCaseStringNull(offer.note)),
+          Container(
+            margin: EdgeInsets.only(
+              bottom: height * 0.5 / 5,
+            ),
+          )
+        ],
+      ));
+}
+
+Container inputShortestContentItem(String value) {
+  return Container(
+    height: height * 0.3 / 5,
+    width: width * 0.6 / 2,
+    margin: EdgeInsets.only(
+      right: width * 0.2 / 2,
+      left: width * 0.3 / 2,
+    ),
+    decoration: BoxDecoration(
+      color: Colors.lightBlue[50],
+      border: Border.all(
+        color: Colors.grey.shade400,
+        width: 1,
+      ),
+      borderRadius: BorderRadius.only(
+        bottomLeft: Radius.circular(10),
+        topLeft: Radius.circular(10),
+        bottomRight: Radius.circular(10),
+        topRight: Radius.circular(10),
+      ),
+    ),
+    child: Container(
+      margin: EdgeInsets.only(top: height * 0.07 / 5, left: width * 0.02 / 2),
+      child: Text(
+        _catchCaseStringNull(value),
+        style: TextStyle(
+          fontSize: 16,
+        ),
+      ),
+    ),
+  );
+}
+
+Container inputShortContentItem(String value) {
+  return Container(
+    height: height * 0.3 / 5,
+    width: width * 1.3 / 2,
+    margin: EdgeInsets.only(
+      right: width * 0.2 / 2,
+      left: width * 0.3 / 2,
+    ),
+    decoration: BoxDecoration(
+      color: Colors.lightBlue[50],
+      border: Border.all(
+        color: Colors.grey.shade400,
+        width: 1,
+      ),
+      borderRadius: BorderRadius.only(
+        bottomLeft: Radius.circular(10),
+        topLeft: Radius.circular(10),
+        bottomRight: Radius.circular(10),
+        topRight: Radius.circular(10),
+      ),
+    ),
+    child: Container(
+      margin: EdgeInsets.only(top: height * 0.07 / 5, left: width * 0.02 / 2),
+      child: Text(
+        _catchCaseStringNull(value),
+        style: TextStyle(
+          fontSize: 16,
+        ),
+      ),
+    ),
+  );
+}
+
+Container titleForItems(String initialValueTitle) {
+  return Container(
+    height: height * 0.35 / 5,
+    // decoration: BoxDecoration(
+    //     border: Border.all(
+    //       color: Colors.green,
+    //       width: 2,
+    //     )
+    // ),
+    child: Row(
+      children: <Widget>[
+        Container(
+            // width: width * 0.3 / 2,
+            margin: EdgeInsets.only(
+              left: width * 0.15 / 2,
+            ),
+            // decoration: BoxDecoration(
+            //     border: Border.all(
+            //       color: Colors.green,
+            //       width: 2,
+            //     )
+            // ),
+            child: Text(
+              initialValueTitle,
+              style: TextStyle(
+                color: Colors.blue,
+                fontSize: 20,
+              ),
+            )),
+      ],
+    ),
+  );
+}
+
+Container inputLongContentItem(String value) {
+  return Container(
+    width: width * 1.3 / 2,
+    height: height * 0.7 / 5,
+    margin: EdgeInsets.only(
+      right: width * 0.2 / 2,
+      left: width * 0.3 / 2,
+    ),
+    decoration: BoxDecoration(
+      color: Colors.lightBlue[50],
+      border: Border.all(
+        color: Colors.grey.shade400,
+        width: 1,
+      ),
+      borderRadius: BorderRadius.only(
+        bottomLeft: Radius.circular(10),
+        topLeft: Radius.circular(10),
+        bottomRight: Radius.circular(10),
+        topRight: Radius.circular(10),
+      ),
+    ),
+    child: Container(
+      margin: EdgeInsets.only(top: height * 0.02 / 5, left: width * 0.02 / 2),
+      child: Text(
+        _catchCaseStringNull(value),
+        style: TextStyle(fontSize: 16),
+      ),
     ),
   );
 }
@@ -272,108 +426,4 @@ Offer _initializeOffer() {
   offer.note =
       'Chung toi muon gia su dang song tai Ha Noi, co kinh nghiem gia su tu 3 nam tro len';
   return offer;
-}
-
-class AdjustMember extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<Offer>(
-        future: getOfferById(courseId),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            Offer? _offer = snapshot.data;
-            List<UserProfile> memberClass = getMemberClass(_offer!);
-            return Dialog(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4.0)),
-                child: Stack(
-                  overflow: Overflow.visible,
-                  alignment: Alignment.topCenter,
-                  children: [
-                    Container(
-                      height: height * 3.2 / 5,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 70, 10, 10),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              titleForItemAjust(CommonUtils.catchCaseStringNull(
-                                  memberClass[0].fullName)),
-                              titleForItems('Số sao'),
-                              inputContentItem('5', 'rate',
-                                  adjustUserProfile, height * 0.4 / 5),
-                              titleForItems('Nội dung'),
-                              inputContentItem(
-                                  'Làm việc hiệu quả, hỗ trợ nhiệt tình',
-                                  'content',
-                                  adjustUserProfile,
-                                  height * 0.8 / 5),
-                              Container(
-                                child: RaisedButton(
-                                  onPressed: () {
-                                    adjustMember(adjustUserProfile);
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ManageAdjustMemInClass()));
-                                  },
-                                  color: Colors.lightBlue,
-                                  child: Text(
-                                    'Đánh giá',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                        top: -40,
-                        child: CircleAvatar(
-                          backgroundColor: Colors.lightBlue,
-                          radius: 50,
-                          child: Icon(
-                            Icons.add_comment_outlined,
-                            color: Colors.white,
-                            size: 40,
-                          ),
-                        )),
-                  ],
-                ));
-          }
-          return Container();
-        });
-  }
-}
-
-List<UserProfile> getMemByAdjustStatus(
-    List<UserProfile> userProfiles, String adjustStatus) {
-  List<UserProfile> result = <UserProfile>[];
-  for (UserProfile userProfile in userProfiles) {
-    if (adjustStatus == userProfile.adjustStatus) result.add(userProfile);
-  }
-  return result;
-}
-
-Future<Widget> adjustMember(AdjustUserProfile adjustUserProfile) async {
-  adjustUserProfile.courseId = courseId;
-  adjustUserProfile.userBeAdjustedId = userBeAdjustedId;
-  adjustUserProfile.userAdjust.fullName = 'Nguyen V AAA';
-  APIAcountClient apiAcountClient =
-      APIAcountClient(Dio(BaseOptions(contentType: "application/json")));
-  ResponseEntity responseEntity =
-      await apiAcountClient.adjustUser(adjustUserProfile);
-  if (responseEntity.getStatus == HttpStatus.ok) {
-    UserProfile response = UserProfile.fromJson(responseEntity.data);
-    print('Id: ' + response.id);
-    return Text('Success!');
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-  } else {
-    // Show pop up notification about fail reason.
-    print('Error: ' + responseEntity.getException.toString());
-    return Text('Failed!');
-  }
 }

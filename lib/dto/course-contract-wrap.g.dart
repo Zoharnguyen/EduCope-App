@@ -7,15 +7,10 @@ part of 'course-contract-wrap.dart';
 // **************************************************************************
 
 CourseContractWrap _$CourseContractWrapFromJson(Map<String, dynamic> json) {
-  CourseContractWrap courseContractWrap = new CourseContractWrap();
-  (json['courseId'] != null)
-      ? courseContractWrap.courseId = json['courseId'] as String
-      : null;
-  (json['courseContract'] != null)
-      ? courseContractWrap.courseContract = CourseContract.fromJson(
-          json['courseContract'] as Map<String, dynamic>)
-      : null;
-  return courseContractWrap;
+  return CourseContractWrap()
+    ..courseId = json['courseId'] as String
+    ..courseContract =
+        CourseContract.fromJson(json['courseContract'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$CourseContractWrapToJson(CourseContractWrap instance) =>

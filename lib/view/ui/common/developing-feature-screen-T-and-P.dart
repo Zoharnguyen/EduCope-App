@@ -18,20 +18,20 @@ class MyApp extends StatelessWidget {
       // theme: ThemeData(
       //   primarySwatch: Colors.blue,
       // ),
-      home: DevelopingFeatureScreen(),
+      home: DevelopingFeatureScreenTandPPage(),
     );
   }
 }
 
-class DevelopingFeatureScreen extends StatefulWidget {
-  DevelopingFeatureScreen();
+class DevelopingFeatureScreenTandPPage extends StatefulWidget {
+  DevelopingFeatureScreenTandPPage();
 
   @override
-  _DevelopingFeatureScreenState createState() =>
-      _DevelopingFeatureScreenState();
+  _DevelopingFeatureScreenTandPPageState createState() =>
+      _DevelopingFeatureScreenTandPPageState();
 }
 
-class _DevelopingFeatureScreenState extends State<DevelopingFeatureScreen> {
+class _DevelopingFeatureScreenTandPPageState extends State<DevelopingFeatureScreenTandPPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

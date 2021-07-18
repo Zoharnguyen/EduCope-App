@@ -6,19 +6,20 @@ import 'package:edu_cope/dto/course-status-wrap.dart';
 import 'package:edu_cope/dto/course-status.dart';
 import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/service/api-offer.dart';
-import 'package:edu_cope/view/ui/create-offer-class.dart';
-import 'package:edu_cope/view/ui/manage-profile.dart';
+import 'package:edu_cope/view/ui/basic-operate-course/create-offer-class-T.dart';
+import 'package:edu_cope/view/ui/manage-profile/manage-profile-T-and-P.dart';
+import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/material.dart';
 
-import 'homepage.dart';
-import 'manage-detail-openning-class.dart';
+import '../homepage-T.dart';
+import 'manage-detail-openning-class-T-and-P.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-double width = 411.4285;
-double height = 683.4285;
+final double width = CommonUtils.width;
+final double height = CommonUtils.height;
 
 String courseId = '60e394825ded485c37a643f1';
 
@@ -31,25 +32,23 @@ class MyApp extends StatelessWidget {
       // theme: ThemeData(
       //   primarySwatch: Colors.blue,
       // ),
-      home: OpeningNotOfferClassStatusClass(),
+      home: ManageRegisterCourseOpeningClassTPage(),
     );
   }
 }
 
-class OpeningNotOfferClassStatusClass extends StatefulWidget {
-  OpeningNotOfferClassStatusClass();
+class ManageRegisterCourseOpeningClassTPage extends StatefulWidget {
+  ManageRegisterCourseOpeningClassTPage();
 
   @override
-  _OpeningNotOfferClassStatusClassState createState() =>
-      _OpeningNotOfferClassStatusClassState();
+  _ManageRegisterCourseOpeningClassTPageState createState() =>
+      _ManageRegisterCourseOpeningClassTPageState();
 }
 
-class _OpeningNotOfferClassStatusClassState
-    extends State<OpeningNotOfferClassStatusClass> {
+class _ManageRegisterCourseOpeningClassTPageState
+    extends State<ManageRegisterCourseOpeningClassTPage> {
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Column(
         children: <Widget>[
@@ -73,7 +72,7 @@ class _OpeningNotOfferClassStatusClassState
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        ManageDetailOpeningClass()));
+                                        ManageDetailOpeningClassTandPPage()));
                           },
                         ),
                       ),
@@ -125,7 +124,7 @@ class _OpeningNotOfferClassStatusClassState
                   child: FlatButton(
                     onPressed: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomePage()));
+                          MaterialPageRoute(builder: (context) => HomePageT()));
                     },
                     child: new Image.asset('asset/image/homepage_green.jpg'),
                   ),
@@ -140,7 +139,7 @@ class _OpeningNotOfferClassStatusClassState
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => CreateOfferClass()));
+                              builder: (context) => CreateOfferClassTPage()));
                     },
                     child: new Image.asset('asset/image/add.png'),
                   ),
@@ -153,7 +152,7 @@ class _OpeningNotOfferClassStatusClassState
                     child: FlatButton(
                       onPressed: () {
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => ManageProfile()));
+                            MaterialPageRoute(builder: (context) => ManageProfileTandPPage()));
                       },
                       child: new Image.asset('asset/image/personal_blue.png'),
                     )),
@@ -401,7 +400,7 @@ class AcceptRegisterAlert extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    OpeningNotOfferClassStatusClass()));
+                                    ManageRegisterCourseOpeningClassTPage()));
                       },
                       color: Colors.lightBlue,
                       child: Text(
@@ -457,7 +456,7 @@ class RejectRegisterAlert extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    OpeningNotOfferClassStatusClass()));
+                                    ManageRegisterCourseOpeningClassTPage()));
                       },
                       color: Colors.redAccent,
                       child: Text(

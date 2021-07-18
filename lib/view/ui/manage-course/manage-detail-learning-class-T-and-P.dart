@@ -8,18 +8,17 @@ import 'package:edu_cope/dto/offer.dart';
 import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/dto/user-profile.dart';
 import 'package:edu_cope/service/api-offer.dart';
-import 'package:edu_cope/view/ui/developing-feature-screen.dart';
-import 'package:edu_cope/view/ui/homepage.dart';
-import 'package:edu_cope/view/ui/manage-adjust-mem-in-class.dart';
-import 'package:edu_cope/view/ui/manage-attendance-learning-class.dart';
-import 'package:edu_cope/view/ui/manage-profile.dart';
-import 'package:edu_cope/view/ui/result-learning-class.dart';
-import 'package:edu_cope/view/ui/show-adjust-account.dart';
+import 'package:edu_cope/view/ui/common/developing-feature-screen-T-and-P.dart';
+import 'package:edu_cope/view/ui/homepage-T.dart';
+import 'package:edu_cope/view/ui/manage-course/manage-adjust-mem-in-class-T-and-P.dart';
+import 'package:edu_cope/view/ui/manage-course/manage-attendance-learning-class-T-and-P.dart';
+import 'package:edu_cope/view/ui/manage-course/show-result-exam-learning-class-T-and-P.dart';
+import 'package:edu_cope/view/ui/manage-profile/manage-profile-T-and-P.dart';
 import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/material.dart';
 
-import 'create-offer-class.dart';
-import 'detail-information-learning-class.dart';
+import '../basic-operate-course/create-offer-class-T.dart';
+import 'detail-information-learning-class-T-and-P.dart';
 
 void main() {
   runApp(MyApp());
@@ -34,26 +33,26 @@ class MyApp extends StatelessWidget {
       // theme: ThemeData(
       //   primarySwatch: Colors.blue,
       // ),
-      home: ManageDetailLearningClass(),
+      home: ManageDetailLearningClassTandPPage(),
     );
   }
 }
 
 String courseId = '60e394825ded485c37a643f1';
-double width = 411.4285;
-double height = 683.4285;
+final double width = CommonUtils.width;
+final double height = CommonUtils.height;
 AdjustUserProfile adjustUserProfile = new AdjustUserProfile();
 String currentUserId = '607a8b832ea23669aaea68e3';
 
-class ManageDetailLearningClass extends StatefulWidget {
-  ManageDetailLearningClass();
+class ManageDetailLearningClassTandPPage extends StatefulWidget {
+  ManageDetailLearningClassTandPPage();
 
   @override
-  _ManageDetailLearningClassState createState() =>
-      _ManageDetailLearningClassState();
+  _ManageDetailLearningClassTandPPageState createState() =>
+      _ManageDetailLearningClassTandPPageState();
 }
 
-class _ManageDetailLearningClassState extends State<ManageDetailLearningClass> {
+class _ManageDetailLearningClassTandPPageState extends State<ManageDetailLearningClassTandPPage> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -139,7 +138,7 @@ class _ManageDetailLearningClassState extends State<ManageDetailLearningClass> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            DetailInformationLearingClass()));
+                                            DetailInformationLearingClassTandPPage()));
                               },
                               child: Text(
                                 'Thông tin lớp học',
@@ -191,7 +190,7 @@ class _ManageDetailLearningClassState extends State<ManageDetailLearningClass> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            ResultLearningClass()));
+                                            ShowResultExamLearningClassTandPPage()));
                               },
                               child: Text(
                                 'Kết quả học tập',
@@ -242,7 +241,7 @@ class _ManageDetailLearningClassState extends State<ManageDetailLearningClass> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            ManageAttendanceLearningClass()));
+                                            ManageAttendanceLearningClassTandPPage()));
                               },
                               child: Text(
                                 'Điểm danh',
@@ -293,7 +292,7 @@ class _ManageDetailLearningClassState extends State<ManageDetailLearningClass> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            DevelopingFeatureScreen()));
+                                            DevelopingFeatureScreenTandPPage()));
                               },
                               child: Text(
                                 'Hợp đồng',
@@ -381,7 +380,7 @@ class _ManageDetailLearningClassState extends State<ManageDetailLearningClass> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => HomePage()));
+                                builder: (context) => HomePageT()));
                       },
                       child: new Image.asset('asset/image/homepage_green.jpg'),
                     ),
@@ -396,7 +395,7 @@ class _ManageDetailLearningClassState extends State<ManageDetailLearningClass> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => CreateOfferClass()));
+                                builder: (context) => CreateOfferClassTPage()));
                       },
                       child: new Image.asset('asset/image/add.png'),
                     ),
@@ -411,7 +410,7 @@ class _ManageDetailLearningClassState extends State<ManageDetailLearningClass> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ManageProfile()));
+                                  builder: (context) => ManageProfileTandPPage()));
                         },
                         child: new Image.asset('asset/image/personal_blue.png'),
                       )),
@@ -601,10 +600,10 @@ class QuestionYesOrNo extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(10, 70, 10, 10),
                 child: Column(
-                  children: <Widget> [
+                  children: <Widget>[
                     Container(
                       margin: EdgeInsets.only(
-                        bottom: height*0.1/2,
+                        bottom: height * 0.1 / 2,
                       ),
                       child: Align(
                         child: Text(
@@ -620,7 +619,7 @@ class QuestionYesOrNo extends StatelessWidget {
                       children: [
                         Container(
                           margin: EdgeInsets.only(
-                            left: width*0.22/2,
+                            left: width * 0.22 / 2,
                           ),
                           child: RaisedButton(
                             onPressed: () {
@@ -628,7 +627,8 @@ class QuestionYesOrNo extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => ManageAdjustMemInClass()));
+                                      builder: (context) =>
+                                          ManageAdjustMemInClassTandPPage()));
                             },
                             color: Colors.lightBlue,
                             child: Text(
@@ -639,14 +639,15 @@ class QuestionYesOrNo extends StatelessWidget {
                         ),
                         Container(
                           margin: EdgeInsets.only(
-                            left: width*0.2/2,
+                            left: width * 0.2 / 2,
                           ),
                           child: RaisedButton(
                             onPressed: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => ManageDetailLearningClass()));
+                                      builder: (context) =>
+                                          ManageDetailLearningClassTandPPage()));
                             },
                             color: Colors.lightBlue,
                             child: Text(

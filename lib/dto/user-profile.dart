@@ -8,24 +8,34 @@ part 'user-profile.g.dart';
 @JsonSerializable()
 class UserProfile {
 
+  @JsonKey(defaultValue: '')
   String _id = '';
 
+  @JsonKey(defaultValue: '')
   String _fullName = '';
 
+  @JsonKey(defaultValue: '')
   String _rate = '';
 
+  @JsonKey(defaultValue: '')
   String _introduction = '';
 
+  @JsonKey(defaultValue: '')
   String _urlImageProfile = '';
 
+  @JsonKey(defaultValue: '')
   String _phoneNumber = '';
 
+  @JsonKey(defaultValue: UserType.TEACHER)
   UserType _userType = UserType.TEACHER;
 
+  @JsonKey(defaultValue: <AdjustUserProfile>[])
   List<AdjustUserProfile> _adjustUserProfileList = <AdjustUserProfile>[];
 
+  @JsonKey(defaultValue: <AdjustUserProfile>[])
   List<AdjustUserProfile> get adjustUserProfileList => _adjustUserProfileList;
 
+  @JsonKey(defaultValue: '')
   String _adjustStatus = 'false';
 
   String get adjustStatus => _adjustStatus;

@@ -9,19 +9,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: AddNewAdjustStudentLearningClass(),
+      home: AddNewAdjustStudentLearningClassTPage(),
     );
   }
 }
 
-class AddNewAdjustStudentLearningClass extends StatefulWidget {
-  AddNewAdjustStudentLearningClass();
+class AddNewAdjustStudentLearningClassTPage extends StatefulWidget {
+  AddNewAdjustStudentLearningClassTPage();
 
   @override
-  _AddNewAdjustStudentLearningClassState createState() => _AddNewAdjustStudentLearningClassState();
+  _AddNewAdjustStudentLearningClassTPageState createState() => _AddNewAdjustStudentLearningClassTPageState();
 }
 
-class _AddNewAdjustStudentLearningClassState extends State<AddNewAdjustStudentLearningClass> {
+class _AddNewAdjustStudentLearningClassTPageState extends State<AddNewAdjustStudentLearningClassTPage> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;

@@ -9,7 +9,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'offer.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(nullable: true)
 class Offer {
 
   String _id = '';
@@ -40,6 +40,7 @@ class Offer {
 
   List<UserProfile> _memberClassList = <UserProfile>[];
 
+  @JsonKey(defaultValue: CourseType.OPENING)
   CourseType _courseType = CourseType.OPENING;
 
   CourseType get courseType => _courseType;

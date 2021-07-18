@@ -1,11 +1,11 @@
 import 'package:edu_cope/constant/common-constant.dart';
 import 'package:edu_cope/constant/user-type.dart';
-import 'package:edu_cope/view/ui/sign-up.dart';
+import 'package:edu_cope/view/ui/welcome/sign-up-T-and-P.dart';
 import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'homepage.dart';
+import '../homepage-T.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,19 +20,19 @@ class MyApp extends StatelessWidget {
       // theme: ThemeData(
       //   primarySwatch: Colors.blue,
       // ),
-      home: ChooseUserTypePage(),
+      home: ChooseUserTypeTandPPage(),
     );
   }
 }
 
-class ChooseUserTypePage extends StatefulWidget {
-  ChooseUserTypePage();
+class ChooseUserTypeTandPPage extends StatefulWidget {
+  ChooseUserTypeTandPPage();
 
   @override
-  _ChooseUserTypePageState createState() => _ChooseUserTypePageState();
+  _ChooseUserTypeTandPPageState createState() => _ChooseUserTypeTandPPageState();
 }
 
-class _ChooseUserTypePageState extends State<ChooseUserTypePage> {
+class _ChooseUserTypeTandPPageState extends State<ChooseUserTypeTandPPage> {
   CommonUtils commonUtils = new CommonUtils();
 
   @override
@@ -134,12 +134,12 @@ class _ChooseUserTypePageState extends State<ChooseUserTypePage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SignUpPage()));
+                                builder: (context) => SignUpTandPPage()));
                       } else {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => HomePage()));
+                                builder: (context) => HomePageT()));
                       }
                     },
                     child: Column(
@@ -190,12 +190,12 @@ class _ChooseUserTypePageState extends State<ChooseUserTypePage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SignUpPage()));
+                                builder: (context) => SignUpTandPPage()));
                       } else {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => HomePage()));
+                                builder: (context) => HomePageT()));
                       }
                     },
                     child: Column(

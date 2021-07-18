@@ -7,15 +7,10 @@ part of 'course-status-wrap.dart';
 // **************************************************************************
 
 CourseStatusWrap _$CourseStatusWrapFromJson(Map<String, dynamic> json) {
-  CourseStatusWrap courseStatusWrap = new CourseStatusWrap();
-  (json['courseId'] != null)
-      ? courseStatusWrap.courseId = json['courseId'] as String
-      : null;
-  (json['courseStatus'] != null)
-      ? courseStatusWrap.courseStatus =
-          CourseStatus.fromJson(json['courseStatus'] as Map<String, dynamic>)
-      : null;
-  return courseStatusWrap;
+  return CourseStatusWrap()
+    ..courseId = json['courseId'] as String
+    ..courseStatus =
+        CourseStatus.fromJson(json['courseStatus'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$CourseStatusWrapToJson(CourseStatusWrap instance) =>

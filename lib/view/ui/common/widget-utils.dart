@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'create-offer-class.dart';
-import 'homepage.dart';
-import 'manage-profile.dart';
+import '../basic-operate-course/create-offer-class-T.dart';
+import '../homepage-T.dart';
+import '../manage-profile/manage-profile-T-and-P.dart';
 
 double width = 411.4285;
 double height = 683.4285;
@@ -34,7 +34,7 @@ class WidgetUtils {
             child: FlatButton(
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HomePage()));
+                    MaterialPageRoute(builder: (context) => HomePageT()));
               },
               child: new Image.asset('asset/image/homepage_green.jpg'),
             ),
@@ -49,7 +49,7 @@ class WidgetUtils {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => CreateOfferClass()));
+                        builder: (context) => CreateOfferClassTPage()));
               },
               child: new Image.asset('asset/image/add.png'),
             ),
@@ -62,7 +62,7 @@ class WidgetUtils {
               child: FlatButton(
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ManageProfile()));
+                      MaterialPageRoute(builder: (context) => ManageProfileTandPPage()));
                 },
                 child: new Image.asset('asset/image/personal_blue.png'),
               )),

@@ -7,9 +7,9 @@ import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/dto/schedule-offer.dart';
 import 'package:edu_cope/dto/user-profile.dart';
 import 'package:edu_cope/service/api-offer.dart';
-import 'package:edu_cope/view/ui/create-offer-class.dart';
-import 'package:edu_cope/view/ui/homepage.dart';
-import 'package:edu_cope/view/ui/manage-detail-openning-class.dart';
+import 'package:edu_cope/view/ui/basic-operate-course/create-offer-class-T.dart';
+import 'package:edu_cope/view/ui/homepage-T.dart';
+import 'package:edu_cope/view/ui/manage-course/manage-detail-openning-class-T-and-P.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -29,19 +29,19 @@ class MyApp extends StatelessWidget {
       // theme: ThemeData(
       //   primarySwatch: Colors.blue,
       // ),
-      home: ContractCreate(),
+      home: CreateCourseContractTPage(),
     );
   }
 }
 
-class ContractCreate extends StatefulWidget {
-  ContractCreate();
+class CreateCourseContractTPage extends StatefulWidget {
+  CreateCourseContractTPage();
 
   @override
-  _ContractCreateState createState() => _ContractCreateState();
+  _CreateCourseContractTPageState createState() => _CreateCourseContractTPageState();
 }
 
-class _ContractCreateState extends State<ContractCreate> {
+class _CreateCourseContractTPageState extends State<CreateCourseContractTPage> {
   String _subjectName = 'toan';
   String _formatLearning = 'Hoc tai nha';
   Offer _offer =
@@ -92,7 +92,7 @@ class _ContractCreateState extends State<ContractCreate> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  ManageDetailOpeningClass()));
+                                  ManageDetailOpeningClassTandPPage()));
                     },
                   ),
                 ),
@@ -257,7 +257,7 @@ class AdvanceCustomAlert extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ManageDetailOpeningClass()));
+                                builder: (context) => ManageDetailOpeningClassTandPPage()));
                       },
                       color: Colors.lightBlue,
                       child: Text(

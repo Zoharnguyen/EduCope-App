@@ -7,36 +7,19 @@ part of 'course-contract.dart';
 // **************************************************************************
 
 CourseContract _$CourseContractFromJson(Map<String, dynamic> json) {
-  CourseContract courseContract = new CourseContract();
-  (json['courseContractId'] != null)
-      ? courseContract.courseContractId = json['courseContractId'] as String
-      : null;
-  (json['subject'] != null)
-      ? courseContract.subject = json['subject'] as String
-      : null;
-  (json['salary'] != null)
-      ? courseContract.salary = json['salary'] as String
-      : null;
-  (json['paymentDate'] != null)
-      ? courseContract.paymentDate = json['paymentDate'] as String
-      : null;
-  (json['formatLearning'] != null)
-      ? courseContract.formatLearning = json['formatLearning'] as String
-      : null;
-  (json['note'] != null) ? courseContract.note = json['note'] as String : null;
-  (json['userProfileCreate'] != null)
-      ? courseContract.userProfileCreate = UserProfile.fromJson(
-          json['userProfileCreate'] as Map<String, dynamic>)
-      : null;
-  (json['userProfileRegistry'] != null)
-      ? courseContract.userProfileRegistry = UserProfile.fromJson(
-          json['userProfileRegistry'] as Map<String, dynamic>)
-      : null;
-  (json['courseRegisterStatus'] != null)
-      ? courseContract.courseRegisterStatus = _$enumDecode(
-          _$CourseRegisterStatusEnumMap, json['courseRegisterStatus'])
-      : null;
-  return courseContract;
+  return CourseContract()
+    ..courseContractId = json['courseContractId'] as String
+    ..subject = json['subject'] as String
+    ..salary = json['salary'] as String
+    ..paymentDate = json['paymentDate'] as String
+    ..formatLearning = json['formatLearning'] as String
+    ..note = json['note'] as String
+    ..userProfileCreate =
+        UserProfile.fromJson(json['userProfileCreate'] as Map<String, dynamic>)
+    ..userProfileRegistry = UserProfile.fromJson(
+        json['userProfileRegistry'] as Map<String, dynamic>)
+    ..courseRegisterStatus = _$enumDecode(
+        _$CourseRegisterStatusEnumMap, json['courseRegisterStatus']);
 }
 
 Map<String, dynamic> _$CourseContractToJson(CourseContract instance) =>

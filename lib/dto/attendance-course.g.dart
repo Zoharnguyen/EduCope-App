@@ -7,33 +7,18 @@ part of 'attendance-course.dart';
 // **************************************************************************
 
 AttendanceCourse _$AttendanceCourseFromJson(Map<String, dynamic> json) {
-  AttendanceCourse attendanceCourse = new AttendanceCourse();
-  (json['id'] != null) ? attendanceCourse.id = json['id'] as String : null;
-  (json['courseId'] != null)
-      ? attendanceCourse.courseId = json['courseId'] as String
-      : null;
-  (json['dateStudy'] != null)
-      ? attendanceCourse.dateStudy = json['dateStudy'] as String
-      : null;
-  (json['timeStudy'] != null)
-      ? attendanceCourse.timeStudy = json['timeStudy'] as String
-      : null;
-  (json['note'] != null)
-      ? attendanceCourse.note = json['note'] as String
-      : null;
-  (json['attendanceCourseStatus'] != null)
-      ? attendanceCourse.attendanceCourseStatus = _$enumDecode(
-          _$CourseRegisterStatusEnumMap, json['attendanceCourseStatus'])
-      : null;
-  (json['userAttendance'] != null)
-      ? attendanceCourse.userAttendance =
-          UserProfile.fromJson(json['userAttendance'] as Map<String, dynamic>)
-      : null;
-  (json['userConfirm'] != null)
-      ? attendanceCourse.userConfirm =
-          UserProfile.fromJson(json['userConfirm'] as Map<String, dynamic>)
-      : null;
-  return attendanceCourse;
+  return AttendanceCourse()
+    ..id = json['id'] as String
+    ..courseId = json['courseId'] as String
+    ..dateStudy = json['dateStudy'] as String
+    ..timeStudy = json['timeStudy'] as String
+    ..note = json['note'] as String
+    ..attendanceCourseStatus = _$enumDecode(
+        _$CourseRegisterStatusEnumMap, json['attendanceCourseStatus'])
+    ..userAttendance =
+        UserProfile.fromJson(json['userAttendance'] as Map<String, dynamic>)
+    ..userConfirm =
+        UserProfile.fromJson(json['userConfirm'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$AttendanceCourseToJson(AttendanceCourse instance) =>

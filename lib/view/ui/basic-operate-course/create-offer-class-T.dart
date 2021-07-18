@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:edu_cope/constant/offer-type.dart';
 import 'package:edu_cope/dto/offer.dart';
 import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/dto/schedule-offer.dart';
 import 'package:edu_cope/dto/user-profile.dart';
 import 'package:edu_cope/service/api-offer.dart';
-import 'package:edu_cope/view/ui/detail-information-opening-and-not-offer-class.dart';
-import 'package:edu_cope/view/ui/homepage.dart';
+import 'package:edu_cope/view/ui/homepage-T.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,6 +16,7 @@ void main() {
 
 double width = 411.4285;
 double height = 683.4285;
+Offer _offer = Offer.withScheduleAndUserProfile(new ScheduleOffer(), new UserProfile());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -26,23 +27,21 @@ class MyApp extends StatelessWidget {
       // theme: ThemeData(
       //   primarySwatch: Colors.blue,
       // ),
-      home: DetailInformationOpeningAndNotOfferClassEdit(),
+      home: CreateOfferClassTPage(),
     );
   }
 }
 
-class DetailInformationOpeningAndNotOfferClassEdit extends StatefulWidget {
-  DetailInformationOpeningAndNotOfferClassEdit();
+class CreateOfferClassTPage extends StatefulWidget {
+  CreateOfferClassTPage();
 
   @override
-  _etailInformationOpeningAndNotOfferClassEditState createState() => _etailInformationOpeningAndNotOfferClassEditState();
+  _CreateOfferClassTPageState createState() => _CreateOfferClassTPageState();
 }
 
-class _etailInformationOpeningAndNotOfferClassEditState extends State<DetailInformationOpeningAndNotOfferClassEdit> {
-  String _subjectName = 'Tieu hoc';
-  String _formatLearning = 'Hoc tai nha';
-  Offer _offer =
-  Offer.withScheduleAndUserProfile(new ScheduleOffer(), new UserProfile());
+class _CreateOfferClassTPageState extends State<CreateOfferClassTPage> {
+  late String _level;
+  late String _formatLearning;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +57,7 @@ class _etailInformationOpeningAndNotOfferClassEditState extends State<DetailInfo
           ),
           child: Align(
             child: Text(
-              'Thông tin lớp học',
+              'Tao lop hoc',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 22,
@@ -69,10 +68,18 @@ class _etailInformationOpeningAndNotOfferClassEditState extends State<DetailInfo
           ),
         ),
         leading: Container(
+          // width: width * 0.29 / 2,
+          // decoration: BoxDecoration(
+          //   border: Border.all(
+          //     color: Colors.green,
+          //     width: 2,
+          //   )
+          // ),
           child: IconButton(
             icon: Icon(Icons.arrow_back_ios),
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => HomePageT()));
             },
           ),
         ),
@@ -100,7 +107,7 @@ class _etailInformationOpeningAndNotOfferClassEditState extends State<DetailInfo
               //     )
               // ),
               child: DropdownButton<String>(
-                value: _subjectName,
+                value: _level,
                 //elevation: 5,
                 style: TextStyle(color: Colors.black),
                 items: <String>[
@@ -114,10 +121,18 @@ class _etailInformationOpeningAndNotOfferClassEditState extends State<DetailInfo
                     child: Text(value),
                   );
                 }).toList(),
+                hint: Text(
+                  "Trung hoc pho thong",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                    // fontWeight: FontWeight.w600
+                  ),
+                ),
                 onChanged: (value) {
                   setState(() {
-                    _subjectName = value!;
-                    _offer.subject = _subjectName;
+                    _level = value!;
+                    _offer.level = _level;
                     // After selected drop down then cursor don't focus any text field
                     FocusScope.of(context).requestFocus(new FocusNode());
                   });
@@ -148,6 +163,14 @@ class _etailInformationOpeningAndNotOfferClassEditState extends State<DetailInfo
                     child: Text(value),
                   );
                 }).toList(),
+                hint: Text(
+                  "Hoc tai nha",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                    // fontWeight: FontWeight.w600
+                  ),
+                ),
                 onChanged: (value) {
                   setState(() {
                     _formatLearning = value!;
@@ -171,7 +194,7 @@ class _etailInformationOpeningAndNotOfferClassEditState extends State<DetailInfo
                 'Cac khu vuc noi thanh Ha Noi', 'note', _offer),
             titleForItems('Luu y'),
             inputLongContentItem(
-                'Day tai nha hoc sinh, chi day cho hoc sinh nam'),
+                'Day tai nha hoc sinh ngoan'),
             Container(
               height: height * 0.3 / 5,
               width: width * 0.6 / 2,
@@ -200,7 +223,7 @@ class _etailInformationOpeningAndNotOfferClassEditState extends State<DetailInfo
                   ]),
               child: FlatButton(
                 child: Text(
-                  "Cập nhật",
+                  "Tao moi",
                   style: TextStyle(
                       fontSize: 18,
                       color: Colors.white,
@@ -208,7 +231,7 @@ class _etailInformationOpeningAndNotOfferClassEditState extends State<DetailInfo
                       fontStyle: FontStyle.normal),
                 ),
                 onPressed: () {
-                  _updateOffer(_offer);
+                  _createOffer(_offer);
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -243,10 +266,10 @@ class AdvanceCustomAlert extends StatelessWidget {
                   children: [
                     Text('Thành Công', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.blue),),
                     SizedBox(height: 5,),
-                    Text('Khóa học đã được cập nhật', style: TextStyle(fontSize: 14),),
+                    Text('Khóa học đã được tạo', style: TextStyle(fontSize: 14),),
                     SizedBox(height: 20,),
                     RaisedButton(onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => DetailInformationOpeningAndNotOfferClass()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePageT()));
                     },
                       color: Colors.lightBlue,
                       child: Text('Đóng', style: TextStyle(color: Colors.white),),
@@ -271,7 +294,6 @@ class AdvanceCustomAlert extends StatelessWidget {
 
 Container inputShortContentItem(
     String contentInitialValue, String fieldName, Offer offer) {
-  setValueForOffer(contentInitialValue, fieldName, offer);
   return Container(
     height: height * 0.4 / 5,
     width: width * 1.3 / 2,
@@ -400,7 +422,6 @@ Container inputLongContentItem(String initialValueItem) {
             color: Colors.grey.shade400,
           ),
         ),
-
         // When u click on textfield
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
@@ -413,12 +434,13 @@ Container inputLongContentItem(String initialValueItem) {
   );
 }
 
-Future<Widget> _updateOffer(Offer offer) async {
-  offer.id = "60e394825ded485c37a643f1";
-  offer.profileAuthor.fullName = 'Nguyen AAA';
+Future<Widget> _createOffer(Offer offer) async {
+  offer.profileAuthor.id = '60b30dbe7d31c248aa760f27';
+  offer.offerType = OfferType.TEACHER;
+  setValueForOfferIfNull(offer);
   APIOfferClient apiOfferClient =
   APIOfferClient(Dio(BaseOptions(contentType: "application/json")));
-  ResponseEntity responseEntity = await apiOfferClient.updateOffer(offer);
+  ResponseEntity responseEntity = await apiOfferClient.createOffer(offer);
   if (responseEntity.getStatus == HttpStatus.ok) {
     Offer offerResponse = Offer.fromJson(responseEntity.data);
     print('Subject: ' + offerResponse.subject);
@@ -429,5 +451,32 @@ Future<Widget> _updateOffer(Offer offer) async {
     // Show pop up notification about fail reason.
     print('Error: ' + responseEntity.getException.toString());
     return Text('Failed!');
+  }
+}
+
+setValueForOfferIfNull(Offer offer) {
+  if(offer.subject == null) {
+    offer.subject = 'Toan';
+  }
+  if(offer.salary == null) {
+    offer.salary = '500k/1 buoi';
+  }
+  if(offer.level == null) {
+    offer.level = 'Tieu hoc';
+  }
+  if(offer.formatLearning == null) {
+    offer.formatLearning = 'Hoc tai nha';
+  }
+  if(offer.scheduleOffer.overview == null) {
+    offer.scheduleOffer.overview = 'Thu 3,5,7';
+  }
+  if(offer.scheduleOffer.detail == null) {
+    offer.scheduleOffer.detail = 'Buoi toi tu 20h-22h';
+  }
+  if(offer.preferAddress == null) {
+    offer.preferAddress = 'Cac khu vuc noi thanh Ha Noi';
+  }
+  if(offer.note == null) {
+    offer.note = 'Day tai nha hoc sinh, chi day cho hoc sinh nam';
   }
 }

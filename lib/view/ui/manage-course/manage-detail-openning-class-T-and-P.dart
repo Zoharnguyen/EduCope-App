@@ -1,15 +1,19 @@
-import 'package:edu_cope/view/ui/course-contract-create.dart';
-import 'package:edu_cope/view/ui/detail-information-opening-and-not-offer-class.dart';
-import 'package:edu_cope/view/ui/homepage.dart';
-import 'package:edu_cope/view/ui/manage-course-status-opening-class.dart';
-import 'package:edu_cope/view/ui/manage-profile.dart';
+import 'package:edu_cope/view/ui/manage-course/create-course-contract-T.dart';
+import 'package:edu_cope/view/ui/basic-operate-course/detail-information-opening-and-not-offer-class-T-and-P.dart';
+import 'package:edu_cope/view/ui/homepage-T.dart';
+import 'package:edu_cope/view/ui/manage-course/manage-register-course-opening-class-T.dart';
+import 'package:edu_cope/view/ui/manage-profile/manage-profile-T-and-P.dart';
+import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/material.dart';
 
-import 'create-offer-class.dart';
+import '../basic-operate-course/create-offer-class-T.dart';
 
 void main() {
   runApp(MyApp());
 }
+
+final double width = CommonUtils.width;
+final double height = CommonUtils.height;
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -20,24 +24,22 @@ class MyApp extends StatelessWidget {
       // theme: ThemeData(
       //   primarySwatch: Colors.blue,
       // ),
-      home: ManageDetailOpeningClass(),
+      home: ManageDetailOpeningClassTandPPage(),
     );
   }
 }
 
-class ManageDetailOpeningClass extends StatefulWidget {
-  ManageDetailOpeningClass();
+class ManageDetailOpeningClassTandPPage extends StatefulWidget {
+  ManageDetailOpeningClassTandPPage();
 
   @override
-  _ManageDetailOpeningClassState createState() =>
-      _ManageDetailOpeningClassState();
+  _ManageDetailOpeningClassTandPPageState createState() =>
+      _ManageDetailOpeningClassTandPPageState();
 }
 
-class _ManageDetailOpeningClassState extends State<ManageDetailOpeningClass> {
+class _ManageDetailOpeningClassTandPPageState extends State<ManageDetailOpeningClassTandPPage> {
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.lightBlue,
@@ -118,7 +120,7 @@ class _ManageDetailOpeningClassState extends State<ManageDetailOpeningClass> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          DetailInformationOpeningAndNotOfferClass()));
+                                          DetailInformationOpeningAndNotOfferClassTandPPage()));
                             },
                             child: Text(
                               'Thông tin lớp học',
@@ -169,7 +171,7 @@ class _ManageDetailOpeningClassState extends State<ManageDetailOpeningClass> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          OpeningNotOfferClassStatusClass()));
+                                          ManageRegisterCourseOpeningClassTPage()));
                             },
                             child: Text(
                               'Trạng thái lớp học',
@@ -220,7 +222,7 @@ class _ManageDetailOpeningClassState extends State<ManageDetailOpeningClass> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          ContractCreate()));
+                                          CreateCourseContractTPage()));
                             },
                             child: Text(
                               'Tạo hợp đồng',
@@ -301,7 +303,7 @@ class _ManageDetailOpeningClassState extends State<ManageDetailOpeningClass> {
                   child: FlatButton(
                     onPressed: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomePage()));
+                          MaterialPageRoute(builder: (context) => HomePageT()));
                     },
                     child: new Image.asset('asset/image/homepage_green.jpg'),
                   ),
@@ -316,7 +318,7 @@ class _ManageDetailOpeningClassState extends State<ManageDetailOpeningClass> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => CreateOfferClass()));
+                              builder: (context) => CreateOfferClassTPage()));
                     },
                     child: new Image.asset('asset/image/add.png'),
                   ),
@@ -329,7 +331,7 @@ class _ManageDetailOpeningClassState extends State<ManageDetailOpeningClass> {
                     child: FlatButton(
                       onPressed: () {
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => ManageProfile()));
+                            MaterialPageRoute(builder: (context) => ManageProfileTandPPage()));
                       },
                       child: new Image.asset('asset/image/personal_blue.png'),
                     )),

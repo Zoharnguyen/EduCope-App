@@ -3,6 +3,10 @@ import 'package:edu_cope/constant/user-type.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CommonUtils {
+
+  static final double width = 411.4285;
+  static final double height = 683.4285;
+
   static saveValue(String key, String value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(key, value);

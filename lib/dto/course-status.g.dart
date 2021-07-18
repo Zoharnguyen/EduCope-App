@@ -7,22 +7,13 @@ part of 'course-status.dart';
 // **************************************************************************
 
 CourseStatus _$CourseStatusFromJson(Map<String, dynamic> json) {
-  CourseStatus courseStatus = new CourseStatus();
-  (json['courseStatusId'] != null)
-      ? courseStatus.courseStatusId = json['courseStatusId'] as String
-      : null;
-  (json['userProfile'] != null)
-      ? courseStatus.userProfile =
-          UserProfile.fromJson(json['userProfile'] as Map<String, dynamic>)
-      : null;
-  (json['courseRegisterStatus'] != null)
-      ? courseStatus.courseRegisterStatus = _$enumDecode(
-          _$CourseRegisterStatusEnumMap, json['courseRegisterStatus'])
-      : null;
-  (json['reason'] != null)
-      ? courseStatus.reason = json['reason'] as String
-      : null;
-  return courseStatus;
+  return CourseStatus()
+    ..courseStatusId = json['courseStatusId'] as String
+    ..userProfile =
+        UserProfile.fromJson(json['userProfile'] as Map<String, dynamic>)
+    ..courseRegisterStatus = _$enumDecode(
+        _$CourseRegisterStatusEnumMap, json['courseRegisterStatus'])
+    ..reason = json['reason'] as String;
 }
 
 Map<String, dynamic> _$CourseStatusToJson(CourseStatus instance) =>

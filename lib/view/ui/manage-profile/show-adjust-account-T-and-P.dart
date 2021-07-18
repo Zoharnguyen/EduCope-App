@@ -5,7 +5,7 @@ import 'package:edu_cope/dto/adjust-user-profile.dart';
 import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/dto/user-profile.dart';
 import 'package:edu_cope/service/api-account.dart';
-import 'package:edu_cope/view/ui/widget-utils.dart';
+import 'package:edu_cope/view/ui/common/widget-utils.dart';
 import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/material.dart';
 
@@ -22,31 +22,30 @@ class MyApp extends StatelessWidget {
       // theme: ThemeData(
       //   primarySwatch: Colors.blue,
       // ),
-      home: ShowAdjustAccount(),
+      home: ShowAdjustAccountTandPPage(),
     );
   }
 }
 
+final double height = CommonUtils.height;
+final double width = CommonUtils.width;
 final stars = [
   'asset/image/rating-star.png',
   'asset/image/rating-star.png',
   'asset/image/rating-star.png',
 ];
-
 String userId = "607a8b832ea23669aaea68e3";
 
-class ShowAdjustAccount extends StatefulWidget {
-  ShowAdjustAccount();
+class ShowAdjustAccountTandPPage extends StatefulWidget {
+  ShowAdjustAccountTandPPage();
 
   @override
-  _ShowAdjustAccountState createState() => _ShowAdjustAccountState();
+  _ShowAdjustAccountTandPPageState createState() => _ShowAdjustAccountTandPPageState();
 }
 
-class _ShowAdjustAccountState extends State<ShowAdjustAccount> {
+class _ShowAdjustAccountTandPPageState extends State<ShowAdjustAccountTandPPage> {
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
     return FutureBuilder<UserProfile>(
         future: getUserProfile(userId),
         builder: (context, snapshot) {

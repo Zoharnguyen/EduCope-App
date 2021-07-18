@@ -9,19 +9,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: FileAdjustResultLearningClass(),
+      home: FileResultExamLearningClassTandPPage(),
     );
   }
 }
 
-class FileAdjustResultLearningClass extends StatefulWidget {
-  FileAdjustResultLearningClass();
+class FileResultExamLearningClassTandPPage extends StatefulWidget {
+  FileResultExamLearningClassTandPPage();
 
   @override
-  _FileAdjustResultLearningClassState createState() => _FileAdjustResultLearningClassState();
+  _FileResultExamLearningClassTandPPageState createState() => _FileResultExamLearningClassTandPPageState();
 }
 
-class _FileAdjustResultLearningClassState extends State<FileAdjustResultLearningClass> {
+class _FileResultExamLearningClassTandPPageState extends State<FileResultExamLearningClassTandPPage> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;

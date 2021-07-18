@@ -6,12 +6,12 @@ import 'package:edu_cope/dto/offer.dart';
 import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/dto/user-profile.dart';
 import 'package:edu_cope/service/api-offer.dart';
-import 'package:edu_cope/view/ui/detail-information-opening-and-not-offer-class.dart';
-import 'package:edu_cope/view/ui/manage-profile.dart';
+import 'package:edu_cope/view/ui/basic-operate-course/detail-information-opening-and-not-offer-class-T-and-P.dart';
+import 'package:edu_cope/view/ui/manage-profile/manage-profile-T-and-P.dart';
 import 'package:flutter/material.dart';
 
-import 'create-offer-class.dart';
-import 'homepage.dart';
+import 'create-offer-class-T.dart';
+import '../homepage-T.dart';
 
 void main() {
   runApp(MyApp());
@@ -31,21 +31,21 @@ class MyApp extends StatelessWidget {
       // theme: ThemeData(
       //   primarySwatch: Colors.blue,
       // ),
-      home: ShowAllOfferOpenningCourse(),
+      home: ShowAllOfferOpenningCourseTandPPage(),
     );
   }
 }
 
-class ShowAllOfferOpenningCourse extends StatefulWidget {
-  ShowAllOfferOpenningCourse();
+class ShowAllOfferOpenningCourseTandPPage extends StatefulWidget {
+  ShowAllOfferOpenningCourseTandPPage();
 
   @override
-  _ShowAllOfferOpenningCourseState createState() =>
-      _ShowAllOfferOpenningCourseState();
+  _ShowAllOfferOpenningCourseTandPPageState createState() =>
+      _ShowAllOfferOpenningCourseTandPPageState();
 }
 
-class _ShowAllOfferOpenningCourseState
-    extends State<ShowAllOfferOpenningCourse> {
+class _ShowAllOfferOpenningCourseTandPPageState
+    extends State<ShowAllOfferOpenningCourseTandPPage> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -193,7 +193,7 @@ class _ShowAllOfferOpenningCourseState
                   child: FlatButton(
                     onPressed: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomePage()));
+                          MaterialPageRoute(builder: (context) => HomePageT()));
                     },
                     child: new Image.asset('asset/image/homepage_green.jpg'),
                   ),
@@ -208,7 +208,7 @@ class _ShowAllOfferOpenningCourseState
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => CreateOfferClass()));
+                              builder: (context) => CreateOfferClassTPage()));
                     },
                     child: new Image.asset('asset/image/add.png'),
                   ),
@@ -221,7 +221,7 @@ class _ShowAllOfferOpenningCourseState
                     child: FlatButton(
                       onPressed: () {
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => ManageProfile()));
+                            MaterialPageRoute(builder: (context) => ManageProfileTandPPage()));
                       },
                       child: new Image.asset('asset/image/personal_blue.png'),
                     )),
@@ -470,7 +470,7 @@ Widget _jobsShowOffer(String subject, String salary, String formatLearning,
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => DetailInformationOpeningAndNotOfferClass()));
+                      builder: (context) => DetailInformationOpeningAndNotOfferClassTandPPage()));
             },
             child: Text(
               'Chi tiet >>>',

@@ -1,10 +1,10 @@
-import 'package:edu_cope/view/ui/detail-information-opening-and-not-offer-class.dart';
-import 'package:edu_cope/view/ui/homepage.dart';
-import 'package:edu_cope/view/ui/manage-class.dart';
-import 'package:edu_cope/view/ui/manage-profile.dart';
+import 'package:edu_cope/view/ui/basic-operate-course/detail-information-opening-and-not-offer-class-T-and-P.dart';
+import 'package:edu_cope/view/ui/homepage-T.dart';
+import 'package:edu_cope/view/ui/manage-course/manage-class-T-and-P.dart';
+import 'package:edu_cope/view/ui/manage-profile/manage-profile-T-and-P.dart';
 import 'package:flutter/material.dart';
 
-import 'create-offer-class.dart';
+import '../basic-operate-course/create-offer-class-T.dart';
 
 void main() {
   runApp(MyApp());
@@ -171,7 +171,7 @@ class _ShowAllNotificationState extends State<ShowAllNotification> {
                   child: FlatButton(
                     onPressed: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomePage()));
+                          MaterialPageRoute(builder: (context) => HomePageT()));
                     },
                     child: new Image.asset('asset/image/homepage.png'),
                   ),
@@ -186,7 +186,7 @@ class _ShowAllNotificationState extends State<ShowAllNotification> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => CreateOfferClass()));
+                              builder: (context) => CreateOfferClassTPage()));
                     },
                     child: new Image.asset('asset/image/add.png'),
                   ),
@@ -199,7 +199,7 @@ class _ShowAllNotificationState extends State<ShowAllNotification> {
                     child: FlatButton(
                       onPressed: () {
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => ManageProfile()));
+                            MaterialPageRoute(builder: (context) => ManageProfileTandPPage()));
                       },
                       child: new Image.asset('asset/image/blank-account.jpg'),
                     )),

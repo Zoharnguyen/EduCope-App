@@ -6,7 +6,7 @@ import 'package:edu_cope/dto/attendance-course.dart';
 import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/dto/user-profile.dart';
 import 'package:edu_cope/service/api-attendance-course.dart';
-import 'package:edu_cope/view/ui/manage-detail-learning-class.dart';
+import 'package:edu_cope/view/ui/manage-course/manage-detail-learning-class-T-and-P.dart';
 import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/material.dart';
 
@@ -14,8 +14,8 @@ void main() {
   runApp(MyApp());
 }
 
-double width = 411.4285;
-double height = 683.4285;
+final double width = CommonUtils.width;
+final double height = CommonUtils.height;
 String courseId = '60e394825ded485c37a643f1';
 AttendanceCourse attendanceCourse = new AttendanceCourse();
 
@@ -28,21 +28,21 @@ class MyApp extends StatelessWidget {
       // theme: ThemeData(
       //   primarySwatch: Colors.blue,
       // ),
-      home: ManageAttendanceLearningClass(),
+      home: ManageAttendanceLearningClassTandPPage(),
     );
   }
 }
 
-class ManageAttendanceLearningClass extends StatefulWidget {
-  ManageAttendanceLearningClass();
+class ManageAttendanceLearningClassTandPPage extends StatefulWidget {
+  ManageAttendanceLearningClassTandPPage();
 
   @override
-  _ManageAttendanceLearningClassState createState() =>
-      _ManageAttendanceLearningClassState();
+  _ManageAttendanceLearningClassTandPPageState createState() =>
+      _ManageAttendanceLearningClassTandPPageState();
 }
 
-class _ManageAttendanceLearningClassState
-    extends State<ManageAttendanceLearningClass> {
+class _ManageAttendanceLearningClassTandPPageState
+    extends State<ManageAttendanceLearningClassTandPPage> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -72,7 +72,7 @@ class _ManageAttendanceLearningClassState
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          ManageDetailLearningClass()));
+                                          ManageDetailLearningClassTandPPage()));
                             },
                           ),
                         ),
@@ -327,7 +327,7 @@ class CreateAttendanceCourse extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        ManageAttendanceLearningClass()));
+                                        ManageAttendanceLearningClassTandPPage()));
                           },
                           color: Colors.lightBlue,
                           child: Text(

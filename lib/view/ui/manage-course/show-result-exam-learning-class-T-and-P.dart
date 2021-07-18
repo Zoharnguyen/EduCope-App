@@ -1,37 +1,39 @@
-import 'package:edu_cope/view/ui/adjust-student-learning-class.dart';
-import 'package:edu_cope/view/ui/create-offer-class.dart';
-import 'package:edu_cope/view/ui/file-adjust-result-learning-class.dart';
-import 'package:edu_cope/view/ui/manage-profile.dart';
+import 'package:edu_cope/view/ui/manage-course/show-adjust-student-learning-class-T-and-P.dart';
+import 'package:edu_cope/view/ui/basic-operate-course/create-offer-class-T.dart';
+import 'package:edu_cope/view/ui/manage-course/file-result-exam-learning-class-T-and-P.dart';
+import 'package:edu_cope/view/ui/manage-profile/manage-profile-T-and-P.dart';
+import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/material.dart';
 
-import 'homepage.dart';
+import '../homepage-T.dart';
 
 void main() {
   runApp(MyApp());
 }
+
+final double width = CommonUtils.width;
+final double height = CommonUtils.height;
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: ResultLearningClass(),
+      home: ShowResultExamLearningClassTandPPage(),
     );
   }
 }
 
-class ResultLearningClass extends StatefulWidget {
-  ResultLearningClass();
+class ShowResultExamLearningClassTandPPage extends StatefulWidget {
+  ShowResultExamLearningClassTandPPage();
 
   @override
-  _ResultLearningClassState createState() => _ResultLearningClassState();
+  _ShowResultExamLearningClassTandPPageState createState() => _ShowResultExamLearningClassTandPPageState();
 }
 
-class _ResultLearningClassState extends State<ResultLearningClass> {
+class _ShowResultExamLearningClassTandPPageState extends State<ShowResultExamLearningClassTandPPage> {
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         leading: Container(
@@ -155,7 +157,7 @@ class _ResultLearningClassState extends State<ResultLearningClass> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        FileAdjustResultLearningClass()));
+                                        FileResultExamLearningClassTandPPage()));
                           },
                           child: new Image.asset('asset/image/next.png'),
                         ),
@@ -237,7 +239,7 @@ class _ResultLearningClassState extends State<ResultLearningClass> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              AdjustStudentLearningClass()));
+                                              ShowAdjustStudentLearningClassTandPPage()));
                                 },
                                 icon: new Image.asset('asset/image/adjust.png'),
                               )),
@@ -313,7 +315,7 @@ class _ResultLearningClassState extends State<ResultLearningClass> {
                   child: FlatButton(
                     onPressed: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomePage()));
+                          MaterialPageRoute(builder: (context) => HomePageT()));
                     },
                     child: new Image.asset('asset/image/homepage.png'),
                   ),
@@ -328,7 +330,7 @@ class _ResultLearningClassState extends State<ResultLearningClass> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => CreateOfferClass()));
+                              builder: (context) => CreateOfferClassTPage()));
                     },
                     child: new Image.asset('asset/image/add.png'),
                   ),
@@ -341,7 +343,7 @@ class _ResultLearningClassState extends State<ResultLearningClass> {
                     child: FlatButton(
                       onPressed: () {
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => ManageProfile()));
+                            MaterialPageRoute(builder: (context) => ManageProfileTandPPage()));
                       },
                       child: new Image.asset('asset/image/blank-account.jpg'),
                     )),

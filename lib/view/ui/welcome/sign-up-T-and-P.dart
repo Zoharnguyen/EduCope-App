@@ -2,15 +2,14 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:edu_cope/constant/common-constant.dart';
+import 'package:edu_cope/constant/user-type.dart';
 import 'package:edu_cope/dto/response-entity.dart';
-import 'package:edu_cope/dto/response-token.dart';
 import 'package:edu_cope/dto/user-basic.dart';
 import 'package:edu_cope/service/api-account.dart';
+import 'package:edu_cope/view/ui/homepage-T.dart';
 import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
-import 'homepage.dart';
 
 void main() {
   runApp(MyApp());
@@ -21,25 +20,25 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: SignInPage(),
+      home: SignUpTandPPage(),
     );
   }
 }
 
-class SignInPage extends StatefulWidget {
+class SignUpTandPPage extends StatefulWidget {
   @override
-  _SignInPageState createState() => _SignInPageState();
+  _SignUpTandPPageState createState() => _SignUpTandPPageState();
 }
 
-class _SignInPageState extends State<SignInPage> {
+class _SignUpTandPPageState extends State<SignUpTandPPage> {
 
-  UserBasic userBasic= new UserBasic();
+  UserBasic userBasic = new UserBasic();
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    final bottomKeyboard = MediaQuery.of(context).viewInsets.bottom;
+    final bottom = MediaQuery.of(context).viewInsets.bottom;
     return Scaffold(
       // appBar: AppBar(
       //   title: Text(widget.title),
@@ -47,9 +46,7 @@ class _SignInPageState extends State<SignInPage> {
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         reverse: true,
-        padding: EdgeInsets.only(
-          bottom: bottomKeyboard*0.45,
-        ),
+        padding: EdgeInsets.only(bottom: bottom),
         child: Column(
           children: <Widget>[
             Container(
@@ -86,7 +83,7 @@ class _SignInPageState extends State<SignInPage> {
                     left: width*0.1/2,
                   ),
                   child: Text(
-                    "Welcome Back",
+                    "Create Account",
                     style: TextStyle(
                       color: Colors.cyan[800],
                       fontSize: 28,
@@ -101,10 +98,10 @@ class _SignInPageState extends State<SignInPage> {
             Container(
               height: height*0.15/5,
               decoration: BoxDecoration(
-                  // border: Border.all(
-                  //   color: Colors.green,
-                  //   width: 2,
-                  // )
+                // border: Border.all(
+                //   color: Colors.green,
+                //   width: 2,
+                // )
               ),
               child: Align(
                 alignment: Alignment.centerLeft,
@@ -113,7 +110,7 @@ class _SignInPageState extends State<SignInPage> {
                     left: width*0.1/2,
                   ),
                   child: Text(
-                    "Sign in to continue",
+                    "Create an account to continue",
                     style: TextStyle(
                       color: Colors.grey[400],
                       fontSize: 12,
@@ -133,8 +130,8 @@ class _SignInPageState extends State<SignInPage> {
                 // ),
               ),
               padding: EdgeInsets.only(
-                  left: width*0.11/2,
-                  right: width*0.2/2,
+                left: width*0.11/2,
+                right: width*0.2/2,
               ),
               child: TextField(
                 autofocus: false,
@@ -142,7 +139,7 @@ class _SignInPageState extends State<SignInPage> {
                 cursorHeight: 25,
                 onChanged: (value) => userBasic.gmail = value,
                 decoration: InputDecoration(
-                  hintText: "Gmail",
+                  hintText: "Email",
                   hintStyle: TextStyle(
                     fontSize: 14,
                     color: Colors.grey,
@@ -190,6 +187,9 @@ class _SignInPageState extends State<SignInPage> {
             Container(
               height: height*0.3/5,
               width: width*4/7,
+              margin: EdgeInsets.only(
+                top: height*0.3/5
+              ),
               decoration: BoxDecoration(
                   color: Colors.blue[300],
                   // border: Border.all(
@@ -211,107 +211,26 @@ class _SignInPageState extends State<SignInPage> {
               ),
               child: FlatButton(
                 onPressed: () async {
-                  APIAcountClient apiAccountClient = APIAcountClient(Dio(BaseOptions(contentType: "application/json")));
-                  ResponseEntity responseEntity = await apiAccountClient.login(userBasic);
-                  if(responseEntity.getStatus == HttpStatus.ok) {
-                    TokenResponse tokenResponse = TokenResponse.fromJson(responseEntity.data);
-                    print('Token: ' + tokenResponse.token);
-                    CommonUtils.saveValue(describeEnum(CommonConstant.TOKEN).toString(), tokenResponse.token);
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-                  } else {
-                    // Show pop up notification about fail reason.
-                    print('Error: ' + responseEntity.getException.toString());
-                  }
+                    String userTypeValue = await CommonUtils.getValue(describeEnum(CommonConstant.USER_TYPE).toString());
+                    userBasic.userType  = UserType.TEACHER;
+                    APIAcountClient apiAccountClient = APIAcountClient(Dio(BaseOptions(contentType: "application/json")));
+                    ResponseEntity responseEntity = await apiAccountClient.login(userBasic);
+                    if(responseEntity.getStatus == HttpStatus.ok) {
+                      UserBasic userBasicCheck = UserBasic.fromJson(responseEntity.data);
+                      print('Gmail: ' + userBasicCheck.gmail);
+                      print('Password: ' + userBasicCheck.password);
+                      print('Type: ' + userBasicCheck.userType.toString());
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePageT()));
+                    } else {
+                      // Show pop up notification about fail reason.
+                      print('Error: ' + responseEntity.getException.toString());
+                    }
                 },
                 child: Text(
-                  "Sign In",
+                  "Create Account",
                   style: TextStyle(
                       fontSize: 18,
                       color: Colors.white,
-                      fontFamily: "Roboto",
-                      fontStyle: FontStyle.normal
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              height: height*0.35/5,
-              decoration: BoxDecoration(
-                // border: Border.all(
-                //   color: Colors.green,
-                //   width: 2,
-                // )
-              ),
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: FlatButton(
-                    padding: EdgeInsets.only(
-                      right: width*0.45/2,
-                    ),
-                    onPressed: () {  },
-                    child: Text(
-                      "Forget Password?",
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontFamily: "Roboto",
-                        fontStyle: FontStyle.normal,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                ),
-            ),
-            Container(
-              height: height*0.4/5,
-              decoration: BoxDecoration(
-                // border: Border.all(
-                //   color: Colors.green,
-                //   width: 2,
-                // )
-              ),
-              padding: EdgeInsets.only(
-                bottom: height*0.25/5,
-              ),
-              child: Align(
-                alignment: Alignment.center,
-                child: Text(
-                 "------Or------",
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey,
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              height: height*0.3/5,
-              width: width*4/7,
-              decoration: BoxDecoration(
-                  color: Colors.lightBlue[50],
-                  // border: Border.all(
-                  //   color: Colors.green,
-                  //   width: 2,
-                  // ),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(27),
-                    topLeft: Radius.circular(27),
-                    bottomRight: Radius.circular(27),
-                    topRight: Radius.circular(27),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.shade400,
-                      offset: Offset(0,4),
-                    ),
-                  ]
-              ),
-              child: FlatButton(
-                onPressed: () {  },
-                child: Text(
-                  "Sign in with Google",
-                  style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.blue[300],
                       fontFamily: "Roboto",
                       fontStyle: FontStyle.normal
                   ),
@@ -334,22 +253,22 @@ class _SignInPageState extends State<SignInPage> {
                   alignment: Alignment.bottomCenter,
                   child: RichText(
                     text: TextSpan(
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: "Don't have an account? ",
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: Colors.grey,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: "Already have an count? ",
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.grey,
+                            ),
                           ),
-                        ),
-                        TextSpan(
-                          text: "Create New",
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: Colors.blue[300],
+                          TextSpan(
+                              text: "Sign in",
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.blue[300],
+                              )
                           )
-                        )
-                      ]
+                        ]
                     ),
                   ),
                 ),

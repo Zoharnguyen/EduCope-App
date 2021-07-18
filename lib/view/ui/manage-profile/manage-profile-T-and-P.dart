@@ -4,14 +4,14 @@ import 'package:dio/dio.dart';
 import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/dto/user-profile.dart';
 import 'package:edu_cope/service/api-account.dart';
-import 'package:edu_cope/view/ui/create-offer-class.dart';
-import 'package:edu_cope/view/ui/developing-feature-screen.dart';
-import 'package:edu_cope/view/ui/profile-basic-information.dart';
-import 'package:edu_cope/view/ui/show-adjust-account.dart';
+import 'package:edu_cope/view/ui/common/developing-feature-screen-T-and-P.dart';
+import 'package:edu_cope/view/ui/common/widget-utils.dart';
+import 'package:edu_cope/view/ui/manage-profile/profile-basic-information-T-and-P.dart';
+import 'package:edu_cope/view/ui/manage-profile/show-adjust-account-T-and-P.dart';
 import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/material.dart';
 
-import 'homepage.dart';
+import '../homepage-T.dart';
 
 void main() {
   runApp(MyApp());
@@ -35,19 +35,19 @@ class MyApp extends StatelessWidget {
       // theme: ThemeData(
       //   primarySwatch: Colors.blue,
       // ),
-      home: ManageProfile(),
+      home: ManageProfileTandPPage(),
     );
   }
 }
 
-class ManageProfile extends StatefulWidget {
-  ManageProfile();
+class ManageProfileTandPPage extends StatefulWidget {
+  ManageProfileTandPPage();
 
   @override
-  _ManageProfileState createState() => _ManageProfileState();
+  _ManageProfileTandPPageState createState() => _ManageProfileTandPPageState();
 }
 
-class _ManageProfileState extends State<ManageProfile> {
+class _ManageProfileTandPPageState extends State<ManageProfileTandPPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +62,7 @@ class _ManageProfileState extends State<ManageProfile> {
             // iconSize: 20,
             onPressed: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => HomePage()));
+                  context, MaterialPageRoute(builder: (context) => HomePageT()));
             },
           ),
         ),
@@ -82,59 +82,7 @@ class _ManageProfileState extends State<ManageProfile> {
           showButtonPerson('Đánh giá', 'asset/image/comment.png', context),
           showButtonPerson('Cài đặt', 'asset/image/setting.png', context),
           showButtonPerson('Đăng xuất', 'asset/image/sign-out.png', context),
-          Container(
-            color: Colors.grey[100],
-            margin: EdgeInsets.only(
-              top: height * 0.41 / 5,
-            ),
-            child: Row(
-              children: <Widget>[
-                Container(
-                  // height: height * 0.3 / 5,
-                  width: width * 0.45 / 2,
-                  margin: EdgeInsets.only(
-                    left: width * 0.07 / 2,
-                  ),
-                  child: FlatButton(
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomePage()));
-                    },
-                    child: new Image.asset('asset/image/homepage_green.jpg'),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(
-                    left: width * 0.25 / 2,
-                  ),
-                  height: height * 0.4 / 5,
-                  child: FlatButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CreateOfferClass()));
-                    },
-                    child: new Image.asset('asset/image/add.png'),
-                  ),
-                ),
-                Container(
-                    margin: EdgeInsets.only(
-                      left: width * 0.2 / 2,
-                    ),
-                    height: height * 0.4 / 5,
-                    child: FlatButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ManageProfile()));
-                      },
-                      child: new Image.asset('asset/image/personal_blue.png'),
-                    )),
-              ],
-            ),
-          ),
+          WidgetUtils.mainButton(context, height * 0.4 / 5),
         ],
       ),
     );
@@ -169,17 +117,17 @@ Container showButtonPerson(
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ProfileBasicInformation()));
+                            builder: (context) => ProfileBasicInformationTandPPage()));
                   } else if (nameButton == 'Đánh giá') {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ShowAdjustAccount()));
+                            builder: (context) => ShowAdjustAccountTandPPage()));
                   } else {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => DevelopingFeatureScreen()));
+                            builder: (context) => DevelopingFeatureScreenTandPPage()));
                   }
                 },
                 child: Align(
