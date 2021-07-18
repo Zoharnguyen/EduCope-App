@@ -6,9 +6,9 @@ part 'user-basic.g.dart';
 @JsonSerializable()
 class UserBasic {
 
-  String _gmail;
-  String _password;
-  UserType _userType;
+  String _gmail = '';
+  String _password = '';
+  UserType _userType = UserType.TEACHER;
 
   String get gmail => _gmail;
 

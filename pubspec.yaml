@@ -18,16 +18,22 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  shared_preferences: ^0.5.12+4
-  retrofit: ^1.3.4+1
-  dio: ^3.0.10
-  json_annotation: any
-  http:
+  shared_preferences: ^2.0.6
+  retrofit: ^2.0.0
+  dio: ^4.0.0
+  notification_permissions: ^0.4.0
+  firebase_analytics: ^8.0.2
+  firebase_core: ^1.1.0
+  firebase_messaging: ^10.0.0
+  firebase_messaging_platform_interface: ^3.0.0
+  shared_preferences_platform_interface: ^2.0.0
+  shared_preferences_windows: ^2.0.0
+  http_parser: ^4.0.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -36,10 +42,10 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  retrofit_generator: ^1.3.7+5
-  build_runner: any
-  json_serializable: any
-
+  retrofit_generator: ^2.0.0+1
+  json_annotation: ^4.0.1
+  json_serializable: ^4.1.2
+  build_runner: ^2.0.3
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -77,6 +83,16 @@ flutter:
     - asset/image/edit.png
     - asset/image/file.png
     - asset/image/adjust.png
+    - asset/image/cancel.png
+    - asset/image/class_information.png
+    - asset/image/class_status.png
+    - asset/image/homepage_green.jpg
+    - asset/image/personal_green.png
+    - asset/image/personal_blue.png
+    - asset/image/reject.png
+    - asset/image/accept.png
+    - asset/image/contract.png
+    - asset/image/attendance.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

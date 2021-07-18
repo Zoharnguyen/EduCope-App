@@ -1,8 +1,19 @@
+import 'package:edu_cope/dto/offer.dart';
+import 'package:edu_cope/dto/user-profile.dart';
+import 'package:edu_cope/view/ui/create-offer-class.dart';
+import 'package:edu_cope/view/ui/manage-detail-learning-class.dart';
+import 'package:edu_cope/view/ui/manage-profile.dart';
 import 'package:flutter/material.dart';
+
+import 'homepage.dart';
+import 'manage-detail-openning-class.dart';
 
 void main() {
   runApp(MyApp());
 }
+
+double width = 411.4285;
+double height = 683.4285;
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -13,21 +24,19 @@ class MyApp extends StatelessWidget {
       // theme: ThemeData(
       //   primarySwatch: Colors.blue,
       // ),
-      home: HomePage(title: 'Edu Cope'),
+      home: ManageClass(),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  HomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
+class ManageClass extends StatefulWidget {
+  ManageClass();
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _ManageClassState createState() => _ManageClassState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _ManageClassState extends State<ManageClass> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -36,7 +45,7 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         children: <Widget>[
           Container(
-            height: height * 4.4 / 5,
+            height: height * 4.55 / 5,
             child: DefaultTabController(
               length: 3,
               child: Scaffold(
@@ -45,17 +54,22 @@ class _HomePageState extends State<HomePage> {
                     child: AppBar(
                       leading: Container(
                         margin: EdgeInsets.only(
-                          top: height*0.2/5,
-                          left: width*0.05/2,
+                          top: height * 0.04 / 5,
                         ),
-                        child: Text('Back',
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),),
+                        child: IconButton(
+                          icon: Icon(Icons.arrow_back_ios),
+                          // iconSize: 20,
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomePage()));
+                          },
+                        ),
                       ),
                       centerTitle: true,
                       title: Text(
-                        'Manage Class',
+                        'Quản Lý Lớp Hoc',
                         style: TextStyle(
                           fontSize: 24,
                         ),
@@ -63,15 +77,15 @@ class _HomePageState extends State<HomePage> {
                       bottom: TabBar(
                         tabs: <Widget>[
                           Text(
-                            'Learning',
+                            'Đang học',
                             style: TextStyle(fontSize: 20),
                           ),
                           Text(
-                            'Offering',
+                            'Đang mở',
                             style: TextStyle(fontSize: 20),
                           ),
                           Text(
-                            'End',
+                            'Đã kết thúc',
                             style: TextStyle(fontSize: 20),
                           ),
                         ],
@@ -79,292 +93,57 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   body: TabBarView(children: <Widget>[
-                    Container(
-                      height: height * 2 / 5,
-                      width: width * 1.5 / 2,
-                      child: ListView(
-                        children: <Widget>[
-                          Container(
-                            height: height / 5,
-                            width: width * 1.4 / 2,
-                            margin: EdgeInsets.only(
-                              top: height * 0.3 / 5,
-                              right: width * 0.1 / 2,
-                              left: width * 0.2 / 2,
-                            ),
-                            decoration: BoxDecoration(
-                                color: Colors.lightBlue[50],
-                                // border: Border.all(
-                                //   color: Colors.green,
-                                //   width: 2,
-                                // ),
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(27),
-                                  topLeft: Radius.circular(27),
-                                  bottomRight: Radius.circular(27),
-                                  topRight: Radius.circular(27),
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey[400],
-                                    offset: Offset(0, 4),
-                                  ),
-                                ]),
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  child: Text(
-                                    'Tìm gia sư',
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      fontFamily: "Roboto",
-                                      fontStyle: FontStyle.normal,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  child: Text(
-                                    'Tìm gia sư',
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      fontFamily: "Roboto",
-                                      fontStyle: FontStyle.normal,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  child: Text(
-                                    'Tìm gia sư',
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      fontFamily: "Roboto",
-                                      fontStyle: FontStyle.normal,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            height: height / 5,
-                            width: width * 1.4 / 2,
-                            margin: EdgeInsets.only(
-                              top: height * 0.3 / 5,
-                              right: width * 0.1 / 2,
-                              left: width * 0.2 / 2,
-                            ),
-                            decoration: BoxDecoration(
-                                color: Colors.lightBlue[50],
-                                // border: Border.all(
-                                //   color: Colors.green,
-                                //   width: 2,
-                                // ),
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(27),
-                                  topLeft: Radius.circular(27),
-                                  bottomRight: Radius.circular(27),
-                                  topRight: Radius.circular(27),
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey[400],
-                                    offset: Offset(0, 4),
-                                  ),
-                                ]),
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  child: Text(
-                                    'Tìm gia sư',
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      fontFamily: "Roboto",
-                                      fontStyle: FontStyle.normal,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  child: Text(
-                                    'Tìm gia sư',
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      fontFamily: "Roboto",
-                                      fontStyle: FontStyle.normal,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  child: Text(
-                                    'Tìm gia sư',
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      fontFamily: "Roboto",
-                                      fontStyle: FontStyle.normal,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            height: height / 5,
-                            width: width * 1.4 / 2,
-                            margin: EdgeInsets.only(
-                              top: height * 0.3 / 5,
-                              right: width * 0.1 / 2,
-                              left: width * 0.2 / 2,
-                            ),
-                            decoration: BoxDecoration(
-                                color: Colors.lightBlue[50],
-                                // border: Border.all(
-                                //   color: Colors.green,
-                                //   width: 2,
-                                // ),
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(27),
-                                  topLeft: Radius.circular(27),
-                                  bottomRight: Radius.circular(27),
-                                  topRight: Radius.circular(27),
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey[400],
-                                    offset: Offset(0, 4),
-                                  ),
-                                ]),
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  child: Text(
-                                    'Tìm gia sư',
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      fontFamily: "Roboto",
-                                      fontStyle: FontStyle.normal,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  child: Text(
-                                    'Tìm gia sư',
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      fontFamily: "Roboto",
-                                      fontStyle: FontStyle.normal,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  child: Text(
-                                    'Tìm gia sư',
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      fontFamily: "Roboto",
-                                      fontStyle: FontStyle.normal,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            height: height / 5,
-                            width: width * 1.4 / 2,
-                            margin: EdgeInsets.only(
-                              top: height * 0.3 / 5,
-                              right: width * 0.1 / 2,
-                              left: width * 0.2 / 2,
-                            ),
-                            decoration: BoxDecoration(
-                                color: Colors.lightBlue[50],
-                                // border: Border.all(
-                                //   color: Colors.green,
-                                //   width: 2,
-                                // ),
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(27),
-                                  topLeft: Radius.circular(27),
-                                  bottomRight: Radius.circular(27),
-                                  topRight: Radius.circular(27),
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey[400],
-                                    offset: Offset(0, 4),
-                                  ),
-                                ]),
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  child: Text(
-                                    'Tìm gia sư',
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      fontFamily: "Roboto",
-                                      fontStyle: FontStyle.normal,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  child: Text(
-                                    'Tìm gia sư',
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      fontFamily: "Roboto",
-                                      fontStyle: FontStyle.normal,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  child: Text(
-                                    'Tìm gia sư',
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      fontFamily: "Roboto",
-                                      fontStyle: FontStyle.normal,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Text("Test 1"),
-                    Text("Test 2"),
+                    JobsListViewLearningOffer(),
+                    JobsListViewOpeningOffer(),
+                    JobsListViewOpeningOffer(),
                   ])),
             ),
           ),
           Container(
-            margin: EdgeInsets.only(
-              top: height * 0.2 / 5,
-            ),
+            color: Colors.grey[100],
             child: Row(
               children: <Widget>[
                 Container(
-                  height: height * 0.3 / 5,
+                  // height: height * 0.3 / 5,
+                  width: width * 0.45 / 2,
                   margin: EdgeInsets.only(
-                    left: width * 0.1 / 2,
+                    left: width * 0.07 / 2,
                   ),
                   child: FlatButton(
-                    child: new Image.asset('asset/image/homepage.png'),
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => HomePage()));
+                    },
+                    child: new Image.asset('asset/image/homepage_green.jpg'),
                   ),
                 ),
                 Container(
                   margin: EdgeInsets.only(
-                    left: width * 0.335 / 2,
+                    left: width * 0.25 / 2,
                   ),
                   height: height * 0.4 / 5,
-                  child: new Image.asset('asset/image/add.png'),
+                  child: FlatButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CreateOfferClass()));
+                    },
+                    child: new Image.asset('asset/image/add.png'),
+                  ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(
-                    left: width * 0.4 / 2,
-                  ),
-                  height: height * 0.4 / 5,
-                  child: new Image.asset('asset/image/blank-account.jpg'),
-                ),
+                    margin: EdgeInsets.only(
+                      left: width * 0.2 / 2,
+                    ),
+                    height: height * 0.4 / 5,
+                    child: FlatButton(
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => ManageProfile()));
+                      },
+                      child: new Image.asset('asset/image/personal_blue.png'),
+                    )),
               ],
             ),
           ),
@@ -372,4 +151,412 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
+
+// Tab listview for opening class
+class JobsListViewOpeningOffer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Offer>>(
+        future: _fetchOpeningOffers(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<Offer>? data = snapshot.data;
+            return Container(
+                margin: EdgeInsets.only(
+                  top: height * 0.1 / 5,
+                ),
+                child: _jobsOpeningClassListView(data));
+          } else if (snapshot.hasError) {
+            return Text("${snapshot.error}");
+          }
+          return Text("${snapshot.error}");
+        });
+  }
+}
+
+Future<List<Offer>> _fetchOpeningOffers() async {
+  // APIOfferClient apiOfferClient =
+  // APIOfferClient(Dio(BaseOptions(contentType: "application/json")));
+  // ResponseEntity responseEntity =
+  // await apiOfferClient.getOffersByOfferType(OfferType.TEACHER);
+  List<Offer> offers = <Offer>[];
+  Offer offer = new Offer();
+  UserProfile userProfile = new UserProfile();
+  userProfile.rate = '5';
+  userProfile.phoneNumber = '0123456789';
+  offer.profileAuthor = userProfile;
+  offer.subject = 'Toan';
+  offer.salary = '500k/1b';
+  offer.formatLearning = 'Hoc tai nha';
+  offer.level = 'Trung hoc';
+  offers.add(offer);
+  offers.add(offer);
+  offers.add(offer);
+  offers.add(offer);
+  offers.add(offer);
+  // if (responseEntity.getStatus == HttpStatus.ok) {
+  //   List listDecoded = responseEntity.data;
+  //   Offer offerResponse = Offer.fromJson(responseEntity.data[0]);
+  //   print('Subject: ' + offerResponse.subject);
+  //   return listDecoded.map((offer) => new Offer.fromJson(offer)).toList();
+  //   // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+  // } else {
+  //   // Show pop up notification about fail reason.
+  //   print('Error: ' + responseEntity.getException.toString());
+  // }
+  return offers;
+}
+
+ListView _jobsOpeningClassListView(data) {
+  return ListView.builder(
+      scrollDirection: Axis.vertical,
+      itemCount: data.length,
+      itemBuilder: (context, index) {
+        return _jobsShowOpeningOffer(
+            data[index].subject,
+            data[index].salary,
+            data[index].formatLearning,
+            data[index].level,
+            data[index].profileAuthor,
+            context);
+      });
+}
+
+Widget _jobsShowOpeningOffer(
+    String subject,
+    String salary,
+    String formatLearning,
+    String level,
+    UserProfile profileAuthor,
+    BuildContext context) {
+  return Container(
+    height: height * 2 / 5,
+    width: width * 1.6 / 2,
+    margin: EdgeInsets.only(
+      bottom: height * 0.02 / 5,
+      top: height * 0.1 / 5,
+      right: width * 0.2 / 2,
+      left: width * 0.2 / 2,
+    ),
+    decoration: BoxDecoration(
+        color: Colors.lightBlue[50],
+        // border: Border.all(
+        //   color: Colors.green,f
+        //   width: 2,
+        // ),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(17),
+          bottomRight: Radius.circular(17),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.shade400,
+            offset: Offset(0, 4),
+          ),
+        ]),
+    child: Column(
+      // crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Container(
+            height: height * 0.35 / 5,
+            width: width * 1.6 / 2,
+            decoration: BoxDecoration(
+              color: Colors.lightBlue,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(17),
+                topRight: Radius.circular(17),
+              ),
+            ),
+            child: Align(
+              child: Text(
+                'Gia su - ' + subject,
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              ),
+            )),
+        Container(
+          child: Row(
+            children: <Widget>[
+              Container(
+                height: height * 0.7 / 5,
+                width: width * 1.1 / 2,
+                // decoration: BoxDecoration(
+                //   border: Border.all(
+                //     color: Colors.green,
+                //     width: 2,
+                //   )
+                // ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(
+                        // top: height * 0.05 / 5,
+                        left: width * 0.02 / 2,
+                      ),
+                      child: Text(
+                        'Mon hoc: ' + subject,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontFamily: "Roboto",
+                          fontStyle: FontStyle.normal,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: height * 0.05 / 5,
+                        left: width * 0.02 / 2,
+                      ),
+                      child: Text(
+                        'Hinh thuc hoc: ' + formatLearning,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontFamily: "Roboto",
+                          fontStyle: FontStyle.normal,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: height * 0.05 / 5,
+                        left: width * 0.02 / 2,
+                      ),
+                      child: Text(
+                        'Muc Luong: ' + salary,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontFamily: "Roboto",
+                          fontStyle: FontStyle.normal,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          height: height * 0.2 / 5,
+          child: FlatButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ManageDetailOpeningClass()));
+            },
+            child: Text(
+              'Chi tiet >>>',
+              style: TextStyle(fontSize: 16, color: Colors.black),
+            ),
+          ),
+        )
+      ],
+    ),
+  );
+}
+
+// Tab list view for learning class
+class JobsListViewLearningOffer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Offer>>(
+        future: _fetchLearningOffers(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<Offer>? data = snapshot.data;
+            return Container(
+                margin: EdgeInsets.only(
+                  top: height * 0.1 / 5,
+                ),
+                child: _jobsLearningClassListView(data));
+          } else if (snapshot.hasError) {
+            return Text("${snapshot.error}");
+          }
+          return Text("${snapshot.error}");
+        });
+  }
+}
+
+Future<List<Offer>> _fetchLearningOffers() async {
+  // APIOfferClient apiOfferClient =
+  // APIOfferClient(Dio(BaseOptions(contentType: "application/json")));
+  // ResponseEntity responseEntity =
+  // await apiOfferClient.getOffersByOfferType(OfferType.TEACHER);
+  List<Offer> offers = <Offer>[];
+  Offer offer = new Offer();
+  UserProfile userProfile = new UserProfile();
+  userProfile.rate = '5';
+  userProfile.phoneNumber = '0123456789';
+  offer.profileAuthor = userProfile;
+  offer.subject = 'Toan';
+  offer.salary = '500k/1b';
+  offer.formatLearning = 'Hoc tai nha';
+  offer.level = 'Trung hoc';
+  offers.add(offer);
+  offers.add(offer);
+  offers.add(offer);
+  offers.add(offer);
+  offers.add(offer);
+  // if (responseEntity.getStatus == HttpStatus.ok) {
+  //   List listDecoded = responseEntity.data;
+  //   Offer offerResponse = Offer.fromJson(responseEntity.data[0]);
+  //   print('Subject: ' + offerResponse.subject);
+  //   return listDecoded.map((offer) => new Offer.fromJson(offer)).toList();
+  //   // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+  // } else {
+  //   // Show pop up notification about fail reason.
+  //   print('Error: ' + responseEntity.getException.toString());
+  // }
+  return offers;
+}
+
+ListView _jobsLearningClassListView(data) {
+  return ListView.builder(
+      scrollDirection: Axis.vertical,
+      itemCount: data.length,
+      itemBuilder: (context, index) {
+        return _jobsShowLearningClass(
+            data[index].subject,
+            data[index].salary,
+            data[index].formatLearning,
+            data[index].level,
+            data[index].profileAuthor,
+            context);
+      });
+}
+
+Widget _jobsShowLearningClass(
+    String subject,
+    String salary,
+    String formatLearning,
+    String level,
+    UserProfile profileAuthor,
+    BuildContext context) {
+  return Container(
+    height: height * 2 / 5,
+    width: width * 1.6 / 2,
+    margin: EdgeInsets.only(
+      bottom: height * 0.02 / 5,
+      top: height * 0.1 / 5,
+      right: width * 0.2 / 2,
+      left: width * 0.2 / 2,
+    ),
+    decoration: BoxDecoration(
+        color: Colors.green[50],
+        // border: Border.all(
+        //   color: Colors.green,f
+        //   width: 2,
+        // ),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(17),
+          bottomRight: Radius.circular(17),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.shade400,
+            offset: Offset(0, 4),
+          ),
+        ]),
+    child: Column(
+      // crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Container(
+            height: height * 0.35 / 5,
+            width: width * 1.6 / 2,
+            decoration: BoxDecoration(
+              color: Colors.green[400],
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(17),
+                topRight: Radius.circular(17),
+              ),
+            ),
+            child: Align(
+              child: Text(
+                'Gia su - ' + subject,
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              ),
+            )),
+        Container(
+          child: Row(
+            children: <Widget>[
+              Container(
+                height: height * 0.7 / 5,
+                width: width * 1.1 / 2,
+                // decoration: BoxDecoration(
+                //   border: Border.all(
+                //     color: Colors.green,
+                //     width: 2,
+                //   )
+                // ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(
+                        // top: height * 0.05 / 5,
+                        left: width * 0.02 / 2,
+                      ),
+                      child: Text(
+                        'Mon hoc: ' + subject,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontFamily: "Roboto",
+                          fontStyle: FontStyle.normal,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: height * 0.05 / 5,
+                        left: width * 0.02 / 2,
+                      ),
+                      child: Text(
+                        'Hinh thuc hoc: ' + formatLearning,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontFamily: "Roboto",
+                          fontStyle: FontStyle.normal,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: height * 0.05 / 5,
+                        left: width * 0.02 / 2,
+                      ),
+                      child: Text(
+                        'Muc Luong: ' + salary,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontFamily: "Roboto",
+                          fontStyle: FontStyle.normal,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          height: height * 0.2 / 5,
+          child: FlatButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ManageDetailLearningClass()));
+            },
+            child: Text(
+              'Chi tiet >>>',
+              style: TextStyle(fontSize: 16, color: Colors.black),
+            ),
+          ),
+        )
+      ],
+    ),
+  );
 }

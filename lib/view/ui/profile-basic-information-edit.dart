@@ -13,21 +13,19 @@ class MyApp extends StatelessWidget {
       // theme: ThemeData(
       //   primarySwatch: Colors.blue,
       // ),
-      home: HomePage(title: 'Edu Cope'),
+      home: ProfileBasicInformationEdit(),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  HomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
+class ProfileBasicInformationEdit extends StatefulWidget {
+  ProfileBasicInformationEdit();
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _ProfileBasicInformationEditState createState() => _ProfileBasicInformationEditState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _ProfileBasicInformationEditState extends State<ProfileBasicInformationEdit> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -339,7 +337,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey[400],
+                      color: Colors.grey.shade400,
                       offset: Offset(0,4),
                     ),
                   ]

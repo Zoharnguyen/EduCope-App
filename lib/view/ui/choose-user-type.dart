@@ -1,4 +1,4 @@
-import 'package:edu_cope/constant/CommonConstant.dart';
+import 'package:edu_cope/constant/common-constant.dart';
 import 'package:edu_cope/constant/user-type.dart';
 import 'package:edu_cope/view/ui/sign-up.dart';
 import 'package:edu_cope/view/utils/common-utils.dart';
@@ -20,15 +20,13 @@ class MyApp extends StatelessWidget {
       // theme: ThemeData(
       //   primarySwatch: Colors.blue,
       // ),
-      home: ChooseUserTypePage(title: 'Edu Cope'),
+      home: ChooseUserTypePage(),
     );
   }
 }
 
 class ChooseUserTypePage extends StatefulWidget {
-  ChooseUserTypePage({Key key, this.title}) : super(key: key);
-
-  final String title;
+  ChooseUserTypePage();
 
   @override
   _ChooseUserTypePageState createState() => _ChooseUserTypePageState();
@@ -115,7 +113,7 @@ class _ChooseUserTypePageState extends State<ChooseUserTypePage> {
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey[400],
+                          color: Colors.grey.shade400,
                           offset: Offset(0, 4),
                         ),
                       ]),
@@ -175,7 +173,7 @@ class _ChooseUserTypePageState extends State<ChooseUserTypePage> {
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey[400],
+                          color: Colors.grey.shade400,
                           offset: Offset(0, 4),
                         ),
                       ]),
@@ -183,7 +181,7 @@ class _ChooseUserTypePageState extends State<ChooseUserTypePage> {
                     onPressed: () async {
                       CommonUtils.saveValue(
                           describeEnum(CommonConstant.USER_TYPE).toString(),
-                          UserType.STUDENTPARRENT.toString());
+                          UserType.STUDENTPARENT.toString());
                       String moveToCreateAccountScreen =
                           await CommonUtils.getValue(describeEnum(
                                   CommonConstant.MOVE_TO_CREATE_ACCOUNT_SCREEN)

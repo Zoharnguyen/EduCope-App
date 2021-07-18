@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:edu_cope/constant/CommonConstant.dart';
+import 'package:edu_cope/constant/common-constant.dart';
 import 'package:edu_cope/constant/user-type.dart';
 import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/dto/user-basic.dart';
@@ -204,7 +204,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey[400],
+                      color: Colors.grey.shade400,
                       offset: Offset(0,4),
                     ),
                   ]

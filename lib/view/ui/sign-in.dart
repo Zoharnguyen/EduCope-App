@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:edu_cope/constant/CommonConstant.dart';
+import 'package:edu_cope/constant/common-constant.dart';
 import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/dto/response-token.dart';
 import 'package:edu_cope/dto/user-basic.dart';
@@ -204,7 +204,7 @@ class _SignInPageState extends State<SignInPage> {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey[400],
+                      color: Colors.grey.shade400,
                       offset: Offset(0,4),
                     ),
                   ]
@@ -248,6 +248,7 @@ class _SignInPageState extends State<SignInPage> {
                     padding: EdgeInsets.only(
                       right: width*0.45/2,
                     ),
+                    onPressed: () {  },
                     child: Text(
                       "Forget Password?",
                       style: TextStyle(
@@ -299,12 +300,13 @@ class _SignInPageState extends State<SignInPage> {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey[400],
+                      color: Colors.grey.shade400,
                       offset: Offset(0,4),
                     ),
                   ]
               ),
               child: FlatButton(
+                onPressed: () {  },
                 child: Text(
                   "Sign in with Google",
                   style: TextStyle(

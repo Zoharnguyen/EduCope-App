@@ -1,3 +1,4 @@
+import 'package:edu_cope/view/ui/add-new-adjust-student-learning-class.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -9,21 +10,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomePage(title: 'Edu Cope'),
+      home: AdjustStudentLearningClass(),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  HomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
+class AdjustStudentLearningClass extends StatefulWidget {
+  AdjustStudentLearningClass();
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _AdjustStudentLearningClassState createState() =>
+      _AdjustStudentLearningClassState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _AdjustStudentLearningClassState
+    extends State<AdjustStudentLearningClass> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -60,7 +61,7 @@ class _HomePageState extends State<HomePage> {
             child: ListView(
               children: <Widget>[
                 Container(
-                  height: height *1.2 / 5,
+                  height: height * 1.2 / 5,
                   width: width * 1.4 / 2,
                   margin: EdgeInsets.only(
                     top: height * 0.3 / 5,
@@ -81,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey[400],
+                          color: Colors.grey.shade400,
                           offset: Offset(0, 4),
                         ),
                       ]),
@@ -111,7 +112,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 Container(
-                  height: height *1.2 / 5,
+                  height: height * 1.2 / 5,
                   width: width * 1.4 / 2,
                   margin: EdgeInsets.only(
                     top: height * 0.3 / 5,
@@ -132,7 +133,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey[400],
+                          color: Colors.grey.shade400,
                           offset: Offset(0, 4),
                         ),
                       ]),
@@ -162,7 +163,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 Container(
-                  height: height *1.2 / 5,
+                  height: height * 1.2 / 5,
                   width: width * 1.4 / 2,
                   margin: EdgeInsets.only(
                     top: height * 0.3 / 5,
@@ -183,7 +184,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey[400],
+                          color: Colors.grey.shade400,
                           offset: Offset(0, 4),
                         ),
                       ]),
@@ -220,7 +221,16 @@ class _HomePageState extends State<HomePage> {
               left: width * 1.2 / 2,
             ),
             height: height * 0.4 / 5,
-            child: new Image.asset('asset/image/add.png'),
+            child: FlatButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            AddNewAdjustStudentLearningClass()));
+              },
+              child: new Image.asset('asset/image/add.png'),
+            ),
           ),
         ],
       ),

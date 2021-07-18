@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "127534464293",
+    "project_id": "edu-cope",
+    "storage_bucket": "edu-cope.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:127534464293:android:0e5fd8af3bc913c886aecc",
+        "android_client_info": {
+          "package_name": "edu.cope"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "127534464293-2q2re5u342t2m06quq4tq6lhkr9egmm8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtj1UiUYItU1enHPqFbQ8GyXfwsVX0aEg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "127534464293-2q2re5u342t2m06quq4tq6lhkr9egmm8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

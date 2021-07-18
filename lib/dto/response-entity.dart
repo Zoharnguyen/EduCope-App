@@ -1,9 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:edu_cope/exception/server-error.dart';
 
 class ResponseEntity<T> {
-  ServerError _error;
-  T data;
-  int _status;
+  ServerError _error = ServerError.withError(error: new DioError(requestOptions: new RequestOptions(path: "test")));
+  late T data;
+  late int _status;
 
   setException(ServerError error) {
     _error = error;

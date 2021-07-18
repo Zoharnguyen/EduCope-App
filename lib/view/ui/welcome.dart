@@ -1,3 +1,4 @@
+
 import 'package:edu_cope/view/ui/sign-in.dart';
 import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/foundation.dart';
@@ -5,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'choose-user-type.dart';
-import '../../constant/CommonConstant.dart';
+import '../../constant/common-constant.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,15 +21,13 @@ class MyApp extends StatelessWidget {
       // theme: ThemeData(
       //   primarySwatch: Colors.blue,
       // ),
-      home: WelcomePage(title: 'Edu Cope'),
+      home: WelcomePage(),
     );
   }
 }
 
 class WelcomePage extends StatefulWidget {
-  WelcomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
+  WelcomePage();
 
   @override
   _WelcomePageState createState() => _WelcomePageState();
@@ -110,7 +109,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey[400],
+                    color: Colors.grey.shade400,
                     offset: Offset(0,4),
                   ),
                 ]
@@ -172,7 +171,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey[400],
+                      color: Colors.grey.shade400,
                       offset: Offset(0,4),
                     ),
                   ]

@@ -7,51 +7,46 @@ part of 'user-basic.dart';
 // **************************************************************************
 
 UserBasic _$UserBasicFromJson(Map<String, dynamic> json) {
-  return UserBasic()
-    ..gmail = json['gmail'] as String
-    ..password = json['password'] as String
-    ..userType = _$enumDecodeNullable(_$UserTypeEnumMap, json['userType']);
+  UserBasic userBasic = new UserBasic();
+  (json['gmail'] != null) ? userBasic.gmail = json['gmail'] as String : null;
+  (json['password'] != null) ? userBasic.password = json['password'] as String : null;
+  (json['userType'] != null) ? userBasic.userType = _$enumDecode(_$UserTypeEnumMap, json['userType']) : null;
+  return userBasic;
 }
 
 Map<String, dynamic> _$UserBasicToJson(UserBasic instance) => <String, dynamic>{
-      'gmail': instance.gmail,
-      'password': instance.password,
-      'userType': _$UserTypeEnumMap[instance.userType],
-    };
+  'gmail': instance.gmail,
+  'password': instance.password,
+  'userType': _$UserTypeEnumMap[instance.userType],
+};
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
+K _$enumDecode<K, V>(
+    Map<K, V> enumValues,
+    Object? source, {
+      K? unknownValue,
+    }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+          '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return enumValues.entries.singleWhere(
+        (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+              '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
 const _$UserTypeEnumMap = {
   UserType.TEACHER: 'TEACHER',
-  UserType.STUDENTPARRENT: 'STUDENTPARRENT',
+  UserType.STUDENTPARENT: 'STUDENTPARENT',
 };

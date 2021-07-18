@@ -9,21 +9,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomePage(title: 'Edu Cope'),
+      home: FileAdjustResultLearningClass(),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  HomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
+class FileAdjustResultLearningClass extends StatefulWidget {
+  FileAdjustResultLearningClass();
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _FileAdjustResultLearningClassState createState() => _FileAdjustResultLearningClassState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _FileAdjustResultLearningClassState extends State<FileAdjustResultLearningClass> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;

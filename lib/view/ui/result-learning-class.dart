@@ -1,4 +1,10 @@
+import 'package:edu_cope/view/ui/adjust-student-learning-class.dart';
+import 'package:edu_cope/view/ui/create-offer-class.dart';
+import 'package:edu_cope/view/ui/file-adjust-result-learning-class.dart';
+import 'package:edu_cope/view/ui/manage-profile.dart';
 import 'package:flutter/material.dart';
+
+import 'homepage.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,21 +15,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomePage(title: 'Edu Cope'),
+      home: ResultLearningClass(),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  HomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
+class ResultLearningClass extends StatefulWidget {
+  ResultLearningClass();
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _ResultLearningClassState createState() => _ResultLearningClassState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _ResultLearningClassState extends State<ResultLearningClass> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -58,7 +62,7 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         children: <Widget>[
           Container(
-            height: height * 4 / 5,
+            height: height * 3.95 / 5,
             child: ListView(
               children: <Widget>[
                 Container(
@@ -144,8 +148,17 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Container(
                         margin: EdgeInsets.only(bottom: height * 0.07 / 5),
-                        width: width * 0.2 / 2,
-                        child: new Image.asset('asset/image/next.png'),
+                        width: width * 0.4 / 2,
+                        child: FlatButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        FileAdjustResultLearningClass()));
+                          },
+                          child: new Image.asset('asset/image/next.png'),
+                        ),
                       ),
                     ],
                   ),
@@ -192,7 +205,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey[400],
+                            color: Colors.grey.shade400,
                             offset: Offset(0, 4),
                           ),
                         ]),
@@ -201,7 +214,7 @@ class _HomePageState extends State<HomePage> {
                         children: <Widget>[
                           Container(
                             margin: EdgeInsets.only(
-                              left: width*0.2/2,
+                              left: width * 0.2 / 2,
                             ),
                             child: Text(
                               'Nguyen Van A',
@@ -212,77 +225,80 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(
-                              bottom: height * 0.07 / 5,
-                              left: width*0.5/2,
-                            ),
-                            // height: height * 0.2 / 5,
-                            width: width * 0.2 / 2,
-                            child: IconButton(
-                              onPressed: (){},
-                              icon: new Image.asset('asset/image/adjust.png'),
-                            )
-                          ),
+                              margin: EdgeInsets.only(
+                                bottom: height * 0.07 / 5,
+                                left: width * 0.5 / 2,
+                              ),
+                              // height: height * 0.2 / 5,
+                              width: width * 0.2 / 2,
+                              child: IconButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              AdjustStudentLearningClass()));
+                                },
+                                icon: new Image.asset('asset/image/adjust.png'),
+                              )),
                         ],
                       ),
                     )),
                 Container(
-                  height: height * 0.4 / 5,
-                  width: width * 1.4 / 2,
-                  margin: EdgeInsets.only(
-                    top: height * 0.3 / 5,
-                    right: width * 0.1 / 2,
-                    left: width * 0.2 / 2,
-                  ),
-                  decoration: BoxDecoration(
-                      color: Colors.lightBlue[50],
-                      // border: Border.all(
-                      //   color: Colors.green,
-                      //   width: 2,
-                      // ),
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(27),
-                        topLeft: Radius.circular(27),
-                        bottomRight: Radius.circular(27),
-                        topRight: Radius.circular(27),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey[400],
-                          offset: Offset(0, 4),
-                        ),
-                      ]),
-                  child: Container(
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(
-                            left: width*0.2/2,
-                          ),
-                          child: Text(
-                            'Nguyen Van B',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ),
-                        Container(
-                            margin: EdgeInsets.only(
-                              bottom: height * 0.07 / 5,
-                              left: width*0.5/2,
-                            ),
-                            // height: height * 0.2 / 5,
-                            width: width * 0.2 / 2,
-                            child: IconButton(
-                              onPressed: (){},
-                              icon: new Image.asset('asset/image/adjust.png'),
-                            )
-                        ),
-                      ],
+                    height: height * 0.4 / 5,
+                    width: width * 1.4 / 2,
+                    margin: EdgeInsets.only(
+                      top: height * 0.3 / 5,
+                      right: width * 0.1 / 2,
+                      left: width * 0.2 / 2,
                     ),
-                  )
-                ),
+                    decoration: BoxDecoration(
+                        color: Colors.lightBlue[50],
+                        // border: Border.all(
+                        //   color: Colors.green,
+                        //   width: 2,
+                        // ),
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(27),
+                          topLeft: Radius.circular(27),
+                          bottomRight: Radius.circular(27),
+                          topRight: Radius.circular(27),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.shade400,
+                            offset: Offset(0, 4),
+                          ),
+                        ]),
+                    child: Container(
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(
+                              left: width * 0.2 / 2,
+                            ),
+                            child: Text(
+                              'Nguyen Van B',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                          Container(
+                              margin: EdgeInsets.only(
+                                bottom: height * 0.07 / 5,
+                                left: width * 0.5 / 2,
+                              ),
+                              // height: height * 0.2 / 5,
+                              width: width * 0.2 / 2,
+                              child: IconButton(
+                                onPressed: () {},
+                                icon: new Image.asset('asset/image/adjust.png'),
+                              )),
+                        ],
+                      ),
+                    )),
               ],
             ),
           ),
@@ -295,6 +311,10 @@ class _HomePageState extends State<HomePage> {
                     left: width * 0.1 / 2,
                   ),
                   child: FlatButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => HomePage()));
+                    },
                     child: new Image.asset('asset/image/homepage.png'),
                   ),
                 ),
@@ -303,15 +323,28 @@ class _HomePageState extends State<HomePage> {
                     left: width * 0.335 / 2,
                   ),
                   height: height * 0.4 / 5,
-                  child: new Image.asset('asset/image/add.png'),
+                  child: FlatButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CreateOfferClass()));
+                    },
+                    child: new Image.asset('asset/image/add.png'),
+                  ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(
-                    left: width * 0.4 / 2,
-                  ),
-                  height: height * 0.4 / 5,
-                  child: new Image.asset('asset/image/blank-account.jpg'),
-                ),
+                    margin: EdgeInsets.only(
+                      left: width * 0.2 / 2,
+                    ),
+                    height: height * 0.45 / 5,
+                    child: FlatButton(
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => ManageProfile()));
+                      },
+                      child: new Image.asset('asset/image/blank-account.jpg'),
+                    )),
               ],
             ),
           )

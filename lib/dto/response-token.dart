@@ -6,7 +6,7 @@ part 'response-token.g.dart';
 @JsonSerializable()
 class TokenResponse {
 
-  String _token;
+  late String _token;
 
 
   String get token => _token;

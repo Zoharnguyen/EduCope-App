@@ -1,4 +1,25 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
+import 'package:edu_cope/constant/course-type.dart';
+import 'package:edu_cope/constant/user-type.dart';
+import 'package:edu_cope/dto/adjust-user-profile.dart';
+import 'package:edu_cope/dto/offer.dart';
+import 'package:edu_cope/dto/response-entity.dart';
+import 'package:edu_cope/dto/user-profile.dart';
+import 'package:edu_cope/service/api-offer.dart';
+import 'package:edu_cope/view/ui/developing-feature-screen.dart';
+import 'package:edu_cope/view/ui/homepage.dart';
+import 'package:edu_cope/view/ui/manage-adjust-mem-in-class.dart';
+import 'package:edu_cope/view/ui/manage-attendance-learning-class.dart';
+import 'package:edu_cope/view/ui/manage-profile.dart';
+import 'package:edu_cope/view/ui/result-learning-class.dart';
+import 'package:edu_cope/view/ui/show-adjust-account.dart';
+import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/material.dart';
+
+import 'create-offer-class.dart';
+import 'detail-information-learning-class.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,250 +34,645 @@ class MyApp extends StatelessWidget {
       // theme: ThemeData(
       //   primarySwatch: Colors.blue,
       // ),
-      home: HomePage(title: 'Edu Cope'),
+      home: ManageDetailLearningClass(),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  HomePage({Key key, this.title}) : super(key: key);
+String courseId = '60e394825ded485c37a643f1';
+double width = 411.4285;
+double height = 683.4285;
+AdjustUserProfile adjustUserProfile = new AdjustUserProfile();
+String currentUserId = '607a8b832ea23669aaea68e3';
 
-  final String title;
+class ManageDetailLearningClass extends StatefulWidget {
+  ManageDetailLearningClass();
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _ManageDetailLearningClassState createState() =>
+      _ManageDetailLearningClassState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _ManageDetailLearningClassState extends State<ManageDetailLearningClass> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        leading: Container(
+        backgroundColor: Colors.lightBlue,
+        title: Container(
           margin: EdgeInsets.only(
-            top: height*0.2/5,
-            left: width*0.05/2,
+            right: width * 0.3 / 2,
           ),
-          child: Text('Back',
-            style: TextStyle(
-              fontSize: 16,
-            ),),
+          child: Align(
+            child: Text(
+              'Môn toán - Đang học',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 22,
+                fontFamily: "Roboto",
+                fontStyle: FontStyle.normal,
+              ),
+            ),
+          ),
+        ),
+        leading: Container(
+          // width: width * 0.29 / 2,
+          // decoration: BoxDecoration(
+          //   border: Border.all(
+          //     color: Colors.green,
+          //     width: 2,
+          //   )
+          // ),
+          child: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
         ),
       ),
-      body: Column(
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(
-              top: height * 0.4 / 5,
-              bottom: height*0.2/5,
-            ),
-            height: height * 0.3 / 5,
-            // decoration: BoxDecoration(
-            //   border: Border.all(
-            //     color: Colors.green,
-            //     width: 2,
-            //   )
-            // ),
-            child: Text(
-              'Mon Toan',
-              style: TextStyle(
-                fontSize: 22,
-                color: Colors.black,
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: height * 3.86 / 5,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    height: height * 0.35 / 5,
+                    width: width * 1.4 / 2,
+                    margin: EdgeInsets.only(
+                      top: height * 0.5 / 5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(8),
+                        topRight: Radius.circular(8),
+                        bottomLeft: Radius.circular(8),
+                        bottomRight: Radius.circular(8),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          height: height * 0.3 / 5,
+                          child: new Image.asset(
+                              'asset/image/class_information.png'),
+                        ),
+                        Container(
+                            margin: EdgeInsets.only(
+                              left: width * 0.1 / 2,
+                            ),
+                            // decoration: BoxDecoration(
+                            //     border: Border.all(
+                            //       color: Colors.green,
+                            //       width: 2,
+                            //     )
+                            // ),
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            DetailInformationLearingClass()));
+                              },
+                              child: Text(
+                                'Thông tin lớp học',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            )),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: height * 0.35 / 5,
+                    width: width * 1.4 / 2,
+                    margin: EdgeInsets.only(
+                      top: height * 0.3 / 5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(8),
+                        topRight: Radius.circular(8),
+                        bottomLeft: Radius.circular(8),
+                        bottomRight: Radius.circular(8),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          height: height * 0.3 / 5,
+                          child:
+                              new Image.asset('asset/image/class_status.png'),
+                        ),
+                        Container(
+                            margin: EdgeInsets.only(
+                              left: width * 0.1 / 2,
+                            ),
+                            // decoration: BoxDecoration(
+                            //     border: Border.all(
+                            //       color: Colors.green,
+                            //       width: 2,
+                            //     )
+                            // ),
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ResultLearningClass()));
+                              },
+                              child: Text(
+                                'Kết quả học tập',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            )),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: height * 0.35 / 5,
+                    width: width * 1.4 / 2,
+                    margin: EdgeInsets.only(
+                      top: height * 0.3 / 5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(8),
+                        topRight: Radius.circular(8),
+                        bottomLeft: Radius.circular(8),
+                        bottomRight: Radius.circular(8),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          height: height * 0.32 / 5,
+                          child: new Image.asset('asset/image/attendance.png'),
+                        ),
+                        Container(
+                            margin: EdgeInsets.only(
+                              left: width * 0.1 / 2,
+                            ),
+                            // decoration: BoxDecoration(
+                            //     border: Border.all(
+                            //       color: Colors.green,
+                            //       width: 2,
+                            //     )
+                            // ),
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ManageAttendanceLearningClass()));
+                              },
+                              child: Text(
+                                'Điểm danh',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            )),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: height * 0.35 / 5,
+                    width: width * 1.4 / 2,
+                    margin: EdgeInsets.only(
+                      top: height * 0.3 / 5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(8),
+                        topRight: Radius.circular(8),
+                        bottomLeft: Radius.circular(8),
+                        bottomRight: Radius.circular(8),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          height: height * 0.3 / 5,
+                          child: new Image.asset('asset/image/contract.png'),
+                        ),
+                        Container(
+                            margin: EdgeInsets.only(
+                              left: width * 0.1 / 2,
+                            ),
+                            // decoration: BoxDecoration(
+                            //     border: Border.all(
+                            //       color: Colors.green,
+                            //       width: 2,
+                            //     )
+                            // ),
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            DevelopingFeatureScreen()));
+                              },
+                              child: Text(
+                                'Hợp đồng',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            )),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: height * 0.35 / 5,
+                    width: width * 1.4 / 2,
+                    margin: EdgeInsets.only(
+                      top: height * 0.3 / 5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(8),
+                        topRight: Radius.circular(8),
+                        bottomLeft: Radius.circular(8),
+                        bottomRight: Radius.circular(8),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          height: height * 0.3 / 5,
+                          child: new Image.asset('asset/image/cancel.png'),
+                        ),
+                        Container(
+                            margin: EdgeInsets.only(
+                              left: width * 0.1 / 2,
+                            ),
+                            // decoration: BoxDecoration(
+                            //     border: Border.all(
+                            //       color: Colors.green,
+                            //       width: 2,
+                            //     )
+                            // ),
+                            child: TextButton(
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return QuestionYesOrNo();
+                                    });
+                                // Navigator.push(context,
+                                //     MaterialPageRoute(builder: (context) => ProfileBasicInformation())
+                                // );
+                              },
+                              child: Text(
+                                'Kết thúc lớp học',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            )),
+                      ],
+                    ),
+                  )
+                ],
               ),
             ),
-          ),
-          Container(
-            height: height*0.2/5,
-            width: width/2,
-            margin: EdgeInsets.only(
-              top: height*0.2/5,
-            ),
-            decoration: BoxDecoration(
-                color: Colors.grey[300],
-                // border: Border.all(
-                //   color: Colors.green,
-                //   width: 2,
-                // ),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(27),
-                  topLeft: Radius.circular(27),
-                  bottomRight: Radius.circular(27),
-                  topRight: Radius.circular(27),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey[400],
-                    offset: Offset(0,4),
-                  ),
-                ]
-            ),
-            child: FlatButton(
-              onPressed: () async {
-              },
-              child: Text(
-                "Thong tin lop hoc",
-                style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.black,
-                    fontFamily: "Roboto",
-                    fontStyle: FontStyle.normal
-                ),
+            Container(
+              color: Colors.grey[100],
+              margin: EdgeInsets.only(
+                top: height * 0.1 / 5,
               ),
-            ),
-          ),
-          Container(
-            height: height*0.2/5,
-            width: width/2,
-            margin: EdgeInsets.only(
-              top: height*0.2/5,
-            ),
-            decoration: BoxDecoration(
-                color: Colors.grey[300],
-                // border: Border.all(
-                //   color: Colors.green,
-                //   width: 2,
-                // ),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(27),
-                  topLeft: Radius.circular(27),
-                  bottomRight: Radius.circular(27),
-                  topRight: Radius.circular(27),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey[400],
-                    offset: Offset(0,4),
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    // height: height * 0.3 / 5,
+                    width: width * 0.45 / 2,
+                    margin: EdgeInsets.only(
+                      left: width * 0.07 / 2,
+                    ),
+                    child: FlatButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomePage()));
+                      },
+                      child: new Image.asset('asset/image/homepage_green.jpg'),
+                    ),
                   ),
-                ]
-            ),
-            child: FlatButton(
-              onPressed: () async {
-              },
-              child: Text(
-                "Ket qua hoc tap",
-                style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.black,
-                    fontFamily: "Roboto",
-                    fontStyle: FontStyle.normal
-                ),
+                  Container(
+                    margin: EdgeInsets.only(
+                      left: width * 0.25 / 2,
+                    ),
+                    height: height * 0.4 / 5,
+                    child: FlatButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CreateOfferClass()));
+                      },
+                      child: new Image.asset('asset/image/add.png'),
+                    ),
+                  ),
+                  Container(
+                      margin: EdgeInsets.only(
+                        left: width * 0.2 / 2,
+                      ),
+                      height: height * 0.4 / 5,
+                      child: FlatButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ManageProfile()));
+                        },
+                        child: new Image.asset('asset/image/personal_blue.png'),
+                      )),
+                ],
               ),
-            ),
-          ),
-          Container(
-            height: height*0.2/5,
-            width: width/2,
-            margin: EdgeInsets.only(
-              top: height*0.2/5,
-            ),
-            decoration: BoxDecoration(
-                color: Colors.grey[300],
-                // border: Border.all(
-                //   color: Colors.green,
-                //   width: 2,
-                // ),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(27),
-                  topLeft: Radius.circular(27),
-                  bottomRight: Radius.circular(27),
-                  topRight: Radius.circular(27),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey[400],
-                    offset: Offset(0,4),
-                  ),
-                ]
-            ),
-            child: FlatButton(
-              onPressed: () async {
-              },
-              child: Text(
-                "Thay doi hop dong",
-                style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.black,
-                    fontFamily: "Roboto",
-                    fontStyle: FontStyle.normal
-                ),
-              ),
-            ),
-          ),
-          Container(
-            height: height*0.2/5,
-            width: width/2,
-            margin: EdgeInsets.only(
-              top: height*0.2/5,
-            ),
-            decoration: BoxDecoration(
-                color: Colors.grey[300],
-                // border: Border.all(
-                //   color: Colors.green,
-                //   width: 2,
-                // ),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(27),
-                  topLeft: Radius.circular(27),
-                  bottomRight: Radius.circular(27),
-                  topRight: Radius.circular(27),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey[400],
-                    offset: Offset(0,4),
-                  ),
-                ]
-            ),
-            child: FlatButton(
-              onPressed: () async {
-              },
-              child: Text(
-                "Ket thuc khoa hoc",
-                style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.black,
-                    fontFamily: "Roboto",
-                    fontStyle: FontStyle.normal
-                ),
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(
-              top: height * 1.49 / 5,
-            ),
-            child: Row(
-              children: <Widget>[
-                Container(
-                  height: height * 0.3 / 5,
-                  margin: EdgeInsets.only(
-                    left: width * 0.1 / 2,
-                  ),
-                  child: FlatButton(
-                    child: new Image.asset('asset/image/homepage.png'),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(
-                    left: width * 0.335 / 2,
-                  ),
-                  height: height * 0.4 / 5,
-                  child: new Image.asset('asset/image/add.png'),
-                ),
-                Container(
-                  margin: EdgeInsets.only(
-                    left: width * 0.4 / 2,
-                  ),
-                  height: height * 0.4 / 5,
-                  child: new Image.asset('asset/image/blank-account.jpg'),
-                ),
-              ],
-            ),
-          ),
-        ],
+            )
+          ],
+        ),
       ),
     );
+  }
+}
+
+Future<Widget> updateOffer() async {
+  Offer offer = new Offer();
+  offer.id = courseId;
+  offer.courseType = CourseType.END;
+  APIOfferClient apiOfferClient =
+      APIOfferClient(Dio(BaseOptions(contentType: "application/json")));
+  ResponseEntity responseEntity = await apiOfferClient.updateOffer(offer);
+  if (responseEntity.getStatus == HttpStatus.ok) {
+    Offer offerResponse = Offer.fromJson(responseEntity.data);
+    print('Subject: ' + offerResponse.subject);
+    print('Id: ' + offerResponse.id);
+    return Text('Success!');
+    // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+  } else {
+    // Show pop up notification about fail reason.
+    print('Error: ' + responseEntity.getException.toString());
+    return Text('Failed!');
+  }
+}
+
+Container titleForItems(String initialValueTitle) {
+  return Container(
+    height: height * 0.35 / 5,
+    // decoration: BoxDecoration(
+    //     border: Border.all(
+    //       color: Colors.green,
+    //       width: 2,
+    //     )
+    // ),
+    child: Row(
+      children: <Widget>[
+        Container(
+            // width: width * 0.3 / 2,
+            margin: EdgeInsets.only(
+              left: width * 0.15 / 2,
+            ),
+            // decoration: BoxDecoration(
+            //     border: Border.all(
+            //       color: Colors.green,
+            //       width: 2,
+            //     )
+            // ),
+            child: Text(
+              initialValueTitle,
+              style: TextStyle(
+                color: Colors.blue,
+                fontSize: 18,
+              ),
+            )),
+      ],
+    ),
+  );
+}
+
+Container titleForItemAjust(String nameUser) {
+  return Container(
+    height: height * 0.35 / 5,
+    // decoration: BoxDecoration(
+    //     border: Border.all(
+    //       color: Colors.green,
+    //       width: 2,
+    //     )
+    // ),
+    // margin: EdgeInsets.only(
+    //   left: width*0.05/2,
+    // ),
+    child: Align(
+      child: Text(
+        nameUser,
+        style: TextStyle(
+          color: Colors.blue,
+          fontSize: 20,
+        ),
+      ),
+    ),
+  );
+}
+
+Container inputContentItem(String contentInitialValue, String fieldName,
+    AdjustUserProfile adjustUserProfile, double heightInput) {
+  setValueForAdjustMember(contentInitialValue, fieldName, adjustUserProfile);
+  return Container(
+    height: heightInput,
+    width: width * 1.3 / 2,
+    margin: EdgeInsets.only(
+      right: width * 0.2 / 2,
+      left: width * 0.3 / 2,
+    ),
+    child: TextFormField(
+      autofocus: false,
+      maxLines: 2,
+      cursorWidth: 2,
+      cursorHeight: 25,
+      // focusNode: FocusNode(canRequestFocus: false),
+      initialValue: contentInitialValue,
+      onChanged: (text) {
+        setValueForAdjustMember(text, fieldName, adjustUserProfile);
+      },
+      decoration: InputDecoration(
+        hintStyle: TextStyle(
+          fontSize: 14,
+          color: Colors.lightBlue,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            width: 1,
+            color: Colors.grey.shade400,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            width: 1,
+            color: Colors.lightBlue,
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+Future<Offer> getOfferById(String courseId) async {
+  Offer offer = new Offer();
+  APIOfferClient apiOfferClient =
+      APIOfferClient(Dio(BaseOptions(contentType: "application/json")));
+  ResponseEntity responseEntity = await apiOfferClient.getCourseById(courseId);
+  if (responseEntity.getStatus == HttpStatus.ok) {
+    Offer offerResponse = Offer.fromJson(responseEntity.data);
+    print('Subject: ' + offerResponse.subject);
+    return offerResponse;
+    // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+  } else {
+    // Show pop up notification about fail reason.
+    print('Error: ' + responseEntity.getException.toString());
+  }
+  return offer;
+}
+
+void setValueForAdjustMember(
+    String value, String fieldName, AdjustUserProfile adjustUserProfile) {
+  switch (fieldName) {
+    case 'rate':
+      adjustUserProfile.rate = value;
+      break;
+    case 'content':
+      adjustUserProfile.content = value;
+      break;
+  }
+}
+
+List<UserProfile> getMemberClass(Offer offer) {
+  List<UserProfile> memberClass = <UserProfile>[];
+  if (offer != null &&
+      offer.memberClassList != null &&
+      offer.memberClassList.isNotEmpty) {
+    for (UserProfile userProfile in offer.memberClassList) {
+      if (userProfile.userType == UserType.STUDENTPARENT)
+        memberClass.add(userProfile);
+    }
+  }
+  return memberClass;
+}
+
+class QuestionYesOrNo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
+        child: Stack(
+          overflow: Overflow.visible,
+          alignment: Alignment.topCenter,
+          children: [
+            Container(
+              height: height * 1.5 / 5,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(10, 70, 10, 10),
+                child: Column(
+                  children: <Widget> [
+                    Container(
+                      margin: EdgeInsets.only(
+                        bottom: height*0.1/2,
+                      ),
+                      child: Align(
+                        child: Text(
+                          'Bạn sẽ kết thúc lớp học?',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(
+                            left: width*0.22/2,
+                          ),
+                          child: RaisedButton(
+                            onPressed: () {
+                              updateOffer();
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ManageAdjustMemInClass()));
+                            },
+                            color: Colors.lightBlue,
+                            child: Text(
+                              'Đồng ý',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                            left: width*0.2/2,
+                          ),
+                          child: RaisedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ManageDetailLearningClass()));
+                            },
+                            color: Colors.lightBlue,
+                            child: Text(
+                              'Hủy bỏ',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+                top: -40,
+                child: CircleAvatar(
+                  backgroundColor: Colors.redAccent,
+                  radius: 40,
+                  child: Icon(
+                    Icons.assignment_turned_in_outlined,
+                    color: Colors.white,
+                    size: 40,
+                  ),
+                )),
+          ],
+        ));
   }
 }

@@ -1,6 +1,4 @@
 enum UserType {
-
   TEACHER,
-  STUDENTPARRENT,
-
+  STUDENTPARENT,
 }
