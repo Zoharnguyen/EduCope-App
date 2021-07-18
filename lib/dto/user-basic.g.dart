@@ -7,43 +7,53 @@ part of 'user-basic.dart';
 // **************************************************************************
 
 UserBasic _$UserBasicFromJson(Map<String, dynamic> json) {
-  UserBasic userBasic = new UserBasic();
-  (json['gmail'] != null) ? userBasic.gmail = json['gmail'] as String : null;
-  (json['password'] != null) ? userBasic.password = json['password'] as String : null;
-  (json['userType'] != null) ? userBasic.userType = _$enumDecode(_$UserTypeEnumMap, json['userType']) : null;
-  return userBasic;
+  return UserBasic()
+    ..gmail = json['gmail'] as String?
+    ..password = json['password'] as String?
+    ..userType = _$enumDecodeNullable(_$UserTypeEnumMap, json['userType']);
 }
 
 Map<String, dynamic> _$UserBasicToJson(UserBasic instance) => <String, dynamic>{
-  'gmail': instance.gmail,
-  'password': instance.password,
-  'userType': _$UserTypeEnumMap[instance.userType],
-};
+      'gmail': instance.gmail,
+      'password': instance.password,
+      'userType': _$UserTypeEnumMap[instance.userType],
+    };
 
 K _$enumDecode<K, V>(
-    Map<K, V> enumValues,
-    Object? source, {
-      K? unknownValue,
-    }) {
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
+}) {
   if (source == null) {
     throw ArgumentError(
       'A value must be provided. Supported values: '
-          '${enumValues.values.join(', ')}',
+      '${enumValues.values.join(', ')}',
     );
   }
 
   return enumValues.entries.singleWhere(
-        (e) => e.value == source,
+    (e) => e.value == source,
     orElse: () {
       if (unknownValue == null) {
         throw ArgumentError(
           '`$source` is not one of the supported values: '
-              '${enumValues.values.join(', ')}',
+          '${enumValues.values.join(', ')}',
         );
       }
       return MapEntry(unknownValue, enumValues.values.first);
     },
   ).key;
+}
+
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
+  dynamic source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$UserTypeEnumMap = {

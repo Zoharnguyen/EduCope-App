@@ -5,53 +5,53 @@ part 'adjust-user-profile.g.dart';
 
 @JsonSerializable()
 class AdjustUserProfile {
-  String _adjustId = '';
-  String _dateAdjust = '';
-  String _rate = '';
-  String _content = '';
-  UserProfile _userAdjust = new UserProfile();
-  String _userBeAdjustedId = '';
-  String _courseId = '';
+  String? _adjustId = '';
+  String? _dateAdjust = '';
+  String? _rate = '';
+  String? _content = '';
+  UserProfile? _userAdjust = new UserProfile();
+  String? _userBeAdjustedId = '';
+  String? _courseId = '';
 
-  String get userBeAdjustedId => _userBeAdjustedId;
+  String? get userBeAdjustedId => _userBeAdjustedId;
 
-  set userBeAdjustedId(String value) {
+  set userBeAdjustedId(String? value) {
     _userBeAdjustedId = value;
   }
 
-  String get courseId => _courseId;
+  String? get courseId => _courseId;
 
-  set courseId(String value) {
+  set courseId(String? value) {
     _courseId = value;
   }
 
-  String get adjustId => _adjustId;
+  String? get adjustId => _adjustId;
 
-  set adjustId(String value) {
+  set adjustId(String? value) {
     _adjustId = value;
   }
 
-  String get dateAdjust => _dateAdjust;
+  String? get dateAdjust => _dateAdjust;
 
-  set dateAdjust(String value) {
+  set dateAdjust(String? value) {
     _dateAdjust = value;
   }
 
-  String get rate => _rate;
+  String? get rate => _rate;
 
-  set rate(String value) {
+  set rate(String? value) {
     _rate = value;
   }
 
-  String get content => _content;
+  String? get content => _content;
 
-  set content(String value) {
+  set content(String? value) {
     _content = value;
   }
 
-  UserProfile get userAdjust => _userAdjust;
+  UserProfile? get userAdjust => _userAdjust;
 
-  set userAdjust(UserProfile value) {
+  set userAdjust(UserProfile? value) {
     _userAdjust = value;
   }
 
@@ -60,6 +60,6 @@ class AdjustUserProfile {
   factory AdjustUserProfile.fromJson(Map<String, dynamic> json) =>
       _$AdjustUserProfileFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AdjustUserProfileToJson(this);
+  Map<String?, dynamic> toJson() => _$AdjustUserProfileToJson(this);
 
 }

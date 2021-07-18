@@ -7,86 +7,67 @@ part 'user-profile.g.dart';
 
 @JsonSerializable()
 class UserProfile {
+  
+  String? _id = '';
+  String? _fullName = '';
+  String? _rate = '';
+  String? _introduction = '';
+  String? _urlImageProfile = '';
+  String? _phoneNumber = '';
+  UserType? _userType = UserType.TEACHER;
+  List<AdjustUserProfile>? _adjustUserProfileList = <AdjustUserProfile>[];
+  List<AdjustUserProfile>? get adjustUserProfileList => _adjustUserProfileList;
+  String? _adjustStatus = 'false';
 
-  @JsonKey(defaultValue: '')
-  String _id = '';
+  String? get adjustStatus => _adjustStatus;
 
-  @JsonKey(defaultValue: '')
-  String _fullName = '';
-
-  @JsonKey(defaultValue: '')
-  String _rate = '';
-
-  @JsonKey(defaultValue: '')
-  String _introduction = '';
-
-  @JsonKey(defaultValue: '')
-  String _urlImageProfile = '';
-
-  @JsonKey(defaultValue: '')
-  String _phoneNumber = '';
-
-  @JsonKey(defaultValue: UserType.TEACHER)
-  UserType _userType = UserType.TEACHER;
-
-  @JsonKey(defaultValue: <AdjustUserProfile>[])
-  List<AdjustUserProfile> _adjustUserProfileList = <AdjustUserProfile>[];
-
-  @JsonKey(defaultValue: <AdjustUserProfile>[])
-  List<AdjustUserProfile> get adjustUserProfileList => _adjustUserProfileList;
-
-  @JsonKey(defaultValue: '')
-  String _adjustStatus = 'false';
-
-  String get adjustStatus => _adjustStatus;
-
-  set adjustStatus(String value) {
+  set adjustStatus(String? value) {
     _adjustStatus = value;
   }
 
-  set adjustUserProfileList(List<AdjustUserProfile> value) {
+  set adjustUserProfileList(List<AdjustUserProfile>? value) {
     _adjustUserProfileList = value;
   }
 
-  UserType get userType => _userType;
+  UserType? get userType => _userType;
 
-  set userType(UserType value) {
+  set userType(UserType? value) {
     _userType = value;
   }
 
-  String get id => _id;
+  String? get id => _id;
 
-  set id(String value) {
+  set id(String? value) {
     _id = value;
   }
 
-  String get fullName => _fullName;
+  String? get fullName => _fullName;
 
-  String get phoneNumber => _phoneNumber;
+  String? get phoneNumber => _phoneNumber;
 
-  set phoneNumber(String value) {
+  set phoneNumber(String? value) {
     _phoneNumber = value;
   }
 
-  String get urlImageProfile => _urlImageProfile;
+  String? get urlImageProfile => _urlImageProfile;
 
-  set urlImageProfile(String value) {
+  set urlImageProfile(String? value) {
     _urlImageProfile = value;
   }
 
-  String get introduction => _introduction;
+  String? get introduction => _introduction;
 
-  set introduction(String value) {
+  set introduction(String? value) {
     _introduction = value;
   }
 
-  String get rate => _rate;
+  String? get rate => _rate;
 
-  set rate(String value) {
+  set rate(String? value) {
     _rate = value;
   }
 
-  set fullName(String value) {
+  set fullName(String? value) {
     _fullName = value;
   }
 

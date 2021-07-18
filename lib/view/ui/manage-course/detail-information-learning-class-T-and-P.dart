@@ -163,7 +163,7 @@ Widget _showMemberClass(UserProfile userProfile) {
                           top: height * 0.05 / 5,
                         ),
                         child: Text(
-                          _catchCaseStringNull(userProfile.fullName),
+                          CommonUtils.catchCaseStringNull(userProfile.fullName),
                           style: TextStyle(fontSize: 16, color: Colors.black87),
                         ),
                       ),
@@ -173,7 +173,7 @@ Widget _showMemberClass(UserProfile userProfile) {
                           top: height * 0.05 / 5,
                         ),
                         child: Text(
-                          _catchCaseStringNull(userProfile.rate),
+                          CommonUtils.catchCaseStringNull(userProfile.rate),
                           style: TextStyle(fontSize: 16, color: Colors.black87),
                         ),
                       ),
@@ -193,7 +193,7 @@ Widget _showMemberClass(UserProfile userProfile) {
           child: Align(
             child: Text(
               CommonUtils.mappingRoleWithUserTypeInClass(
-                  _catchCaseStringNull(userProfile.userType.toString())),
+                  CommonUtils.catchCaseStringNull(userProfile.userType.toString())),
               style: TextStyle(fontSize: 16, color: Colors.lightBlue),
             ),
           ),
@@ -214,21 +214,21 @@ Widget generalInformationClass(Offer offer) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           titleForItems('Môn học'),
-          inputShortContentItem(_catchCaseStringNull(offer.subject)),
+          inputShortContentItem(CommonUtils.catchCaseStringNull(offer.subject.toString())),
           titleForItems('Hình thức học'),
-          inputShortContentItem(_catchCaseStringNull(offer.formatLearning)),
+          inputShortContentItem(CommonUtils.catchCaseStringNull(offer.formatLearning.toString())),
           titleForItems('Cấp học'),
-          inputShortContentItem(_catchCaseStringNull(offer.level)),
+          inputShortContentItem(CommonUtils.catchCaseStringNull(offer.level.toString())),
           titleForItems('Ngày học trong tuần'),
           inputShortContentItem(
-              _catchCaseStringNull(offer.scheduleOffer.overview)),
+              CommonUtils.catchCaseStringNull(offer.scheduleOffer!.overview.toString())),
           titleForItems('Thời gian học'),
           inputShortContentItem(
-              _catchCaseStringNull(offer.scheduleOffer.detail)),
+              CommonUtils.catchCaseStringNull(offer.scheduleOffer!.detail.toString())),
           titleForItems('Địa điểm'),
-          inputLongContentItem(_catchCaseStringNull(offer.preferAddress)),
+          inputLongContentItem(CommonUtils.catchCaseStringNull(offer.preferAddress.toString())),
           titleForItems('Lưu ý'),
-          inputLongContentItem(_catchCaseStringNull(offer.note)),
+          inputLongContentItem(CommonUtils.catchCaseStringNull(offer.note.toString())),
           Container(
             margin: EdgeInsets.only(
               bottom: height * 0.5 / 5,
@@ -262,7 +262,7 @@ Container inputShortestContentItem(String value) {
     child: Container(
       margin: EdgeInsets.only(top: height * 0.07 / 5, left: width * 0.02 / 2),
       child: Text(
-        _catchCaseStringNull(value),
+        CommonUtils.catchCaseStringNull(value),
         style: TextStyle(
           fontSize: 16,
         ),
@@ -295,7 +295,7 @@ Container inputShortContentItem(String value) {
     child: Container(
       margin: EdgeInsets.only(top: height * 0.07 / 5, left: width * 0.02 / 2),
       child: Text(
-        _catchCaseStringNull(value),
+        CommonUtils.catchCaseStringNull(value),
         style: TextStyle(
           fontSize: 16,
         ),
@@ -362,7 +362,7 @@ Container inputLongContentItem(String value) {
     child: Container(
       margin: EdgeInsets.only(top: height * 0.02 / 5, left: width * 0.02 / 2),
       child: Text(
-        _catchCaseStringNull(value),
+        CommonUtils.catchCaseStringNull(value),
         style: TextStyle(fontSize: 16),
       ),
     ),
@@ -376,7 +376,7 @@ Future<Offer> getOfferById(String courseId) async {
   ResponseEntity responseEntity = await apiOfferClient.getCourseById(courseId);
   if (responseEntity.getStatus == HttpStatus.ok) {
     Offer offerResponse = Offer.fromJson(responseEntity.data);
-    print('Subject: ' + offerResponse.subject);
+    print('Subject: ' + offerResponse.subject.toString());
     return offerResponse;
     // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
   } else {
@@ -398,13 +398,6 @@ Offer mockOffer() {
   // offer.formatLearning = 'Hoc tai nha';
   // offer.level = 'Trung hoc';
   return offer;
-}
-
-String _catchCaseStringNull(String value) {
-  if (value == null)
-    return '';
-  else
-    return value;
 }
 
 Offer _initializeOffer() {

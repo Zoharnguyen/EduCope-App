@@ -6,31 +6,31 @@ part 'user-basic.g.dart';
 @JsonSerializable()
 class UserBasic {
 
-  String _gmail = '';
-  String _password = '';
-  UserType _userType = UserType.TEACHER;
+  String? _gmail = '';
+  String? _password = '';
+  UserType? _userType = UserType.TEACHER;
 
-  String get gmail => _gmail;
+  String? get gmail => _gmail;
 
-  set gmail(String value) {
+  set gmail(String? value) {
     _gmail = value;
   }
 
-  String get password => _password;
+  String? get password => _password;
 
-  set password(String value) {
+  set password(String? value) {
     _password = value;
   }
 
-  UserType get userType => _userType;
+  UserType? get userType => _userType;
 
-  set userType(UserType value) {
+  set userType(UserType? value) {
     _userType = value;
   }
 
   UserBasic();
 
   factory UserBasic.fromJson(Map<String, dynamic> json) => _$UserBasicFromJson(json);
-  Map<String, dynamic> toJson() => _$UserBasicToJson(this);
+  Map<String?, dynamic> toJson() => _$UserBasicToJson(this);
 
 }

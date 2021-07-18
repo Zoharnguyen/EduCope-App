@@ -8,17 +8,19 @@ part of 'attendance-course.dart';
 
 AttendanceCourse _$AttendanceCourseFromJson(Map<String, dynamic> json) {
   return AttendanceCourse()
-    ..id = json['id'] as String
-    ..courseId = json['courseId'] as String
-    ..dateStudy = json['dateStudy'] as String
-    ..timeStudy = json['timeStudy'] as String
-    ..note = json['note'] as String
-    ..attendanceCourseStatus = _$enumDecode(
+    ..id = json['id'] as String?
+    ..courseId = json['courseId'] as String?
+    ..dateStudy = json['dateStudy'] as String?
+    ..timeStudy = json['timeStudy'] as String?
+    ..note = json['note'] as String?
+    ..attendanceCourseStatus = _$enumDecodeNullable(
         _$CourseRegisterStatusEnumMap, json['attendanceCourseStatus'])
-    ..userAttendance =
-        UserProfile.fromJson(json['userAttendance'] as Map<String, dynamic>)
-    ..userConfirm =
-        UserProfile.fromJson(json['userConfirm'] as Map<String, dynamic>);
+    ..userAttendance = json['userAttendance'] == null
+        ? null
+        : UserProfile.fromJson(json['userAttendance'] as Map<String, dynamic>)
+    ..userConfirm = json['userConfirm'] == null
+        ? null
+        : UserProfile.fromJson(json['userConfirm'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$AttendanceCourseToJson(AttendanceCourse instance) =>
@@ -58,6 +60,17 @@ K _$enumDecode<K, V>(
       return MapEntry(unknownValue, enumValues.values.first);
     },
   ).key;
+}
+
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
+  dynamic source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$CourseRegisterStatusEnumMap = {

@@ -99,10 +99,10 @@ class _ManageAdjustMemInClassTandPPageState extends State<ManageAdjustMemInClass
                 ),
                 body: TabBarView(children: <Widget>[
                   membersClass(
-                      getMemByAdjustStatus(_offer.memberClassList, 'true'),
+                      getMemByAdjustStatus(_offer.memberClassList!.toList(), 'true'),
                       'true'),
                   membersClass(
-                      getMemByAdjustStatus(_offer.memberClassList, 'false'),
+                      getMemByAdjustStatus(_offer.memberClassList!.toList(), 'false'),
                       'false'),
                 ]),
               ));
@@ -189,7 +189,7 @@ Widget _showMemberClass(
                           top: height * 0.05 / 5,
                         ),
                         child: Text(
-                          _catchCaseStringNull(userProfile.fullName),
+                          CommonUtils.catchCaseStringNull(userProfile.fullName),
                           style: TextStyle(fontSize: 16, color: Colors.black87),
                         ),
                       ),
@@ -199,7 +199,7 @@ Widget _showMemberClass(
                           top: height * 0.05 / 5,
                         ),
                         child: Text(
-                          _catchCaseStringNull(userProfile.rate),
+                          CommonUtils.catchCaseStringNull(userProfile.rate),
                           style: TextStyle(fontSize: 16, color: Colors.black87),
                         ),
                       ),
@@ -222,7 +222,7 @@ Future<Offer> getOfferById(String courseId) async {
   ResponseEntity responseEntity = await apiOfferClient.getCourseById(courseId);
   if (responseEntity.getStatus == HttpStatus.ok) {
     Offer offerResponse = Offer.fromJson(responseEntity.data);
-    print('Subject: ' + offerResponse.subject);
+    print('Subject: ' + offerResponse.subject.toString());
     return offerResponse;
     // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
   } else {
@@ -244,13 +244,6 @@ Offer mockOffer() {
   // offer.formatLearning = 'Hoc tai nha';
   // offer.level = 'Trung hoc';
   return offer;
-}
-
-String _catchCaseStringNull(String value) {
-  if (value == null)
-    return '';
-  else
-    return value;
 }
 
 Offer _initializeOffer() {
@@ -361,14 +354,14 @@ List<UserProfile> getMemByAdjustStatus(
 Future<Widget> adjustMember(AdjustUserProfile adjustUserProfile) async {
   adjustUserProfile.courseId = courseId;
   adjustUserProfile.userBeAdjustedId = userBeAdjustedId;
-  adjustUserProfile.userAdjust.fullName = 'Nguyen V AAA';
+  adjustUserProfile.userAdjust!.fullName = 'Nguyen V AAA';
   APIAcountClient apiAcountClient =
       APIAcountClient(Dio(BaseOptions(contentType: "application/json")));
   ResponseEntity responseEntity =
       await apiAcountClient.adjustUser(adjustUserProfile);
   if (responseEntity.getStatus == HttpStatus.ok) {
     UserProfile response = UserProfile.fromJson(responseEntity.data);
-    print('Id: ' + response.id);
+    print('Id: ' + response.id.toString());
     return Text('Success!');
     // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
   } else {

@@ -8,9 +8,11 @@ part of 'course-contract-wrap.dart';
 
 CourseContractWrap _$CourseContractWrapFromJson(Map<String, dynamic> json) {
   return CourseContractWrap()
-    ..courseId = json['courseId'] as String
-    ..courseContract =
-        CourseContract.fromJson(json['courseContract'] as Map<String, dynamic>);
+    ..courseId = json['courseId'] as String?
+    ..courseContract = json['courseContract'] == null
+        ? null
+        : CourseContract.fromJson(
+            json['courseContract'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$CourseContractWrapToJson(CourseContractWrap instance) =>

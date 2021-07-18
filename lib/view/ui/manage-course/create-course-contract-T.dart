@@ -108,9 +108,9 @@ class _CreateCourseContractTPageState extends State<CreateCourseContractTPage> {
                   children: <Widget>[
                     titleForItems('Mon hoc'),
                     inputShortContentItem(
-                        setValueIfStringNull(_offer.subject), 'subject', _courseContractWrap),
+                        setValueIfStringNull(_offer.subject.toString()), 'subject', _courseContractWrap),
                     titleForItems('Hoc phi'),
-                    inputShortContentItem(setValueIfStringNull(_offer.salary), 'salary', _courseContractWrap),
+                    inputShortContentItem(setValueIfStringNull(_offer.salary.toString()), 'salary', _courseContractWrap),
                     titleForItems('Thanh toán sau'),
                     inputShortContentItem(
                         '10 ngày', 'paymentDate', _courseContractWrap),
@@ -149,7 +149,7 @@ class _CreateCourseContractTPageState extends State<CreateCourseContractTPage> {
                         onChanged: (value) {
                           setState(() {
                             _formatLearning = value!;
-                            _courseContractWrap.courseContract.formatLearning = _formatLearning;
+                            _courseContractWrap.courseContract!.formatLearning = _formatLearning;
                             // After selected drop down then cursor don't focus any text field
                             FocusScope.of(context)
                                 .requestFocus(new FocusNode());
@@ -159,7 +159,7 @@ class _CreateCourseContractTPageState extends State<CreateCourseContractTPage> {
                     ),
                     titleForItems('Luu y'),
                     inputLongContentItem(
-                        setValueIfStringNull(_offer.note), "note", _courseContractWrap),
+                        setValueIfStringNull(_offer.note.toString()), "note", _courseContractWrap),
                     Container(
                       height: height * 0.3 / 5,
                       width: width * 0.6 / 2,
@@ -377,19 +377,19 @@ void setValueForOffer(String value, String fieldName,
     CourseContractWrap courseContractWrap) {
   switch (fieldName) {
     case 'subject':
-      courseContractWrap.courseContract.subject = value;
+      courseContractWrap.courseContract!.subject = value;
       break;
     case 'formatLearning':
-      courseContractWrap.courseContract.formatLearning = value;
+      courseContractWrap.courseContract!.formatLearning = value;
       break;
     case 'salary':
-      courseContractWrap.courseContract.salary = value;
+      courseContractWrap.courseContract!.salary = value;
       break;
     case 'note':
-      courseContractWrap.courseContract.note = value;
+      courseContractWrap.courseContract!.note = value;
       break;
     case 'paymentDate':
-      courseContractWrap.courseContract.paymentDate = value;
+      courseContractWrap.courseContract!.paymentDate = value;
       break;
   }
 }
@@ -423,7 +423,7 @@ Future<Widget> _createCourseContract(CourseContractWrap courseContractWrap) asyn
   ResponseEntity responseEntity = await apiOfferClient.createCourseContract(courseContractWrap);
   if (responseEntity.getStatus == HttpStatus.ok) {
     CourseContractWrap response = CourseContractWrap.fromJson(responseEntity.data);
-    print('Id: ' + response.courseId);
+    print('Id: ' + response.courseId.toString());
     return Text('Success!');
   } else {
     // Show pop up notification about fail reason.
@@ -438,7 +438,7 @@ Future<Offer> getOfferById(String courseId) async {
   ResponseEntity responseEntity = await apiOfferClient.getCourseById(courseId);
   if (responseEntity.getStatus == HttpStatus.ok) {
     Offer offerResponse = Offer.fromJson(responseEntity.data);
-    print('Subject: ' + offerResponse.subject);
+    print('Subject: ' + offerResponse.subject.toString());
     return offerResponse;
     // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
   } else {

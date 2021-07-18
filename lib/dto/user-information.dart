@@ -7,45 +7,40 @@ part 'user-information.g.dart';
 
 @JsonSerializable()
 class UserInformation extends UserProfile {
+  
+  String? _certificate = '';
+  String? _DoB = '';
+  String? _experience = '';
+  String? _gender = '';
+  String? _address = '';
 
-  @JsonKey(defaultValue: '')
-  String _certificate = '';
-  @JsonKey(defaultValue: '')
-  String _DoB = '';
-  @JsonKey(defaultValue: '')
-  String _experience = '';
-  @JsonKey(defaultValue: '')
-  String _gender = '';
-  @JsonKey(defaultValue: '')
-  String _address = '';
+  String? get certificate => _certificate;
 
-  String get certificate => _certificate;
-
-  set certificate(String value) {
+  set certificate(String? value) {
     _certificate = value;
   }
 
-  String get DoB => _DoB;
+  String? get DoB => _DoB;
 
-  set DoB(String value) {
+  set DoB(String? value) {
     _DoB = value;
   }
 
-  String get experience => _experience;
+  String? get experience => _experience;
 
-  set experience(String value) {
+  set experience(String? value) {
     _experience = value;
   }
 
-  String get gender => _gender;
+  String? get gender => _gender;
 
-  set gender(String value) {
+  set gender(String? value) {
     _gender = value;
   }
 
-  String get address => _address;
+  String? get address => _address;
 
-  set address(String value) {
+  set address(String? value) {
     _address = value;
   }
 

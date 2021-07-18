@@ -7,10 +7,9 @@ part of 'schedule-offer.dart';
 // **************************************************************************
 
 ScheduleOffer _$ScheduleOfferFromJson(Map<String, dynamic> json) {
-  ScheduleOffer scheduleOffer = new ScheduleOffer();
-  (json['overview'] != null) ? scheduleOffer.overview = json['overview'] as String : null;
-  (json['detail'] != null) ? scheduleOffer.detail = json['detail'] as String : null;
-  return scheduleOffer;
+  return ScheduleOffer()
+    ..overview = json['overview'] as String?
+    ..detail = json['detail'] as String?;
 }
 
 Map<String, dynamic> _$ScheduleOfferToJson(ScheduleOffer instance) =>

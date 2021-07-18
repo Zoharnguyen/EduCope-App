@@ -213,7 +213,7 @@ Future<List<CourseStatus>> _fetchCourseStatusList(
     List listDecoded = responseEntity.data;
     CourseStatus courseStatusResponse =
         CourseStatus.fromJson(responseEntity.data[0]);
-    print('Subject: ' + courseStatusResponse.courseStatusId);
+    print('ID: ' + courseStatusResponse.courseStatusId.toString());
     return listDecoded
         .map((courseStatus) => new CourseStatus.fromJson(courseStatus))
         .toList();
@@ -283,8 +283,8 @@ Widget _jobsShowUserProfileRegisterOffer(CourseStatus courseStatus,
                           top: height * 0.05 / 5,
                         ),
                         child: Text(
-                          _catchCaseStringNull(
-                              courseStatus.userProfile.fullName),
+                          CommonUtils.catchCaseStringNull(
+                              courseStatus.userProfile!.fullName),
                           style: TextStyle(fontSize: 16, color: Colors.black87),
                         ),
                       ),
@@ -294,7 +294,7 @@ Widget _jobsShowUserProfileRegisterOffer(CourseStatus courseStatus,
                           top: height * 0.05 / 5,
                         ),
                         child: Text(
-                          _catchCaseStringNull(courseStatus.userProfile.rate),
+                          CommonUtils.catchCaseStringNull(courseStatus.userProfile!.rate),
                           style: TextStyle(fontSize: 16, color: Colors.black87),
                         ),
                       ),
@@ -353,13 +353,6 @@ Widget showRejectButton(CourseRegisterStatus courseRegisterStatus,
       ),
     );
   return Container();
-}
-
-String _catchCaseStringNull(String value) {
-  if (value == null)
-    return '';
-  else
-    return value;
 }
 
 class AcceptRegisterAlert extends StatelessWidget {
@@ -489,7 +482,7 @@ Future<Widget> _updateCourseStatus(CourseStatus courseStatus, String courseId,
   CourseStatusWrap courseStatusWrap = new CourseStatusWrap();
   courseStatusWrap.courseId = courseId;
   courseStatusWrap.courseStatus = courseStatus;
-  courseStatusWrap.courseStatus.courseRegisterStatus = courseRegisterStatus;
+  courseStatusWrap.courseStatus!.courseRegisterStatus = courseRegisterStatus;
   APIOfferClient apiOfferClient =
       APIOfferClient(Dio(BaseOptions(contentType: "application/json")));
   ResponseEntity responseEntity =
@@ -497,7 +490,7 @@ Future<Widget> _updateCourseStatus(CourseStatus courseStatus, String courseId,
   if (responseEntity.getStatus == HttpStatus.ok) {
     CourseStatusWrap courseStatusWrapResponse =
         CourseStatusWrap.fromJson(responseEntity.data);
-    print('Id: ' + courseStatusWrapResponse.courseId);
+    print('Id: ' + courseStatusWrapResponse.courseId.toString());
     return Text('Success!');
     // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
   } else {

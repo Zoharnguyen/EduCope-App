@@ -6,11 +6,11 @@ import 'package:edu_cope/dto/offer.dart';
 import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/dto/user-profile.dart';
 import 'package:edu_cope/service/api-offer.dart';
+import 'package:edu_cope/view/ui/basic-operate-course/show-all-offer-openning-course-T-and-P.dart';
 import 'package:edu_cope/view/ui/manage-course/manage-class-T-and-P.dart';
 import 'package:edu_cope/view/ui/manage-course/manage-detail-openning-class-T-and-P.dart';
 import 'package:edu_cope/view/ui/manage-profile/manage-profile-T-and-P.dart';
 import 'package:edu_cope/view/ui/notification/show-all-notification.dart';
-import 'package:edu_cope/view/ui/basic-operate-course/show-all-offer-openning-course-T-and-P.dart';
 import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -226,7 +226,8 @@ class _HomePageTState extends State<HomePageT> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ManageClassTandPPage()));
+                                    builder: (context) =>
+                                        ManageClassTandPPage()));
                           },
                           child: new Image.asset('asset/image/class.png'),
                         ),
@@ -432,8 +433,11 @@ class _HomePageTState extends State<HomePageT> {
                     height: height * 0.4 / 5,
                     child: FlatButton(
                       onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => ManageProfileTandPPage()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    ManageProfileTandPPage()));
                       },
                       child: new Image.asset('asset/image/personal_blue.png'),
                     )),
@@ -487,8 +491,11 @@ Future<List<Offer>> _fetchOffers() async {
   if (responseEntity.getStatus == HttpStatus.ok) {
     List listDecoded = responseEntity.data;
     Offer offerResponse = Offer.fromJson(responseEntity.data[0]);
-    print('Subject: ' + offerResponse.subject);
-    return listDecoded.map((offer) => new Offer.fromJson(offer)).toList();
+    print('Subject: ' + offerResponse.subject.toString());
+    List<Offer> offers =
+        listDecoded.map((offer) => new Offer.fromJson(offer)).toList();
+    print('length: ' + offers.length.toString());
+    return offers;
     // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
   } else {
     // Show pop up notification about fail reason.
@@ -503,10 +510,10 @@ ListView _jobsListView(data) {
       itemCount: data.length,
       itemBuilder: (context, index) {
         return _jobsShowOffer(
-            data[index].subject,
-            data[index].salary,
-            data[index].formatLearning,
-            data[index].level,
+            CommonUtils.catchCaseStringNull(data[index].subject),
+            CommonUtils.catchCaseStringNull(data[index].salary),
+            CommonUtils.catchCaseStringNull(data[index].formatLearning),
+            CommonUtils.catchCaseStringNull(data[index].level),
             data[index].profileAuthor,
             context);
       });
@@ -580,7 +587,7 @@ Widget _jobsShowOffer(String subject, String salary, String formatLearning,
                         left: width * 0.02 / 2,
                       ),
                       child: Text(
-                        'Mon hoc: ' + _catchCaseStringNull(subject),
+                        'Mon hoc: ' + CommonUtils.catchCaseStringNull(subject),
                         style: TextStyle(
                           fontSize: 14,
                           fontFamily: "Roboto",
@@ -594,7 +601,8 @@ Widget _jobsShowOffer(String subject, String salary, String formatLearning,
                         left: width * 0.02 / 2,
                       ),
                       child: Text(
-                        'Hinh thuc hoc: ' + _catchCaseStringNull(formatLearning),
+                        'Hinh thuc hoc: ' +
+                            CommonUtils.catchCaseStringNull(formatLearning),
                         style: TextStyle(
                           fontSize: 14,
                           fontFamily: "Roboto",
@@ -608,7 +616,7 @@ Widget _jobsShowOffer(String subject, String salary, String formatLearning,
                         left: width * 0.02 / 2,
                       ),
                       child: Text(
-                        'Muc Luong: ' + _catchCaseStringNull(salary),
+                        'Muc Luong: ' + CommonUtils.catchCaseStringNull(salary),
                         style: TextStyle(
                           fontSize: 14,
                           fontFamily: "Roboto",
@@ -640,7 +648,7 @@ Widget _jobsShowOffer(String subject, String salary, String formatLearning,
                           left: width * 0.02 / 2,
                         ),
                         child: Text(
-                          _catchCaseStringNull(profileAuthor.rate),
+                          CommonUtils.catchCaseStringNull(profileAuthor.rate.toString()),
                           style: TextStyle(
                             fontSize: 14,
                             fontFamily: "Roboto",
@@ -654,7 +662,7 @@ Widget _jobsShowOffer(String subject, String salary, String formatLearning,
                           left: width * 0.02 / 2,
                         ),
                         child: Text(
-                          _catchCaseStringNull(profileAuthor.phoneNumber),
+                          CommonUtils.catchCaseStringNull(profileAuthor.phoneNumber),
                           style: TextStyle(
                             fontSize: 14,
                             fontFamily: "Roboto",
@@ -686,11 +694,4 @@ Widget _jobsShowOffer(String subject, String salary, String formatLearning,
       ],
     ),
   );
-}
-
-String _catchCaseStringNull(String value) {
-  if (value == null)
-    return '';
-  else
-    return value;
 }

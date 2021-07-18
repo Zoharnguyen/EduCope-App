@@ -8,6 +8,7 @@ import 'package:edu_cope/dto/user-profile.dart';
 import 'package:edu_cope/service/api-offer.dart';
 import 'package:edu_cope/view/ui/basic-operate-course/detail-information-opening-and-not-offer-class-T-and-P.dart';
 import 'package:edu_cope/view/ui/manage-profile/manage-profile-T-and-P.dart';
+import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/material.dart';
 
 import 'create-offer-class-T.dart';
@@ -262,7 +263,7 @@ Future<List<Offer>> _fetchLearningOffers(String subject) async {
   if (responseEntity.getStatus == HttpStatus.ok) {
     List listDecoded = responseEntity.data;
     Offer offerResponse = Offer.fromJson(responseEntity.data[0]);
-    print('Subject: ' + offerResponse.subject);
+    print('Subject: ' + offerResponse.subject.toString());
     return listDecoded.map((offer) => new Offer.fromJson(offer)).toList();
     // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
   } else {
@@ -372,7 +373,7 @@ Widget _jobsShowOffer(String subject, String salary, String formatLearning,
                         left: width * 0.02 / 2,
                       ),
                       child: Text(
-                        'Mon hoc: ' + _catchCaseStringNull(subject),
+                        'Mon hoc: ' + CommonUtils.catchCaseStringNull(subject),
                         style: TextStyle(
                           fontSize: 14,
                           fontFamily: "Roboto",
@@ -386,7 +387,7 @@ Widget _jobsShowOffer(String subject, String salary, String formatLearning,
                         left: width * 0.02 / 2,
                       ),
                       child: Text(
-                        'Hinh thuc hoc: ' + _catchCaseStringNull(formatLearning),
+                        'Hinh thuc hoc: ' + CommonUtils.catchCaseStringNull(formatLearning),
                         style: TextStyle(
                           fontSize: 14,
                           fontFamily: "Roboto",
@@ -436,7 +437,7 @@ Widget _jobsShowOffer(String subject, String salary, String formatLearning,
                           right: width * 0.02 / 2,
                         ),
                         child: Text(
-                          _catchCaseStringNull(profileAuthor.rate),
+                          CommonUtils.catchCaseStringNull(profileAuthor.rate),
                           style: TextStyle(
                             fontSize: 14,
                             fontFamily: "Roboto",
@@ -450,7 +451,7 @@ Widget _jobsShowOffer(String subject, String salary, String formatLearning,
                           right: width * 0.02 / 2,
                         ),
                         child: Text(
-                          _catchCaseStringNull(profileAuthor.phoneNumber),
+                          CommonUtils.catchCaseStringNull(profileAuthor.phoneNumber),
                           style: TextStyle(
                             fontSize: 14,
                             fontFamily: "Roboto",
@@ -481,11 +482,4 @@ Widget _jobsShowOffer(String subject, String salary, String formatLearning,
       ],
     ),
   );
-}
-
-String _catchCaseStringNull(String value) {
-  if (value == null)
-    return '';
-  else
-    return value;
 }

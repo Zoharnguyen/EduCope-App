@@ -251,7 +251,7 @@ Future<UserProfile> getUserProfileById(String userId) async {
       await apiAcountClient.getUserProfileById(userId);
   if (responseEntity.getStatus == HttpStatus.ok) {
     UserProfile response = UserProfile.fromJson(responseEntity.data);
-    print('Id: ' + response.id);
+    print('Id: ' + response.id.toString());
     return response;
     // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
   } else {

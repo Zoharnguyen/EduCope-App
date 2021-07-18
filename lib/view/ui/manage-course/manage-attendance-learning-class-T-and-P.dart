@@ -178,7 +178,7 @@ Future<List<AttendanceCourse>> _fetchAttendanceCourseList(
     List listDecoded = responseEntity.data;
     AttendanceCourse attendanceCourseResponse =
         AttendanceCourse.fromJson(responseEntity.data[0]);
-    print('Id: ' + attendanceCourseResponse.id);
+    print('Id: ' + attendanceCourseResponse.id.toString());
     return listDecoded
         .map((attendanceCourse) =>
             new AttendanceCourse.fromJson(attendanceCourse))
@@ -456,7 +456,7 @@ Future<Widget> _createAttendanceCourse(
   if (responseEntity.getStatus == HttpStatus.ok) {
     AttendanceCourse response = AttendanceCourse.fromJson(responseEntity.data);
     ;
-    print('Id: ' + response.id);
+    print('Id: ' + response.id.toString());
     return Text('Success!');
     // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
   } else {

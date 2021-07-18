@@ -131,9 +131,9 @@ class _DetailInformationOpeningAndNotOfferClassTandPPageState
                         child: Column(
                           children: <Widget>[
                             titleForItems('Môn học'),
-                            inputShortestContentItem(_offer.subject),
+                            inputShortestContentItem(_offer.subject.toString()),
                             titleForItems('Mức lương'),
-                            inputShortestContentItem(_offer.salary),
+                            inputShortestContentItem(_offer.salary.toString()),
                           ],
                         ),
                       ),
@@ -242,17 +242,17 @@ class _DetailInformationOpeningAndNotOfferClassTandPPageState
                   ),
                 ),
                 titleForItems('Hinh thuc hoc'),
-                inputShortContentItem(_offer.formatLearning),
+                inputShortContentItem(_offer.formatLearning.toString()),
                 titleForItems('Cấp học'),
-                inputShortContentItem(_offer.level),
+                inputShortContentItem(_offer.level.toString()),
                 titleForItems('Ngay hoc trong tuan'),
-                inputShortContentItem(_offer.scheduleOffer.overview),
+                inputShortContentItem(_offer.scheduleOffer!.overview.toString()),
                 titleForItems('Thoi gian hoc'),
-                inputShortContentItem(_offer.scheduleOffer.detail),
+                inputShortContentItem(_offer.scheduleOffer!.detail.toString()),
                 titleForItems('Dia diem(Neu chon hoc tai nha)'),
-                inputShortContentItem(_offer.preferAddress),
+                inputShortContentItem(_offer.preferAddress.toString()),
                 titleForItems('Luu y'),
-                inputLongContentItem(_offer.note),
+                inputLongContentItem(_offer.note.toString()),
                 Container(
                   margin: EdgeInsets.only(
                     bottom: height * 0.5 / 5,
@@ -416,7 +416,7 @@ Future<Offer> getOfferById() async {
   ResponseEntity responseEntity = await apiOfferClient.getCourseById(courseId);
   if (responseEntity.getStatus == HttpStatus.ok) {
     Offer offerResponse = Offer.fromJson(responseEntity.data);
-    print('Subject: ' + offerResponse.subject);
+    print('Subject: ' + offerResponse.subject.toString());
     return offerResponse;
     // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
   } else {

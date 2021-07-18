@@ -8,66 +8,66 @@ part 'attendance-course.g.dart';
 @JsonSerializable()
 class AttendanceCourse {
 
-  String _id = '';
-  String _courseId = '';
-  String _dateStudy = '';
-  String _timeStudy = '';
-  String _note = '';
-  CourseRegisterStatus _attendanceCourseStatus = CourseRegisterStatus.PENDING;
-  UserProfile _userAttendance = new UserProfile();
-  UserProfile _userConfirm = new UserProfile();
+  String? _id = '';
+  String? _courseId = '';
+  String? _dateStudy = '';
+  String? _timeStudy = '';
+  String? _note = '';
+  CourseRegisterStatus? _attendanceCourseStatus = CourseRegisterStatus.PENDING;
+  UserProfile? _userAttendance = new UserProfile();
+  UserProfile? _userConfirm = new UserProfile();
 
-  String get id => _id;
+  String? get id => _id;
 
-  set id(String value) {
+  set id(String? value) {
     _id = value;
   }
 
-  String get courseId => _courseId;
+  String? get courseId => _courseId;
 
-  set courseId(String value) {
+  set courseId(String? value) {
     _courseId = value;
   }
 
-  String get dateStudy => _dateStudy;
+  String? get dateStudy => _dateStudy;
 
-  set dateStudy(String value) {
+  set dateStudy(String? value) {
     _dateStudy = value;
   }
 
-  String get timeStudy => _timeStudy;
+  String? get timeStudy => _timeStudy;
 
-  set timeStudy(String value) {
+  set timeStudy(String? value) {
     _timeStudy = value;
   }
 
-  String get note => _note;
+  String? get note => _note;
 
-  set note(String value) {
+  set note(String? value) {
     _note = value;
   }
 
-  CourseRegisterStatus get attendanceCourseStatus => _attendanceCourseStatus;
+  CourseRegisterStatus? get attendanceCourseStatus => _attendanceCourseStatus;
 
-  set attendanceCourseStatus(CourseRegisterStatus value) {
+  set attendanceCourseStatus(CourseRegisterStatus? value) {
     _attendanceCourseStatus = value;
   }
 
-  UserProfile get userAttendance => _userAttendance;
+  UserProfile? get userAttendance => _userAttendance;
 
-  set userAttendance(UserProfile value) {
+  set userAttendance(UserProfile? value) {
     _userAttendance = value;
   }
 
-  UserProfile get userConfirm => _userConfirm;
+  UserProfile? get userConfirm => _userConfirm;
 
-  set userConfirm(UserProfile value) {
+  set userConfirm(UserProfile? value) {
     _userConfirm = value;
   }
 
   AttendanceCourse();
 
   factory AttendanceCourse.fromJson(Map<String, dynamic> json) => _$AttendanceCourseFromJson(json);
-  Map<String, dynamic> toJson() => _$AttendanceCourseToJson(this);
+  Map<String?, dynamic> toJson() => _$AttendanceCourseToJson(this);
 
 }

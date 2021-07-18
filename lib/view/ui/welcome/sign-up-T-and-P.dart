@@ -217,8 +217,8 @@ class _SignUpTandPPageState extends State<SignUpTandPPage> {
                     ResponseEntity responseEntity = await apiAccountClient.login(userBasic);
                     if(responseEntity.getStatus == HttpStatus.ok) {
                       UserBasic userBasicCheck = UserBasic.fromJson(responseEntity.data);
-                      print('Gmail: ' + userBasicCheck.gmail);
-                      print('Password: ' + userBasicCheck.password);
+                      print('Gmail: ' + CommonUtils.catchCaseStringNull(userBasicCheck.gmail));
+                      print('Password: ' + CommonUtils.catchCaseStringNull(userBasicCheck.password));
                       print('Type: ' + userBasicCheck.userType.toString());
                       Navigator.push(context, MaterialPageRoute(builder: (context) => HomePageT()));
                     } else {

@@ -317,10 +317,10 @@ void setValueForOffer(String value, String fieldName, Offer offer) {
       offer.subject = value;
       break;
     case 'scheduleOffer.overview':
-      offer.scheduleOffer.overview = value;
+      offer.scheduleOffer!.overview = value;
       break;
     case 'scheduleOffer.detail':
-      offer.scheduleOffer.detail = value;
+      offer.scheduleOffer!.detail = value;
       break;
     case 'level':
       offer.level = value;
@@ -415,14 +415,14 @@ Container inputLongContentItem(String initialValueItem) {
 
 Future<Widget> _updateOffer(Offer offer) async {
   offer.id = "60e394825ded485c37a643f1";
-  offer.profileAuthor.fullName = 'Nguyen AAA';
+  offer.profileAuthor!.fullName = 'Nguyen AAA';
   APIOfferClient apiOfferClient =
   APIOfferClient(Dio(BaseOptions(contentType: "application/json")));
   ResponseEntity responseEntity = await apiOfferClient.updateOffer(offer);
   if (responseEntity.getStatus == HttpStatus.ok) {
     Offer offerResponse = Offer.fromJson(responseEntity.data);
-    print('Subject: ' + offerResponse.subject);
-    print('Id: ' + offerResponse.id);
+    print('Subject: ' + offerResponse.subject.toString());
+    print('Id: ' + offerResponse.id.toString());
     return Text('Success!');
     // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
   } else {

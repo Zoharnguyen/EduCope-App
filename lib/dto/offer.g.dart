@@ -8,40 +8,35 @@ part of 'offer.dart';
 
 Offer _$OfferFromJson(Map<String, dynamic> json) {
   return Offer()
-    ..courseType = _$enumDecode(_$CourseTypeEnumMap, json['courseType'])
-    ..memberClassList = (json['memberClassList'] as List<dynamic>)
-        .map((e) => UserProfile.fromJson(e as Map<String, dynamic>))
+    ..id = json['id'] as String?
+    ..offerType = _$enumDecodeNullable(_$OfferTypeEnumMap, json['offerType'])
+    ..subject = json['subject'] as String?
+    ..level = json['level'] as String?
+    ..formatLearning = json['formatLearning'] as String?
+    ..salary = json['salary'] as String?
+    ..introductionAuthorOffer = json['introductionAuthorOffer'] as String?
+    ..note = json['note'] as String?
+    ..profileAuthor = json['profileAuthor'] == null
+        ? null
+        : UserProfile.fromJson(json['profileAuthor'] as Map<String, dynamic>)
+    ..scheduleOffer = json['scheduleOffer'] == null
+        ? null
+        : ScheduleOffer.fromJson(json['scheduleOffer'] as Map<String, dynamic>)
+    ..preferAddress = json['preferAddress'] as String?
+    ..courseStatus = (json['courseStatus'] as List<dynamic>?)
+        ?.map((e) => CourseStatus.fromJson(e as Map<String, dynamic>))
         .toList()
-    ..courseStatusList = (json['courseStatusList'] as List<dynamic>)
-        .map((e) => CourseStatus.fromJson(e as Map<String, dynamic>))
+    ..courseContract = (json['courseContract'] as List<dynamic>?)
+        ?.map((e) => CourseContract.fromJson(e as Map<String, dynamic>))
         .toList()
-    ..courseStatus = (json['courseStatus'] as List<dynamic>)
-        .map((e) => CourseStatus.fromJson(e as Map<String, dynamic>))
+    ..memberClassList = (json['memberClassList'] as List<dynamic>?)
+        ?.map((e) => UserProfile.fromJson(e as Map<String, dynamic>))
         .toList()
-    ..preferAddress = json['preferAddress'] as String
-    ..id = json['id'] as String
-    ..offerType = _$enumDecode(_$OfferTypeEnumMap, json['offerType'])
-    ..subject = json['subject'] as String
-    ..level = json['level'] as String
-    ..formatLearning = json['formatLearning'] as String
-    ..salary = json['salary'] as String
-    ..introductionAuthorOffer = json['introductionAuthorOffer'] as String
-    ..note = json['note'] as String
-    ..profileAuthor =
-        UserProfile.fromJson(json['profileAuthor'] as Map<String, dynamic>)
-    ..scheduleOffer =
-        ScheduleOffer.fromJson(json['scheduleOffer'] as Map<String, dynamic>)
-    ..courseContract = (json['courseContract'] as List<dynamic>)
-        .map((e) => CourseContract.fromJson(e as Map<String, dynamic>))
-        .toList();
+    ..courseType =
+        _$enumDecodeNullable(_$CourseTypeEnumMap, json['courseType']);
 }
 
 Map<String, dynamic> _$OfferToJson(Offer instance) => <String, dynamic>{
-      'courseType': _$CourseTypeEnumMap[instance.courseType],
-      'memberClassList': instance.memberClassList,
-      'courseStatusList': instance.courseStatusList,
-      'courseStatus': instance.courseStatus,
-      'preferAddress': instance.preferAddress,
       'id': instance.id,
       'offerType': _$OfferTypeEnumMap[instance.offerType],
       'subject': instance.subject,
@@ -52,7 +47,11 @@ Map<String, dynamic> _$OfferToJson(Offer instance) => <String, dynamic>{
       'note': instance.note,
       'profileAuthor': instance.profileAuthor,
       'scheduleOffer': instance.scheduleOffer,
+      'preferAddress': instance.preferAddress,
+      'courseStatus': instance.courseStatus,
       'courseContract': instance.courseContract,
+      'memberClassList': instance.memberClassList,
+      'courseType': _$CourseTypeEnumMap[instance.courseType],
     };
 
 K _$enumDecode<K, V>(
@@ -81,13 +80,24 @@ K _$enumDecode<K, V>(
   ).key;
 }
 
-const _$CourseTypeEnumMap = {
-  CourseType.LEARNING: 'LEARNING',
-  CourseType.OPENING: 'OPENING',
-  CourseType.END: 'END',
-};
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
+  dynamic source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
+}
 
 const _$OfferTypeEnumMap = {
   OfferType.TEACHER: 'TEACHER',
   OfferType.COURSE: 'COURSE',
+};
+
+const _$CourseTypeEnumMap = {
+  CourseType.LEARNING: 'LEARNING',
+  CourseType.OPENING: 'OPENING',
+  CourseType.END: 'END',
 };

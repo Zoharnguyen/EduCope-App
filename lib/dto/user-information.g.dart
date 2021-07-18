@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user-profile.dart';
+part of 'user-information.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-UserProfile _$UserProfileFromJson(Map<String, dynamic> json) {
-  return UserProfile()
+UserInformation _$UserInformationFromJson(Map<String, dynamic> json) {
+  return UserInformation()
     ..adjustUserProfileList = (json['adjustUserProfileList'] as List<dynamic>?)
         ?.map((e) => AdjustUserProfile.fromJson(e as Map<String, dynamic>))
         .toList()
@@ -18,10 +18,15 @@ UserProfile _$UserProfileFromJson(Map<String, dynamic> json) {
     ..phoneNumber = json['phoneNumber'] as String?
     ..urlImageProfile = json['urlImageProfile'] as String?
     ..introduction = json['introduction'] as String?
-    ..rate = json['rate'] as String?;
+    ..rate = json['rate'] as String?
+    ..certificate = json['certificate'] as String?
+    ..DoB = json['DoB'] as String?
+    ..experience = json['experience'] as String?
+    ..gender = json['gender'] as String?
+    ..address = json['address'] as String?;
 }
 
-Map<String, dynamic> _$UserProfileToJson(UserProfile instance) =>
+Map<String, dynamic> _$UserInformationToJson(UserInformation instance) =>
     <String, dynamic>{
       'adjustUserProfileList': instance.adjustUserProfileList,
       'adjustStatus': instance.adjustStatus,
@@ -32,6 +37,11 @@ Map<String, dynamic> _$UserProfileToJson(UserProfile instance) =>
       'urlImageProfile': instance.urlImageProfile,
       'introduction': instance.introduction,
       'rate': instance.rate,
+      'certificate': instance.certificate,
+      'DoB': instance.DoB,
+      'experience': instance.experience,
+      'gender': instance.gender,
+      'address': instance.address,
     };
 
 K _$enumDecode<K, V>(

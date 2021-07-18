@@ -30,14 +30,14 @@ class CommonUtils {
   }
 
   static String mappingValueWithCourseStatusEnum(
-      CourseRegisterStatus courseRegisterStatus) {
+      CourseRegisterStatus? courseRegisterStatus) {
     if (courseRegisterStatus == CourseRegisterStatus.ACCEPT) return "Accept";
     if (courseRegisterStatus == CourseRegisterStatus.PENDING) return "Pending";
     if (courseRegisterStatus == CourseRegisterStatus.REJECT) return "Reject";
     return '';
   }
 
-  static String catchCaseStringNull(String value) {
+  static String catchCaseStringNull(var value) {
     if (value == null)
       return '';
     else

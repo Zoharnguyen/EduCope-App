@@ -339,10 +339,10 @@ void setValueForOffer(String value, String fieldName, Offer offer) {
       offer.subject = value;
       break;
     case 'scheduleOffer.overview':
-      offer.scheduleOffer.overview = value;
+      offer.scheduleOffer!.overview = value;
       break;
     case 'scheduleOffer.detail':
-      offer.scheduleOffer.detail = value;
+      offer.scheduleOffer!.detail = value;
       break;
     case 'level':
       offer.level = value;
@@ -435,7 +435,7 @@ Container inputLongContentItem(String initialValueItem) {
 }
 
 Future<Widget> _createOffer(Offer offer) async {
-  offer.profileAuthor.id = '60b30dbe7d31c248aa760f27';
+  offer.profileAuthor!.id = '60b30dbe7d31c248aa760f27';
   offer.offerType = OfferType.TEACHER;
   setValueForOfferIfNull(offer);
   APIOfferClient apiOfferClient =
@@ -443,8 +443,8 @@ Future<Widget> _createOffer(Offer offer) async {
   ResponseEntity responseEntity = await apiOfferClient.createOffer(offer);
   if (responseEntity.getStatus == HttpStatus.ok) {
     Offer offerResponse = Offer.fromJson(responseEntity.data);
-    print('Subject: ' + offerResponse.subject);
-    print('Id: ' + offerResponse.id);
+    print('Subject: ' + offerResponse.subject.toString());
+    print('Id: ' + offerResponse.id.toString());
     return Text('Success!');
     // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
   } else {
@@ -467,11 +467,11 @@ setValueForOfferIfNull(Offer offer) {
   if(offer.formatLearning == null) {
     offer.formatLearning = 'Hoc tai nha';
   }
-  if(offer.scheduleOffer.overview == null) {
-    offer.scheduleOffer.overview = 'Thu 3,5,7';
+  if(offer.scheduleOffer!.overview == null) {
+    offer.scheduleOffer!.overview = 'Thu 3,5,7';
   }
-  if(offer.scheduleOffer.detail == null) {
-    offer.scheduleOffer.detail = 'Buoi toi tu 20h-22h';
+  if(offer.scheduleOffer!.detail == null) {
+    offer.scheduleOffer!.detail = 'Buoi toi tu 20h-22h';
   }
   if(offer.preferAddress == null) {
     offer.preferAddress = 'Cac khu vuc noi thanh Ha Noi';

@@ -6,25 +6,25 @@ part 'schedule-offer.g.dart';
 @JsonSerializable()
 class ScheduleOffer {
 
-  String _overview = '';
+  String? _overview = '';
 
-  String _detail = '';
+  String? _detail = '';
 
-  String get overview => _overview;
+  String? get overview => _overview;
 
-  set overview(String value) {
+  set overview(String? value) {
     _overview = value;
   }
 
-  String get detail => _detail;
+  String? get detail => _detail;
 
-  set detail(String value) {
+  set detail(String? value) {
     _detail = value;
   }
 
   ScheduleOffer();
 
   factory ScheduleOffer.fromJson(Map<String, dynamic> json) => _$ScheduleOfferFromJson(json);
-  Map<String, dynamic> toJson() => _$ScheduleOfferToJson(this);
+  Map<String?, dynamic> toJson() => _$ScheduleOfferToJson(this);
 
 }

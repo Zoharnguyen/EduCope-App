@@ -121,10 +121,10 @@ class _ShowAdjustAccountTandPPageState extends State<ShowAdjustAccountTandPPage>
                       top: height * 0.05 / 5,
                     ),
                     child: ListView.builder(
-                        itemCount: userProfile.adjustUserProfileList.length,
+                        itemCount: userProfile.adjustUserProfileList!.length,
                         itemBuilder: (context, index) {
                           return showOverviewAdjustment(
-                              userProfile.adjustUserProfileList[index]);
+                              userProfile.adjustUserProfileList![index]);
                         }),
                   ),
                   WidgetUtils.mainButton(context, 0),
@@ -195,7 +195,7 @@ Container showOverviewAdjustment(AdjustUserProfile adjustUserProfile) {
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 CommonUtils.catchCaseStringNull(
-                                    adjustUserProfile.userAdjust.fullName),
+                                    adjustUserProfile.userAdjust!.fullName),
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 20,
@@ -205,7 +205,7 @@ Container showOverviewAdjustment(AdjustUserProfile adjustUserProfile) {
                           alignment: Alignment.centerLeft,
                           child: Text(
                             CommonUtils.getDayMonthYearFromDateString(
-                                adjustUserProfile.dateAdjust),
+                                adjustUserProfile.dateAdjust.toString()),
                             style: TextStyle(
                               color: Colors.black54,
                               fontSize: 14,
@@ -271,7 +271,7 @@ Future<UserProfile> getUserProfile(String userId) async {
       await apiAcountClient.getUserProfileById(userId);
   if (responseEntity.getStatus == HttpStatus.ok) {
     UserProfile response = UserProfile.fromJson(responseEntity.data);
-    print('Id: ' + response.id);
+    print('Id: ' + response.id.toString());
     return response;
     // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
   } else {

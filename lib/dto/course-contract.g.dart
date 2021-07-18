@@ -8,17 +8,21 @@ part of 'course-contract.dart';
 
 CourseContract _$CourseContractFromJson(Map<String, dynamic> json) {
   return CourseContract()
-    ..courseContractId = json['courseContractId'] as String
-    ..subject = json['subject'] as String
-    ..salary = json['salary'] as String
-    ..paymentDate = json['paymentDate'] as String
-    ..formatLearning = json['formatLearning'] as String
-    ..note = json['note'] as String
-    ..userProfileCreate =
-        UserProfile.fromJson(json['userProfileCreate'] as Map<String, dynamic>)
-    ..userProfileRegistry = UserProfile.fromJson(
-        json['userProfileRegistry'] as Map<String, dynamic>)
-    ..courseRegisterStatus = _$enumDecode(
+    ..courseContractId = json['courseContractId'] as String?
+    ..subject = json['subject'] as String?
+    ..salary = json['salary'] as String?
+    ..paymentDate = json['paymentDate'] as String?
+    ..formatLearning = json['formatLearning'] as String?
+    ..note = json['note'] as String?
+    ..userProfileCreate = json['userProfileCreate'] == null
+        ? null
+        : UserProfile.fromJson(
+            json['userProfileCreate'] as Map<String, dynamic>)
+    ..userProfileRegistry = json['userProfileRegistry'] == null
+        ? null
+        : UserProfile.fromJson(
+            json['userProfileRegistry'] as Map<String, dynamic>)
+    ..courseRegisterStatus = _$enumDecodeNullable(
         _$CourseRegisterStatusEnumMap, json['courseRegisterStatus']);
 }
 
@@ -60,6 +64,17 @@ K _$enumDecode<K, V>(
       return MapEntry(unknownValue, enumValues.values.first);
     },
   ).key;
+}
+
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
+  dynamic source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$CourseRegisterStatusEnumMap = {

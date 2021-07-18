@@ -8,12 +8,13 @@ part of 'course-status.dart';
 
 CourseStatus _$CourseStatusFromJson(Map<String, dynamic> json) {
   return CourseStatus()
-    ..courseStatusId = json['courseStatusId'] as String
-    ..userProfile =
-        UserProfile.fromJson(json['userProfile'] as Map<String, dynamic>)
-    ..courseRegisterStatus = _$enumDecode(
+    ..courseStatusId = json['courseStatusId'] as String?
+    ..userProfile = json['userProfile'] == null
+        ? null
+        : UserProfile.fromJson(json['userProfile'] as Map<String, dynamic>)
+    ..courseRegisterStatus = _$enumDecodeNullable(
         _$CourseRegisterStatusEnumMap, json['courseRegisterStatus'])
-    ..reason = json['reason'] as String;
+    ..reason = json['reason'] as String?;
 }
 
 Map<String, dynamic> _$CourseStatusToJson(CourseStatus instance) =>
@@ -49,6 +50,17 @@ K _$enumDecode<K, V>(
       return MapEntry(unknownValue, enumValues.values.first);
     },
   ).key;
+}
+
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
+  dynamic source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$CourseRegisterStatusEnumMap = {

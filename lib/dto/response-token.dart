@@ -8,7 +8,6 @@ class TokenResponse {
 
   late String _token;
 
-
   String get token => _token;
 
   set token(String value) {

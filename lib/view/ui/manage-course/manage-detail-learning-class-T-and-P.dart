@@ -433,8 +433,8 @@ Future<Widget> updateOffer() async {
   ResponseEntity responseEntity = await apiOfferClient.updateOffer(offer);
   if (responseEntity.getStatus == HttpStatus.ok) {
     Offer offerResponse = Offer.fromJson(responseEntity.data);
-    print('Subject: ' + offerResponse.subject);
-    print('Id: ' + offerResponse.id);
+    print('Subject: ' + offerResponse.subject.toString());
+    print('Id: ' + offerResponse.id.toString());
     return Text('Success!');
     // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
   } else {
@@ -551,7 +551,7 @@ Future<Offer> getOfferById(String courseId) async {
   ResponseEntity responseEntity = await apiOfferClient.getCourseById(courseId);
   if (responseEntity.getStatus == HttpStatus.ok) {
     Offer offerResponse = Offer.fromJson(responseEntity.data);
-    print('Subject: ' + offerResponse.subject);
+    print('Subject: ' + offerResponse.subject.toString());
     return offerResponse;
     // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
   } else {
@@ -577,8 +577,8 @@ List<UserProfile> getMemberClass(Offer offer) {
   List<UserProfile> memberClass = <UserProfile>[];
   if (offer != null &&
       offer.memberClassList != null &&
-      offer.memberClassList.isNotEmpty) {
-    for (UserProfile userProfile in offer.memberClassList) {
+      offer.memberClassList!.isNotEmpty) {
+    for (UserProfile userProfile in offer.memberClassList!.toList()) {
       if (userProfile.userType == UserType.STUDENTPARENT)
         memberClass.add(userProfile);
     }

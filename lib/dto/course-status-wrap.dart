@@ -5,18 +5,18 @@ part 'course-status-wrap.g.dart';
 
 @JsonSerializable()
 class CourseStatusWrap {
-  String _courseId = '';
-  CourseStatus _courseStatus = new CourseStatus();
+  String? _courseId = '';
+  CourseStatus? _courseStatus = new CourseStatus();
 
-  String get courseId => _courseId;
+  String? get courseId => _courseId;
 
-  set courseId(String value) {
+  set courseId(String? value) {
     _courseId = value;
   }
 
-  CourseStatus get courseStatus => _courseStatus;
+  CourseStatus? get courseStatus => _courseStatus;
 
-  set courseStatus(CourseStatus value) {
+  set courseStatus(CourseStatus? value) {
     _courseStatus = value;
   }
 
@@ -25,5 +25,5 @@ class CourseStatusWrap {
   factory CourseStatusWrap.fromJson(Map<String, dynamic> json) =>
       _$CourseStatusWrapFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CourseStatusWrapToJson(this);
+  Map<String?, dynamic> toJson() => _$CourseStatusWrapToJson(this);
 }
