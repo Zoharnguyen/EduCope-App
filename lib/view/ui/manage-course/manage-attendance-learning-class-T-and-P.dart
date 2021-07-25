@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:edu_cope/constant/course-register-status.dart';
+import 'package:edu_cope/constant/user-type.dart';
 import 'package:edu_cope/dto/attendance-course.dart';
 import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/dto/user-profile.dart';
@@ -18,6 +19,8 @@ final double width = CommonUtils.width;
 final double height = CommonUtils.height;
 String courseId = '60e394825ded485c37a643f1';
 AttendanceCourse attendanceCourse = new AttendanceCourse();
+CourseRegisterStatus attendanceCourseStatus = CourseRegisterStatus.PENDING;
+UserType userType = UserType.STUDENTPARENT;
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -45,14 +48,14 @@ class _ManageAttendanceLearningClassTandPPageState
     extends State<ManageAttendanceLearningClassTandPPage> {
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    double heightAttendances = height * 4.4 / 5;
+    if (UserType.STUDENTPARENT == userType) heightAttendances = height * 5 / 5;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             Container(
-              height: height * 4.4 / 5,
+              height: heightAttendances,
               child: DefaultTabController(
                 initialIndex: 1,
                 length: 3,
@@ -108,21 +111,7 @@ class _ManageAttendanceLearningClassTandPPageState
                     ])),
               ),
             ),
-            Container(
-                margin: EdgeInsets.only(
-                  left: width * 1.2 / 2,
-                ),
-                height: height * 0.5 / 5,
-                child: TextButton(
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return CreateAttendanceCourse();
-                        });
-                  },
-                  child: new Image.asset('asset/image/add.png'),
-                )),
+            showButtonAddAttendance(context),
           ],
         ),
       ),
@@ -270,19 +259,28 @@ Widget _jobsShowAttendanceCourse(AttendanceCourse attendanceCourse,
           ),
         ),
       ),
-      Container(
-        margin: EdgeInsets.only(
-          bottom: height * 0.1 / 5,
-          left: width * 0.2 / 2,
-        ),
-        child: Text(
-          CommonUtils.mappingValueWithCourseStatusEnum(
-              attendanceCourse.attendanceCourseStatus),
-          style: TextStyle(fontSize: 16, color: Colors.green),
-        ),
-      ),
+      showAttendanceStatus(attendanceCourse.attendanceCourseStatus),
+      showAcceptButton(
+          attendanceCourse.attendanceCourseStatus, context, attendanceCourse),
+      showRejectButton(
+          attendanceCourse.attendanceCourseStatus, context, attendanceCourse),
     ]),
   );
+}
+
+Container showAttendanceStatus(CourseRegisterStatus? attendanceStatus) {
+  if (CourseRegisterStatus.PENDING != attendanceStatus)
+    return Container(
+      margin: EdgeInsets.only(
+        bottom: height * 0.1 / 5,
+        left: width * 0.2 / 2,
+      ),
+      child: Text(
+        CommonUtils.mappingValueWithCourseStatusEnum(attendanceStatus),
+        style: TextStyle(fontSize: 16, color: Colors.green),
+      ),
+    );
+  return Container();
 }
 
 Widget showTitle(String title) {
@@ -432,6 +430,191 @@ Container inputContentItem(String contentInitialValue, String fieldName,
   );
 }
 
+Widget showAcceptButton(CourseRegisterStatus? courseRegisterStatus,
+    BuildContext context, AttendanceCourse attendanceCourse) {
+  if (courseRegisterStatus == CourseRegisterStatus.PENDING)
+    return Container(
+      height: height * 0.5 / 5,
+      child: IconButton(
+        icon: new Image.asset('asset/image/accept.png'),
+        onPressed: () {
+          attendanceCourse.attendanceCourseStatus = CourseRegisterStatus.ACCEPT;
+          _updateAttendanceStatus(attendanceCourse);
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AcceptRegisterAlert();
+              });
+        },
+      ),
+    );
+  return Container();
+}
+
+Widget showRejectButton(CourseRegisterStatus? courseRegisterStatus,
+    BuildContext context, AttendanceCourse attendanceCourse) {
+  if (courseRegisterStatus == CourseRegisterStatus.PENDING)
+    return Container(
+      height: height * 0.5 / 5,
+      alignment: Alignment.center,
+      child: IconButton(
+        icon: new Image.asset('asset/image/reject.png'),
+        onPressed: () {
+          attendanceCourse.attendanceCourseStatus = CourseRegisterStatus.REJECT;
+          _updateAttendanceStatus(attendanceCourse);
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return RejectRegisterAlert();
+              });
+        },
+      ),
+    );
+  return Container();
+}
+
+class AcceptRegisterAlert extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
+        child: Stack(
+          overflow: Overflow.visible,
+          alignment: Alignment.topCenter,
+          children: [
+            Container(
+              height: 200,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(10, 70, 10, 10),
+                child: Column(
+                  children: [
+                    Text(
+                      'Thành Công',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Colors.blue),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      'Bạn đã đồng ý điểm danh',
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    RaisedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    ManageAttendanceLearningClassTandPPage()));
+                      },
+                      color: Colors.lightBlue,
+                      child: Text(
+                        'Đóng',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+                top: -60,
+                child: CircleAvatar(
+                  backgroundColor: Colors.lightBlue,
+                  radius: 60,
+                  child: Icon(
+                    Icons.save,
+                    color: Colors.white,
+                    size: 50,
+                  ),
+                )),
+          ],
+        ));
+  }
+}
+
+class RejectRegisterAlert extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
+        child: Stack(
+          overflow: Overflow.visible,
+          alignment: Alignment.topCenter,
+          children: [
+            Container(
+              height: 200,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(10, 70, 10, 10),
+                child: Column(
+                  children: [
+                    Text(
+                      'Bạn đã từ chối điểm danh',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    RaisedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    ManageAttendanceLearningClassTandPPage()));
+                      },
+                      color: Colors.redAccent,
+                      child: Text(
+                        'Đóng',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+                top: -60,
+                child: CircleAvatar(
+                  backgroundColor: Colors.redAccent,
+                  radius: 60,
+                  child: Icon(
+                    Icons.save,
+                    color: Colors.white,
+                    size: 50,
+                  ),
+                )),
+          ],
+        ));
+  }
+}
+
+Container showButtonAddAttendance(BuildContext context) {
+  if (UserType.TEACHER == userType)
+    return Container(
+        margin: EdgeInsets.only(
+          left: width * 1.2 / 2,
+        ),
+        height: height * 0.5 / 5,
+        child: TextButton(
+          onPressed: () {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return CreateAttendanceCourse();
+                });
+          },
+          child: new Image.asset('asset/image/add.png'),
+        ));
+  return Container();
+}
+
 void setValueForAttendanceCourse(
     String value, String fieldName, AttendanceCourse attendanceCourse) {
   switch (fieldName) {
@@ -472,4 +655,23 @@ UserProfile initializeUserProfile() {
   userProfile.fullName = 'Nguyen Van A';
   userProfile.rate = '4';
   return userProfile;
+}
+
+Future<Widget> _updateAttendanceStatus(AttendanceCourse attendanceCourse) async {
+  APIAttendanceCourseClient apiAttendanceCourseClient =
+      APIAttendanceCourseClient(
+          Dio(BaseOptions(contentType: "application/json")));
+  ResponseEntity responseEntity =
+      await apiAttendanceCourseClient.updateAttendanceStatus(attendanceCourse);
+  if (responseEntity.getStatus == HttpStatus.ok) {
+    AttendanceCourse attendanceCourseResponse =
+        AttendanceCourse.fromJson(responseEntity.data);
+    print('Id: ' + attendanceCourseResponse.courseId.toString());
+    return Text('Success!');
+    // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+  } else {
+    // Show pop up notification about fail reason.
+    print('Error: ' + responseEntity.getException.toString());
+    return Text('Failed!');
+  }
 }

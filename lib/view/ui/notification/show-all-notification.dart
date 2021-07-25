@@ -1,5 +1,5 @@
 import 'package:edu_cope/view/ui/basic-operate-course/detail-information-opening-and-not-offer-class-T-and-P.dart';
-import 'package:edu_cope/view/ui/homepage-T.dart';
+import 'package:edu_cope/view/ui/homepage-T-and-P.dart';
 import 'package:edu_cope/view/ui/manage-course/manage-class-T-and-P.dart';
 import 'package:edu_cope/view/ui/manage-profile/manage-profile-T-and-P.dart';
 import 'package:flutter/material.dart';
@@ -171,7 +171,7 @@ class _ShowAllNotificationState extends State<ShowAllNotification> {
                   child: FlatButton(
                     onPressed: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomePageT()));
+                          MaterialPageRoute(builder: (context) => HomePageTandP()));
                     },
                     child: new Image.asset('asset/image/homepage.png'),
                   ),

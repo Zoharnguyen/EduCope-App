@@ -204,4 +204,52 @@ class _APIOfferClient implements APIOfferClient {
     return reponseEntity;
   }
 
+  @override
+  Future<ResponseEntity> createCourseStatus(CourseStatusWrap courseStatusWrap) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    ResponseEntity reponseEntity = new ResponseEntity();
+    try {
+      final result = await _dio.request<Map<String, dynamic>>(
+          baseUrl + '/offer/create-course-status',
+          queryParameters: queryParameters,
+          options: Options(
+              method: 'POST', headers: <String, dynamic>{}, extra: _extra),
+          data: courseStatusWrap);
+      reponseEntity.setStatus(HttpStatus.ok);
+      reponseEntity.setData(result.data);
+    } catch (error, stacktrace) {
+      print("Exception occur: $error stackTrace: $stacktrace");
+      reponseEntity.setStatus(HttpStatus.badRequest);
+      // reponseEntity.setException(error);
+    }
+    return reponseEntity;
+  }
+
+  @override
+  Future<ResponseEntity> getListClassByCourseTypeAndAuthorId(CourseType courseType, String authorId) async {
+    const _extra = <String, dynamic>{};
+
+    Map<String, String> requestParam = new HashMap();
+    requestParam.putIfAbsent("courseType", () => CommonUtils.getValueEnum(courseType.toString()));
+    requestParam.putIfAbsent("authorId", () => authorId);
+
+    ResponseEntity reponseEntity = new ResponseEntity();
+    try {
+      final result = await _dio.request<List<dynamic>>(
+        baseUrl + '/offer/get-courses-by-course-type-and-author-id',
+        queryParameters: requestParam,
+        options:
+        Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra),
+      );
+      reponseEntity.setStatus(HttpStatus.ok);
+      reponseEntity.setData(result.data);
+    } catch (error, stacktrace) {
+      print("Exception occur: $error stackTrace: $stacktrace");
+      reponseEntity.setStatus(HttpStatus.badRequest);
+      // reponseEntity.setException(error);
+    }
+    return reponseEntity;
+  }
+
 }

@@ -5,7 +5,7 @@ import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../homepage-T.dart';
+import '../homepage-T-and-P.dart';
 
 void main() {
   runApp(MyApp());
@@ -139,7 +139,7 @@ class _ChooseUserTypeTandPPageState extends State<ChooseUserTypeTandPPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => HomePageT()));
+                                builder: (context) => HomePageTandP()));
                       }
                     },
                     child: Column(
@@ -195,7 +195,7 @@ class _ChooseUserTypeTandPPageState extends State<ChooseUserTypeTandPPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => HomePageT()));
+                                builder: (context) => HomePageTandP()));
                       }
                     },
                     child: Column(

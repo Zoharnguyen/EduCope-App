@@ -7,9 +7,7 @@ part of 'response-token.dart';
 // **************************************************************************
 
 TokenResponse _$TokenResponseFromJson(Map<String, dynamic> json) {
-  TokenResponse tokenResponse = new TokenResponse();
-  (json['token'] != null) ? tokenResponse.token = json['token'] as String : null;
-  return tokenResponse;
+  return TokenResponse()..token = json['token'] as String;
 }
 
 Map<String, dynamic> _$TokenResponseToJson(TokenResponse instance) =>

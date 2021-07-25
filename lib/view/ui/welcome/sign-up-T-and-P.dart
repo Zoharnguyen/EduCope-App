@@ -6,7 +6,7 @@ import 'package:edu_cope/constant/user-type.dart';
 import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/dto/user-basic.dart';
 import 'package:edu_cope/service/api-account.dart';
-import 'package:edu_cope/view/ui/homepage-T.dart';
+import 'package:edu_cope/view/ui/homepage-T-and-P.dart';
 import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -220,7 +220,7 @@ class _SignUpTandPPageState extends State<SignUpTandPPage> {
                       print('Gmail: ' + CommonUtils.catchCaseStringNull(userBasicCheck.gmail));
                       print('Password: ' + CommonUtils.catchCaseStringNull(userBasicCheck.password));
                       print('Type: ' + userBasicCheck.userType.toString());
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePageT()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePageTandP()));
                     } else {
                       // Show pop up notification about fail reason.
                       print('Error: ' + responseEntity.getException.toString());

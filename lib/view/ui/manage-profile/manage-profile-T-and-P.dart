@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:edu_cope/constant/user-type.dart';
 import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/dto/user-profile.dart';
 import 'package:edu_cope/service/api-account.dart';
@@ -11,7 +12,7 @@ import 'package:edu_cope/view/ui/manage-profile/show-adjust-account-T-and-P.dart
 import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/material.dart';
 
-import '../homepage-T.dart';
+import '../homepage-T-and-P.dart';
 
 void main() {
   runApp(MyApp());
@@ -25,6 +26,7 @@ final stars = [
   'asset/image/rating-star.png',
   'asset/image/rating-star.png',
 ];
+UserType userType = UserType.TEACHER;
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -61,8 +63,7 @@ class _ManageProfileTandPPageState extends State<ManageProfileTandPPage> {
             icon: Icon(Icons.arrow_back_ios),
             // iconSize: 20,
             onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => HomePageT()));
+              Navigator.pop(context);
             },
           ),
         ),
@@ -82,7 +83,7 @@ class _ManageProfileTandPPageState extends State<ManageProfileTandPPage> {
           showButtonPerson('Đánh giá', 'asset/image/comment.png', context),
           showButtonPerson('Cài đặt', 'asset/image/setting.png', context),
           showButtonPerson('Đăng xuất', 'asset/image/sign-out.png', context),
-          WidgetUtils.mainButton(context, height * 0.4 / 5),
+          WidgetUtils.mainButton(context, height * 0.4 / 5, userType),
         ],
       ),
     );

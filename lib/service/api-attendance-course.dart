@@ -24,4 +24,9 @@ abstract class APIAttendanceCourseClient {
           CourseRegisterStatus courseRegisterStatus,
       @Query("courseId", encoded: false)
           String courseId);
+
+  @PATCH("/course-attendance/update-attendance-status")
+  Future<ResponseEntity> updateAttendanceStatus(
+      @Body() AttendanceCourse attendanceCourse);
+
 }

@@ -9,7 +9,7 @@ part 'user-information.g.dart';
 class UserInformation extends UserProfile {
   
   String? _certificate = '';
-  String? _DoB = '';
+  String? _doB = '';
   String? _experience = '';
   String? _gender = '';
   String? _address = '';
@@ -20,10 +20,10 @@ class UserInformation extends UserProfile {
     _certificate = value;
   }
 
-  String? get DoB => _DoB;
+  String? get doB => _doB;
 
-  set DoB(String? value) {
-    _DoB = value;
+  set doB(String? value) {
+    _doB = value;
   }
 
   String? get experience => _experience;

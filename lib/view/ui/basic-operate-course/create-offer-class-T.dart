@@ -7,7 +7,7 @@ import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/dto/schedule-offer.dart';
 import 'package:edu_cope/dto/user-profile.dart';
 import 'package:edu_cope/service/api-offer.dart';
-import 'package:edu_cope/view/ui/homepage-T.dart';
+import 'package:edu_cope/view/ui/homepage-T-and-P.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,7 +16,8 @@ void main() {
 
 double width = 411.4285;
 double height = 683.4285;
-Offer _offer = Offer.withScheduleAndUserProfile(new ScheduleOffer(), new UserProfile());
+Offer _offer =
+    Offer.withScheduleAndUserProfile(new ScheduleOffer(), new UserProfile());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -40,8 +41,8 @@ class CreateOfferClassTPage extends StatefulWidget {
 }
 
 class _CreateOfferClassTPageState extends State<CreateOfferClassTPage> {
-  late String _level;
-  late String _formatLearning;
+  String level = 'Trung hoc co so';
+  String formatLearning = 'Hoc tai nha';
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +58,7 @@ class _CreateOfferClassTPageState extends State<CreateOfferClassTPage> {
           ),
           child: Align(
             child: Text(
-              'Tao lop hoc',
+              'Tạo mới lớp học',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 22,
@@ -78,8 +79,8 @@ class _CreateOfferClassTPageState extends State<CreateOfferClassTPage> {
           child: IconButton(
             icon: Icon(Icons.arrow_back_ios),
             onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => HomePageT()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => HomePageTandP()));
             },
           ),
         ),
@@ -93,9 +94,9 @@ class _CreateOfferClassTPageState extends State<CreateOfferClassTPage> {
           // Make list containers in Column start with left screen
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            titleForItems('Mon hoc'),
+            titleForItems('Môn học'),
             inputShortContentItem('Toan', 'subject', _offer),
-            titleForItems('Cap hoc'),
+            titleForItems('Cấp học'),
             Container(
               margin: EdgeInsets.only(
                 left: width * 0.35 / 2,
@@ -107,7 +108,7 @@ class _CreateOfferClassTPageState extends State<CreateOfferClassTPage> {
               //     )
               // ),
               child: DropdownButton<String>(
-                value: _level,
+                value: level,
                 //elevation: 5,
                 style: TextStyle(color: Colors.black),
                 items: <String>[
@@ -121,25 +122,17 @@ class _CreateOfferClassTPageState extends State<CreateOfferClassTPage> {
                     child: Text(value),
                   );
                 }).toList(),
-                hint: Text(
-                  "Trung hoc pho thong",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                    // fontWeight: FontWeight.w600
-                  ),
-                ),
                 onChanged: (value) {
                   setState(() {
-                    _level = value!;
-                    _offer.level = _level;
+                    level = value!;
+                    _offer.level = level;
                     // After selected drop down then cursor don't focus any text field
                     FocusScope.of(context).requestFocus(new FocusNode());
                   });
                 },
               ),
             ),
-            titleForItems('Hinh thuc hoc'),
+            titleForItems('Hình thức học'),
             Container(
               margin: EdgeInsets.only(
                 left: width * 0.35 / 2,
@@ -151,7 +144,7 @@ class _CreateOfferClassTPageState extends State<CreateOfferClassTPage> {
               //     )
               // ),
               child: DropdownButton<String>(
-                value: _formatLearning,
+                value: formatLearning,
                 //elevation: 5,
                 style: TextStyle(color: Colors.black),
                 items: <String>[
@@ -163,38 +156,29 @@ class _CreateOfferClassTPageState extends State<CreateOfferClassTPage> {
                     child: Text(value),
                   );
                 }).toList(),
-                hint: Text(
-                  "Hoc tai nha",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                    // fontWeight: FontWeight.w600
-                  ),
-                ),
                 onChanged: (value) {
                   setState(() {
-                    _formatLearning = value!;
-                    _offer.formatLearning = _formatLearning;
+                    formatLearning = value!;
+                    _offer.formatLearning = formatLearning;
                     // After selected drop down then cursor don't focus any text field
                     FocusScope.of(context).requestFocus(new FocusNode());
                   });
                 },
               ),
             ),
-            titleForItems('Hoc phi'),
+            titleForItems('Học phí'),
             inputShortContentItem('500k/1 buoi', 'salary', _offer),
-            titleForItems('Ngay hoc trong tuan'),
+            titleForItems('Ngày học trong tuần'),
             inputShortContentItem(
                 'Thu 3,5,7', 'scheduleOffer.overview', _offer),
-            titleForItems('Thoi gian hoc'),
+            titleForItems('Thời gian học'),
             inputShortContentItem(
                 'Buoi toi tu 20h-22h', 'scheduleOffer.detail', _offer),
-            titleForItems('Dia diem(Neu chon hoc tai nha)'),
+            titleForItems('Địa điểm(Nếu chọn học tại nhà)'),
             inputShortContentItem(
                 'Cac khu vuc noi thanh Ha Noi', 'note', _offer),
-            titleForItems('Luu y'),
-            inputLongContentItem(
-                'Day tai nha hoc sinh ngoan'),
+            titleForItems('Lưu ý'),
+            inputLongContentItem('Day tai nha hoc sinh ngoan'),
             Container(
               height: height * 0.3 / 5,
               width: width * 0.6 / 2,
@@ -223,7 +207,7 @@ class _CreateOfferClassTPageState extends State<CreateOfferClassTPage> {
                   ]),
               child: FlatButton(
                 child: Text(
-                  "Tao moi",
+                  "Tạo mới",
                   style: TextStyle(
                       fontSize: 18,
                       color: Colors.white,
@@ -251,9 +235,7 @@ class AdvanceCustomAlert extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4.0)
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
         child: Stack(
           overflow: Overflow.visible,
           alignment: Alignment.topCenter,
@@ -264,15 +246,35 @@ class AdvanceCustomAlert extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(10, 70, 10, 10),
                 child: Column(
                   children: [
-                    Text('Thành Công', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.blue),),
-                    SizedBox(height: 5,),
-                    Text('Khóa học đã được tạo', style: TextStyle(fontSize: 14),),
-                    SizedBox(height: 20,),
-                    RaisedButton(onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePageT()));
-                    },
+                    Text(
+                      'Thành Công',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Colors.blue),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      'Khóa học đã được tạo',
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    RaisedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomePageTandP()));
+                      },
                       color: Colors.lightBlue,
-                      child: Text('Đóng', style: TextStyle(color: Colors.white),),
+                      child: Text(
+                        'Đóng',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     )
                   ],
                 ),
@@ -283,12 +285,14 @@ class AdvanceCustomAlert extends StatelessWidget {
                 child: CircleAvatar(
                   backgroundColor: Colors.lightBlue,
                   radius: 60,
-                  child: Icon(Icons.save, color: Colors.white, size: 50,),
-                )
-            ),
+                  child: Icon(
+                    Icons.save,
+                    color: Colors.white,
+                    size: 50,
+                  ),
+                )),
           ],
-        )
-    );
+        ));
   }
 }
 
@@ -374,7 +378,7 @@ Container titleForItems(String initialValueTitle) {
     child: Row(
       children: <Widget>[
         Container(
-          // width: width * 0.3 / 2,
+            // width: width * 0.3 / 2,
             margin: EdgeInsets.only(
               left: width * 0.15 / 2,
             ),
@@ -439,7 +443,7 @@ Future<Widget> _createOffer(Offer offer) async {
   offer.offerType = OfferType.TEACHER;
   setValueForOfferIfNull(offer);
   APIOfferClient apiOfferClient =
-  APIOfferClient(Dio(BaseOptions(contentType: "application/json")));
+      APIOfferClient(Dio(BaseOptions(contentType: "application/json")));
   ResponseEntity responseEntity = await apiOfferClient.createOffer(offer);
   if (responseEntity.getStatus == HttpStatus.ok) {
     Offer offerResponse = Offer.fromJson(responseEntity.data);
@@ -455,28 +459,28 @@ Future<Widget> _createOffer(Offer offer) async {
 }
 
 setValueForOfferIfNull(Offer offer) {
-  if(offer.subject == null) {
+  if (offer.subject == null) {
     offer.subject = 'Toan';
   }
-  if(offer.salary == null) {
+  if (offer.salary == null) {
     offer.salary = '500k/1 buoi';
   }
-  if(offer.level == null) {
+  if (offer.level == null) {
     offer.level = 'Tieu hoc';
   }
-  if(offer.formatLearning == null) {
+  if (offer.formatLearning == null) {
     offer.formatLearning = 'Hoc tai nha';
   }
-  if(offer.scheduleOffer!.overview == null) {
+  if (offer.scheduleOffer!.overview == null) {
     offer.scheduleOffer!.overview = 'Thu 3,5,7';
   }
-  if(offer.scheduleOffer!.detail == null) {
+  if (offer.scheduleOffer!.detail == null) {
     offer.scheduleOffer!.detail = 'Buoi toi tu 20h-22h';
   }
-  if(offer.preferAddress == null) {
+  if (offer.preferAddress == null) {
     offer.preferAddress = 'Cac khu vuc noi thanh Ha Noi';
   }
-  if(offer.note == null) {
+  if (offer.note == null) {
     offer.note = 'Day tai nha hoc sinh, chi day cho hoc sinh nam';
   }
 }

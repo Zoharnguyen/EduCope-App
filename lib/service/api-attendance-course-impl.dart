@@ -59,4 +59,29 @@ class _APIAttendanceCourseClient implements APIAttendanceCourseClient {
     }
     return reponseEntity;
   }
+
+  @override
+  Future<ResponseEntity> updateAttendanceStatus(
+      AttendanceCourse attendanceCourse) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    ResponseEntity reponseEntity = new ResponseEntity();
+    // Convert object to json string
+    // var jsonOffer = jsonEncode(offer.toJson());
+    try {
+      final result = await _dio.request<Map<String, dynamic>>(
+          baseUrl + '/course-attendance/update-attendance-status',
+          queryParameters: queryParameters,
+          options: Options(
+              method: 'PATCH', headers: <String, dynamic>{}, extra: _extra),
+          data: attendanceCourse);
+      reponseEntity.setStatus(HttpStatus.ok);
+      reponseEntity.setData(result.data);
+    } catch (error, stacktrace) {
+      print("Exception occur: $error stackTrace: $stacktrace");
+      reponseEntity.setStatus(HttpStatus.badRequest);
+      // reponseEntity.setException(error);
+    }
+    return reponseEntity;
+  }
 }

@@ -12,7 +12,7 @@ import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/material.dart';
 
 import 'create-offer-class-T.dart';
-import '../homepage-T.dart';
+import '../homepage-T-and-P.dart';
 
 void main() {
   runApp(MyApp());
@@ -72,13 +72,6 @@ class _ShowAllOfferOpenningCourseTandPPageState
           ),
         ),
         leading: Container(
-          // width: width * 0.29 / 2,
-          // decoration: BoxDecoration(
-          //   border: Border.all(
-          //     color: Colors.green,
-          //     width: 2,
-          //   )
-          // ),
           child: IconButton(
             icon: Icon(Icons.arrow_back_ios),
             onPressed: () {
@@ -194,7 +187,7 @@ class _ShowAllOfferOpenningCourseTandPPageState
                   child: FlatButton(
                     onPressed: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomePageT()));
+                          MaterialPageRoute(builder: (context) => HomePageTandP()));
                     },
                     child: new Image.asset('asset/image/homepage_green.jpg'),
                   ),

@@ -29,15 +29,11 @@ class _FileResultExamLearningClassTandPPageState extends State<FileResultExamLea
     return Scaffold(
       appBar: AppBar(
         leading: Container(
-          margin: EdgeInsets.only(
-            top: height * 0.2 / 5,
-            left: width * 0.05 / 2,
-          ),
-          child: Text(
-            'Back',
-            style: TextStyle(
-              fontSize: 16,
-            ),
+          child: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
         ),
       ),

@@ -102,4 +102,53 @@ class _APIAcountClient implements APIAcountClient {
     }
     return reponseEntity;
   }
+
+  @override
+  Future<ResponseEntity> getUserInformation(String userId) async {
+    const _extra = <String, dynamic>{};
+
+    Map<String, String> requestParam = new HashMap();
+    requestParam.putIfAbsent("userId", () => userId);
+
+    ResponseEntity reponseEntity = new ResponseEntity();
+    try {
+      final result = await _dio.request<dynamic>(
+        baseUrl + '/user/get-user-information',
+        queryParameters: requestParam,
+        options:
+        Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra),
+      );
+      reponseEntity.setStatus(HttpStatus.ok);
+      reponseEntity.setData(result.data);
+    } catch (error, stacktrace) {
+      print("Exception occur: $error stackTrace: $stacktrace");
+      reponseEntity.setStatus(HttpStatus.badRequest);
+      // reponseEntity.setException(error);
+    }
+    return reponseEntity;
+  }
+
+  @override
+  Future<ResponseEntity> updateUserInformation(UserInformation userInformation) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    ResponseEntity reponseEntity = new ResponseEntity();
+    // Convert object to json string
+    // var jsonOffer = jsonEncode(offer.toJson());
+    try {
+      final result = await _dio.request<Map<String, dynamic>>(
+          baseUrl + '/user/add-user-information',
+          queryParameters: queryParameters,
+          options: Options(
+              method: 'PUT', headers: <String, dynamic>{}, extra: _extra),
+          data: userInformation);
+      reponseEntity.setStatus(HttpStatus.ok);
+      reponseEntity.setData(result.data);
+    } catch (error, stacktrace) {
+      print("Exception occur: $error stackTrace: $stacktrace");
+      reponseEntity.setStatus(HttpStatus.badRequest);
+      // reponseEntity.setException(error);
+    }
+    return reponseEntity;
+  }
 }

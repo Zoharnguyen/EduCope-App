@@ -1,6 +1,6 @@
 import 'package:edu_cope/view/ui/manage-course/create-course-contract-T.dart';
 import 'package:edu_cope/view/ui/basic-operate-course/detail-information-opening-and-not-offer-class-T-and-P.dart';
-import 'package:edu_cope/view/ui/homepage-T.dart';
+import 'package:edu_cope/view/ui/homepage-T-and-P.dart';
 import 'package:edu_cope/view/ui/manage-course/manage-register-course-opening-class-T.dart';
 import 'package:edu_cope/view/ui/manage-profile/manage-profile-T-and-P.dart';
 import 'package:edu_cope/view/utils/common-utils.dart';
@@ -303,7 +303,7 @@ class _ManageDetailOpeningClassTandPPageState extends State<ManageDetailOpeningC
                   child: FlatButton(
                     onPressed: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomePageT()));
+                          MaterialPageRoute(builder: (context) => HomePageTandP()));
                     },
                     child: new Image.asset('asset/image/homepage_green.jpg'),
                   ),

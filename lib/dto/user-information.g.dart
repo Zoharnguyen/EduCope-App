@@ -20,7 +20,7 @@ UserInformation _$UserInformationFromJson(Map<String, dynamic> json) {
     ..introduction = json['introduction'] as String?
     ..rate = json['rate'] as String?
     ..certificate = json['certificate'] as String?
-    ..DoB = json['DoB'] as String?
+    ..doB = json['doB'] as String?
     ..experience = json['experience'] as String?
     ..gender = json['gender'] as String?
     ..address = json['address'] as String?;
@@ -38,7 +38,7 @@ Map<String, dynamic> _$UserInformationToJson(UserInformation instance) =>
       'introduction': instance.introduction,
       'rate': instance.rate,
       'certificate': instance.certificate,
-      'DoB': instance.DoB,
+      'doB': instance.doB,
       'experience': instance.experience,
       'gender': instance.gender,
       'address': instance.address,

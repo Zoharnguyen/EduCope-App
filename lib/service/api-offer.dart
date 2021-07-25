@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:edu_cope/constant/course-register-status.dart';
+import 'package:edu_cope/constant/course-type.dart';
 import 'package:edu_cope/constant/offer-type.dart';
 import 'package:edu_cope/dto/course-contract-wrap.dart';
 import 'package:edu_cope/dto/course-status-wrap.dart';
@@ -45,9 +46,19 @@ abstract class APIOfferClient {
           String courseId);
 
   @PATCH("/offer/update-course-status")
-  Future<ResponseEntity> updateCourseStatus(@Body() CourseStatusWrap courseStatusWrap);
+  Future<ResponseEntity> updateCourseStatus(
+      @Body() CourseStatusWrap courseStatusWrap);
 
   @POST("/offer/create-course-contract")
-  Future<ResponseEntity> createCourseContract(@Body() CourseContractWrap courseContractWrap);
+  Future<ResponseEntity> createCourseContract(
+      @Body() CourseContractWrap courseContractWrap);
 
+  @POST("/offer/create-course-status")
+  Future<ResponseEntity> createCourseStatus(
+      @Body() CourseStatusWrap courseStatusWrap);
+
+  @GET("/offer/get-courses-by-course-type-and-author-id")
+  Future<ResponseEntity> getListClassByCourseTypeAndAuthorId(
+      @Query("courseType", encoded: false) CourseType courseType,
+      @Query("authorId", encoded: false) String authorId);
 }

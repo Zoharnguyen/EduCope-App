@@ -8,7 +8,7 @@ import 'package:edu_cope/dto/schedule-offer.dart';
 import 'package:edu_cope/dto/user-profile.dart';
 import 'package:edu_cope/service/api-offer.dart';
 import 'package:edu_cope/view/ui/basic-operate-course/create-offer-class-T.dart';
-import 'package:edu_cope/view/ui/homepage-T.dart';
+import 'package:edu_cope/view/ui/homepage-T-and-P.dart';
 import 'package:edu_cope/view/ui/manage-course/manage-detail-openning-class-T-and-P.dart';
 import 'package:flutter/material.dart';
 

@@ -9,7 +9,7 @@ import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/dto/user-profile.dart';
 import 'package:edu_cope/service/api-offer.dart';
 import 'package:edu_cope/view/ui/common/developing-feature-screen-T-and-P.dart';
-import 'package:edu_cope/view/ui/homepage-T.dart';
+import 'package:edu_cope/view/ui/homepage-T-and-P.dart';
 import 'package:edu_cope/view/ui/manage-course/manage-adjust-mem-in-class-T-and-P.dart';
 import 'package:edu_cope/view/ui/manage-course/manage-attendance-learning-class-T-and-P.dart';
 import 'package:edu_cope/view/ui/manage-course/show-result-exam-learning-class-T-and-P.dart';
@@ -380,7 +380,7 @@ class _ManageDetailLearningClassTandPPageState extends State<ManageDetailLearnin
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => HomePageT()));
+                                builder: (context) => HomePageTandP()));
                       },
                       child: new Image.asset('asset/image/homepage_green.jpg'),
                     ),

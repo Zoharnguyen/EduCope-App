@@ -11,7 +11,7 @@ import 'package:edu_cope/view/ui/manage-profile/manage-profile-T-and-P.dart';
 import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/material.dart';
 
-import '../homepage-T.dart';
+import '../homepage-T-and-P.dart';
 import 'manage-detail-openning-class-T-and-P.dart';
 
 void main() {
@@ -124,7 +124,7 @@ class _ManageRegisterCourseOpeningClassTPageState
                   child: FlatButton(
                     onPressed: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomePageT()));
+                          MaterialPageRoute(builder: (context) => HomePageTandP()));
                     },
                     child: new Image.asset('asset/image/homepage_green.jpg'),
                   ),
@@ -347,7 +347,7 @@ Widget showRejectButton(CourseRegisterStatus courseRegisterStatus,
           showDialog(
               context: context,
               builder: (BuildContext context) {
-                return AcceptRegisterAlert();
+                return RejectRegisterAlert();
               });
         },
       ),

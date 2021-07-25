@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:edu_cope/constant/user-type.dart';
 import 'package:edu_cope/dto/adjust-user-profile.dart';
 import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/dto/user-profile.dart';
@@ -35,6 +36,7 @@ final stars = [
   'asset/image/rating-star.png',
 ];
 String userId = "607a8b832ea23669aaea68e3";
+UserType userType = UserType.TEACHER;
 
 class ShowAdjustAccountTandPPage extends StatefulWidget {
   ShowAdjustAccountTandPPage();
@@ -127,7 +129,7 @@ class _ShowAdjustAccountTandPPageState extends State<ShowAdjustAccountTandPPage>
                               userProfile.adjustUserProfileList![index]);
                         }),
                   ),
-                  WidgetUtils.mainButton(context, 0),
+                  WidgetUtils.mainButton(context, 0, userType),
                 ],
               ),
             );

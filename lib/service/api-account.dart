@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:edu_cope/dto/adjust-user-profile.dart';
 import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/dto/user-basic.dart';
+import 'package:edu_cope/dto/user-information.dart';
 import 'package:retrofit/http.dart';
 part 'api-account-impl.dart';
 
@@ -25,5 +26,13 @@ abstract class APIAcountClient {
 
   @POST("/user/adjust-user")
   Future<ResponseEntity> adjustUser(@Body() AdjustUserProfile adjustUserProfile);
+
+  @GET("/user/get-user-information")
+  Future<ResponseEntity> getUserInformation(
+      @Query("userId", encoded: false) String userId);
+
+  @PUT("/user/add-user-information")
+  Future<ResponseEntity> updateUserInformation(
+      @Body() UserInformation userInformation);
 
 }

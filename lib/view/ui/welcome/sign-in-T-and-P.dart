@@ -10,7 +10,7 @@ import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../homepage-T.dart';
+import '../homepage-T-and-P.dart';
 
 void main() {
   runApp(MyApp());
@@ -217,7 +217,7 @@ class _SignInTandPPageState extends State<SignInTandPPage> {
                     TokenResponse tokenResponse = TokenResponse.fromJson(responseEntity.data);
                     print('Token: ' + tokenResponse.token);
                     CommonUtils.saveValue(describeEnum(CommonConstant.TOKEN).toString(), tokenResponse.token);
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => HomePageT()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => HomePageTandP()));
                   } else {
                     // Show pop up notification about fail reason.
                     print('Error: ' + responseEntity.getException.toString());

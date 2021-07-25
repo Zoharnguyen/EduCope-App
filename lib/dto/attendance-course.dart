@@ -8,14 +8,14 @@ part 'attendance-course.g.dart';
 @JsonSerializable()
 class AttendanceCourse {
 
-  String? _id = '';
-  String? _courseId = '';
-  String? _dateStudy = '';
-  String? _timeStudy = '';
-  String? _note = '';
-  CourseRegisterStatus? _attendanceCourseStatus = CourseRegisterStatus.PENDING;
-  UserProfile? _userAttendance = new UserProfile();
-  UserProfile? _userConfirm = new UserProfile();
+  String? _id ;
+  String? _courseId;
+  String? _dateStudy;
+  String? _timeStudy;
+  String? _note;
+  CourseRegisterStatus? _attendanceCourseStatus;
+  UserProfile? _userAttendance;
+  UserProfile? _userConfirm;
 
   String? get id => _id;
 

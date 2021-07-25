@@ -2,21 +2,21 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:edu_cope/constant/offer-type.dart';
+import 'package:edu_cope/constant/user-type.dart';
 import 'package:edu_cope/dto/offer.dart';
 import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/dto/user-profile.dart';
 import 'package:edu_cope/service/api-offer.dart';
+import 'package:edu_cope/view/ui/basic-operate-course/detail-information-opening-and-not-offer-class-T-and-P.dart';
 import 'package:edu_cope/view/ui/basic-operate-course/show-all-offer-openning-course-T-and-P.dart';
+import 'package:edu_cope/view/ui/common/widget-utils.dart';
 import 'package:edu_cope/view/ui/manage-course/manage-class-T-and-P.dart';
 import 'package:edu_cope/view/ui/manage-course/manage-detail-openning-class-T-and-P.dart';
-import 'package:edu_cope/view/ui/manage-profile/manage-profile-T-and-P.dart';
 import 'package:edu_cope/view/ui/notification/show-all-notification.dart';
 import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-
-import 'basic-operate-course/create-offer-class-T.dart';
 
 void main() async {
   // Initialize Firebase
@@ -28,6 +28,7 @@ void main() async {
 final double height = CommonUtils.height;
 final double width = CommonUtils.width;
 var counter = 1;
+UserType userType = UserType.STUDENTPARENT;
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -38,19 +39,19 @@ class MyApp extends StatelessWidget {
       // theme: ThemeData(
       //   primarySwatch: Colors.blue,
       // ),
-      home: HomePageT(),
+      home: HomePageTandP(),
     );
   }
 }
 
-class HomePageT extends StatefulWidget {
-  HomePageT();
+class HomePageTandP extends StatefulWidget {
+  HomePageTandP();
 
   @override
-  _HomePageTState createState() => _HomePageTState();
+  _HomePageTandPState createState() => _HomePageTandPState();
 }
 
-class _HomePageTState extends State<HomePageT> {
+class _HomePageTandPState extends State<HomePageTandP> {
   late FirebaseMessaging messaging;
 
   @override
@@ -387,63 +388,10 @@ class _HomePageTState extends State<HomePageT> {
             ),
           ),
           Container(
-            height: height * 1.97 / 5,
+            height: height * 2.01 / 5,
             child: JobsListViewOffer(),
           ),
-          Container(
-            color: Colors.grey[100],
-            margin: EdgeInsets.only(
-              top: height * 0.1 / 5,
-            ),
-            child: Row(
-              children: <Widget>[
-                Container(
-                  // height: height * 0.3 / 5,
-                  width: width * 0.45 / 2,
-                  margin: EdgeInsets.only(
-                    left: width * 0.07 / 2,
-                  ),
-                  child: FlatButton(
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomePageT()));
-                    },
-                    child: new Image.asset('asset/image/homepage_green.jpg'),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(
-                    left: width * 0.25 / 2,
-                  ),
-                  height: height * 0.4 / 5,
-                  child: FlatButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CreateOfferClassTPage()));
-                    },
-                    child: new Image.asset('asset/image/add.png'),
-                  ),
-                ),
-                Container(
-                    margin: EdgeInsets.only(
-                      left: width * 0.2 / 2,
-                    ),
-                    height: height * 0.4 / 5,
-                    child: FlatButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    ManageProfileTandPPage()));
-                      },
-                      child: new Image.asset('asset/image/personal_blue.png'),
-                    )),
-              ],
-            ),
-          )
+          WidgetUtils.mainButton(context, height*0.05/5, userType)
         ],
       ),
     );
@@ -683,7 +631,7 @@ Widget _jobsShowOffer(String subject, String salary, String formatLearning,
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          ManageDetailOpeningClassTandPPage()));
+                          DetailInformationOpeningAndNotOfferClassTandPPage()));
             },
             child: Text(
               'Chi tiet >>>',

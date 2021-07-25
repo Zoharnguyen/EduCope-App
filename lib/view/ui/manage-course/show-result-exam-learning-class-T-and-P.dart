@@ -1,11 +1,9 @@
-import 'package:edu_cope/view/ui/manage-course/show-adjust-student-learning-class-T-and-P.dart';
-import 'package:edu_cope/view/ui/basic-operate-course/create-offer-class-T.dart';
+import 'package:edu_cope/constant/user-type.dart';
+import 'package:edu_cope/view/ui/common/widget-utils.dart';
 import 'package:edu_cope/view/ui/manage-course/file-result-exam-learning-class-T-and-P.dart';
-import 'package:edu_cope/view/ui/manage-profile/manage-profile-T-and-P.dart';
+import 'package:edu_cope/view/ui/manage-course/show-adjust-student-learning-class-T-and-P.dart';
 import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/material.dart';
-
-import '../homepage-T.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,6 +11,7 @@ void main() {
 
 final double width = CommonUtils.width;
 final double height = CommonUtils.height;
+UserType userType = UserType.STUDENTPARENT;
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -28,35 +27,30 @@ class ShowResultExamLearningClassTandPPage extends StatefulWidget {
   ShowResultExamLearningClassTandPPage();
 
   @override
-  _ShowResultExamLearningClassTandPPageState createState() => _ShowResultExamLearningClassTandPPageState();
+  _ShowResultExamLearningClassTandPPageState createState() =>
+      _ShowResultExamLearningClassTandPPageState();
 }
 
-class _ShowResultExamLearningClassTandPPageState extends State<ShowResultExamLearningClassTandPPage> {
+class _ShowResultExamLearningClassTandPPageState
+    extends State<ShowResultExamLearningClassTandPPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: Container(
-          margin: EdgeInsets.only(
-            top: height * 0.2 / 5,
-            left: width * 0.05 / 2,
-          ),
-          child: Text(
-            'Back',
-            style: TextStyle(
-              fontSize: 16,
-            ),
+          child: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
         ),
+        centerTitle: true,
         title: Container(
-          margin: EdgeInsets.only(
-            left: width * 0.2 / 2,
-          ),
           child: Text(
-            'Mon Toan',
+            'Kết quả học tập',
             style: TextStyle(
-              fontSize: 22,
-              color: Colors.black,
+              fontSize: 24,
             ),
           ),
         ),
@@ -81,7 +75,7 @@ class _ShowResultExamLearningClassTandPPageState extends State<ShowResultExamLea
                     //     )
                     // ),
                     child: Text(
-                      'Ket qua kiem tra',
+                      'Kết quả kiểm tra',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 20,
@@ -179,7 +173,7 @@ class _ShowResultExamLearningClassTandPPageState extends State<ShowResultExamLea
                     //     )
                     // ),
                     child: Text(
-                      'Nhan xet hoc sinh',
+                      'Nhận xét học sinh',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 20,
@@ -304,52 +298,7 @@ class _ShowResultExamLearningClassTandPPageState extends State<ShowResultExamLea
               ],
             ),
           ),
-          Container(
-            child: Row(
-              children: <Widget>[
-                Container(
-                  height: height * 0.3 / 5,
-                  margin: EdgeInsets.only(
-                    left: width * 0.1 / 2,
-                  ),
-                  child: FlatButton(
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomePageT()));
-                    },
-                    child: new Image.asset('asset/image/homepage.png'),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(
-                    left: width * 0.335 / 2,
-                  ),
-                  height: height * 0.4 / 5,
-                  child: FlatButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CreateOfferClassTPage()));
-                    },
-                    child: new Image.asset('asset/image/add.png'),
-                  ),
-                ),
-                Container(
-                    margin: EdgeInsets.only(
-                      left: width * 0.2 / 2,
-                    ),
-                    height: height * 0.45 / 5,
-                    child: FlatButton(
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => ManageProfileTandPPage()));
-                      },
-                      child: new Image.asset('asset/image/blank-account.jpg'),
-                    )),
-              ],
-            ),
-          )
+          WidgetUtils.mainButton(context, 0, userType),
         ],
       ),
     );

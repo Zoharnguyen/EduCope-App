@@ -1,12 +1,18 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
+import 'package:edu_cope/constant/course-type.dart';
 import 'package:edu_cope/dto/offer.dart';
+import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/dto/user-profile.dart';
+import 'package:edu_cope/service/api-offer.dart';
 import 'package:edu_cope/view/ui/basic-operate-course/create-offer-class-T.dart';
 import 'package:edu_cope/view/ui/manage-course/manage-detail-learning-class-T-and-P.dart';
 import 'package:edu_cope/view/ui/manage-profile/manage-profile-T-and-P.dart';
 import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/material.dart';
 
-import '../homepage-T.dart';
+import '../homepage-T-and-P.dart';
 import 'manage-detail-openning-class-T-and-P.dart';
 
 void main() {
@@ -15,6 +21,7 @@ void main() {
 
 final double width = CommonUtils.width;
 final double height = CommonUtils.height;
+String authorId = '60b30dbe7d31c248aa760f27';
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -64,7 +71,7 @@ class _ManageClassTandPPageState extends State<ManageClassTandPPage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => HomePageT()));
+                                    builder: (context) => HomePageTandP()));
                           },
                         ),
                       ),
@@ -94,9 +101,9 @@ class _ManageClassTandPPageState extends State<ManageClassTandPPage> {
                     ),
                   ),
                   body: TabBarView(children: <Widget>[
-                    JobsListViewLearningOffer(),
-                    JobsListViewOpeningOffer(),
-                    JobsListViewOpeningOffer(),
+                    JobsListViewLearningOffer(CourseType.LEARNING),
+                    JobsListViewOpeningOffer(CourseType.OPENING),
+                    JobsListViewOpeningOffer(CourseType.END),
                   ])),
             ),
           ),
@@ -112,8 +119,10 @@ class _ManageClassTandPPageState extends State<ManageClassTandPPage> {
                   ),
                   child: FlatButton(
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomePageT()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HomePageTandP()));
                     },
                     child: new Image.asset('asset/image/homepage_green.jpg'),
                   ),
@@ -140,8 +149,11 @@ class _ManageClassTandPPageState extends State<ManageClassTandPPage> {
                     height: height * 0.4 / 5,
                     child: FlatButton(
                       onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => ManageProfileTandPPage()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    ManageProfileTandPPage()));
                       },
                       child: new Image.asset('asset/image/personal_blue.png'),
                     )),
@@ -156,10 +168,16 @@ class _ManageClassTandPPageState extends State<ManageClassTandPPage> {
 
 // Tab listview for opening class
 class JobsListViewOpeningOffer extends StatelessWidget {
+  CourseType _courseType = CourseType.OPENING;
+
+  JobsListViewOpeningOffer(CourseType courseType) {
+    _courseType = courseType;
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Offer>>(
-        future: _fetchOpeningOffers(),
+        future: _fetchClasses(_courseType, authorId),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<Offer>? data = snapshot.data;
@@ -176,37 +194,22 @@ class JobsListViewOpeningOffer extends StatelessWidget {
   }
 }
 
-Future<List<Offer>> _fetchOpeningOffers() async {
-  // APIOfferClient apiOfferClient =
-  // APIOfferClient(Dio(BaseOptions(contentType: "application/json")));
-  // ResponseEntity responseEntity =
-  // await apiOfferClient.getOffersByOfferType(OfferType.TEACHER);
-  List<Offer> offers = <Offer>[];
-  Offer offer = new Offer();
-  UserProfile userProfile = new UserProfile();
-  userProfile.rate = '5';
-  userProfile.phoneNumber = '0123456789';
-  offer.profileAuthor = userProfile;
-  offer.subject = 'Toan';
-  offer.salary = '500k/1b';
-  offer.formatLearning = 'Hoc tai nha';
-  offer.level = 'Trung hoc';
-  offers.add(offer);
-  offers.add(offer);
-  offers.add(offer);
-  offers.add(offer);
-  offers.add(offer);
-  // if (responseEntity.getStatus == HttpStatus.ok) {
-  //   List listDecoded = responseEntity.data;
-  //   Offer offerResponse = Offer.fromJson(responseEntity.data[0]);
-  //   print('Subject: ' + offerResponse.subject);
-  //   return listDecoded.map((offer) => new Offer.fromJson(offer)).toList();
-  //   // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-  // } else {
-  //   // Show pop up notification about fail reason.
-  //   print('Error: ' + responseEntity.getException.toString());
-  // }
-  return offers;
+Future<List<Offer>> _fetchClasses(
+    CourseType courseType, String authorId) async {
+  APIOfferClient apiOfferClient =
+      APIOfferClient(Dio(BaseOptions(contentType: "application/json")));
+  ResponseEntity responseEntity = await apiOfferClient
+      .getListClassByCourseTypeAndAuthorId(courseType, authorId);
+  if (responseEntity.getStatus == HttpStatus.ok) {
+    List listDecoded = responseEntity.data;
+    Offer offerResponse = Offer.fromJson(responseEntity.data[0]);
+    print('ID: ' + offerResponse.id.toString());
+    return listDecoded.map((offer) => new Offer.fromJson(offer)).toList();
+  } else {
+    // Show pop up notification about fail reason.
+    print('Error: ' + responseEntity.getException.toString());
+  }
+  return <Offer>[];
 }
 
 ListView _jobsOpeningClassListView(data) {
@@ -345,7 +348,8 @@ Widget _jobsShowOpeningOffer(
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => ManageDetailOpeningClassTandPPage()));
+                      builder: (context) =>
+                          ManageDetailOpeningClassTandPPage()));
             },
             child: Text(
               'Chi tiet >>>',
@@ -360,10 +364,16 @@ Widget _jobsShowOpeningOffer(
 
 // Tab list view for learning class
 class JobsListViewLearningOffer extends StatelessWidget {
+  CourseType _courseType = CourseType.LEARNING;
+
+  JobsListViewLearningOffer(CourseType courseType) {
+    _courseType = courseType;
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Offer>>(
-        future: _fetchLearningOffers(),
+        future: _fetchClasses(_courseType, authorId),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<Offer>? data = snapshot.data;
@@ -378,39 +388,6 @@ class JobsListViewLearningOffer extends StatelessWidget {
           return Text("${snapshot.error}");
         });
   }
-}
-
-Future<List<Offer>> _fetchLearningOffers() async {
-  // APIOfferClient apiOfferClient =
-  // APIOfferClient(Dio(BaseOptions(contentType: "application/json")));
-  // ResponseEntity responseEntity =
-  // await apiOfferClient.getOffersByOfferType(OfferType.TEACHER);
-  List<Offer> offers = <Offer>[];
-  Offer offer = new Offer();
-  UserProfile userProfile = new UserProfile();
-  userProfile.rate = '5';
-  userProfile.phoneNumber = '0123456789';
-  offer.profileAuthor = userProfile;
-  offer.subject = 'Toan';
-  offer.salary = '500k/1b';
-  offer.formatLearning = 'Hoc tai nha';
-  offer.level = 'Trung hoc';
-  offers.add(offer);
-  offers.add(offer);
-  offers.add(offer);
-  offers.add(offer);
-  offers.add(offer);
-  // if (responseEntity.getStatus == HttpStatus.ok) {
-  //   List listDecoded = responseEntity.data;
-  //   Offer offerResponse = Offer.fromJson(responseEntity.data[0]);
-  //   print('Subject: ' + offerResponse.subject);
-  //   return listDecoded.map((offer) => new Offer.fromJson(offer)).toList();
-  //   // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-  // } else {
-  //   // Show pop up notification about fail reason.
-  //   print('Error: ' + responseEntity.getException.toString());
-  // }
-  return offers;
 }
 
 ListView _jobsLearningClassListView(data) {
@@ -549,7 +526,8 @@ Widget _jobsShowLearningClass(
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => ManageDetailLearningClassTandPPage()));
+                      builder: (context) =>
+                          ManageDetailLearningClassTandPPage()));
             },
             child: Text(
               'Chi tiet >>>',
