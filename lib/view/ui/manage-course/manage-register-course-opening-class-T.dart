@@ -2,16 +2,15 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:edu_cope/constant/course-register-status.dart';
+import 'package:edu_cope/constant/user-type.dart';
 import 'package:edu_cope/dto/course-status-wrap.dart';
 import 'package:edu_cope/dto/course-status.dart';
 import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/service/api-offer.dart';
-import 'package:edu_cope/view/ui/basic-operate-course/create-offer-class-T.dart';
-import 'package:edu_cope/view/ui/manage-profile/manage-profile-T-and-P.dart';
+import 'package:edu_cope/view/ui/common/widget-utils.dart';
 import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/material.dart';
 
-import '../homepage-T-and-P.dart';
 import 'manage-detail-openning-class-T-and-P.dart';
 
 void main() {
@@ -55,6 +54,7 @@ class _ManageRegisterCourseOpeningClassTPageState
           Container(
             height: height * 4.55 / 5,
             child: DefaultTabController(
+              initialIndex: 1,
               length: 3,
               child: Scaffold(
                   appBar: PreferredSize(
@@ -108,57 +108,7 @@ class _ManageRegisterCourseOpeningClassTPageState
                   ])),
             ),
           ),
-          Container(
-            color: Colors.grey[100],
-            margin: EdgeInsets.only(
-                // top: height * 0.1 / 5,
-                ),
-            child: Row(
-              children: <Widget>[
-                Container(
-                  // height: height * 0.3 / 5,
-                  width: width * 0.45 / 2,
-                  margin: EdgeInsets.only(
-                    left: width * 0.07 / 2,
-                  ),
-                  child: FlatButton(
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomePageTandP()));
-                    },
-                    child: new Image.asset('asset/image/homepage_green.jpg'),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(
-                    left: width * 0.25 / 2,
-                  ),
-                  height: height * 0.4 / 5,
-                  child: FlatButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CreateOfferClassTPage()));
-                    },
-                    child: new Image.asset('asset/image/add.png'),
-                  ),
-                ),
-                Container(
-                    margin: EdgeInsets.only(
-                      left: width * 0.2 / 2,
-                    ),
-                    height: height * 0.4 / 5,
-                    child: FlatButton(
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => ManageProfileTandPPage()));
-                      },
-                      child: new Image.asset('asset/image/personal_blue.png'),
-                    )),
-              ],
-            ),
-          ),
+          WidgetUtils.mainButton(context, 0, UserType.TEACHER)
         ],
       ),
     );
@@ -174,55 +124,23 @@ class CourseStatusBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<CourseStatus>>(
-        future: _fetchCourseStatusList(_courseRegisterStatus),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            List<CourseStatus>? data = snapshot.data;
-            return Container(
-                margin: EdgeInsets.only(
-                  top: height * 0.1 / 5,
-                ),
-                child: _jobsListView(data, _courseRegisterStatus));
-          } else if (snapshot.hasError) {
-            return Text("${snapshot.error}");
-          }
-          return Text("${snapshot.error}");
-        });
+    return Scaffold(
+        body: FutureBuilder<List<CourseStatus>>(
+            future: _fetchCourseStatusList(_courseRegisterStatus),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                List<CourseStatus>? data = snapshot.data;
+                return Container(
+                    margin: EdgeInsets.only(
+                      top: height * 0.1 / 5,
+                    ),
+                    child: _jobsListView(data, _courseRegisterStatus));
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              }
+              return Text("${snapshot.error}");
+            }));
   }
-}
-
-Future<List<CourseStatus>> _fetchCourseStatusList(
-    CourseRegisterStatus courseRegisterStatus) async {
-  List<CourseStatus> courseStatusList = <CourseStatus>[];
-  // Mock data courseStatusList
-  // CourseStatus courseStatus= new CourseStatus();
-  // UserProfile userProfile = new UserProfile();
-  // userProfile.rate = '5';
-  // userProfile.phoneNumber = '0123456789';
-  // userProfile.fullName = 'Nguyen Van A';
-  // userProfile.urlImageProfile = 'test';
-  // courseStatus.userProfile = userProfile;
-  // courseStatusList.add(courseStatus);
-  String courseId = '60e394825ded485c37a643f1';
-  APIOfferClient apiOfferClient =
-      APIOfferClient(Dio(BaseOptions(contentType: "application/json")));
-  ResponseEntity responseEntity = await apiOfferClient
-      .getListCourseStatusByTypeAndCourseId(courseRegisterStatus, courseId);
-  if (responseEntity.getStatus == HttpStatus.ok) {
-    List listDecoded = responseEntity.data;
-    CourseStatus courseStatusResponse =
-        CourseStatus.fromJson(responseEntity.data[0]);
-    print('ID: ' + courseStatusResponse.courseStatusId.toString());
-    return listDecoded
-        .map((courseStatus) => new CourseStatus.fromJson(courseStatus))
-        .toList();
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-  } else {
-    // Show pop up notification about fail reason.
-    print('Error: ' + responseEntity.getException.toString());
-  }
-  return courseStatusList;
 }
 
 ListView _jobsListView(data, CourseRegisterStatus courseRegisterStatus) {
@@ -294,7 +212,8 @@ Widget _jobsShowUserProfileRegisterOffer(CourseStatus courseStatus,
                           top: height * 0.05 / 5,
                         ),
                         child: Text(
-                          CommonUtils.catchCaseStringNull(courseStatus.userProfile!.rate),
+                          CommonUtils.catchCaseStringNull(
+                              courseStatus.userProfile!.rate),
                           style: TextStyle(fontSize: 16, color: Colors.black87),
                         ),
                       ),
@@ -498,4 +417,37 @@ Future<Widget> _updateCourseStatus(CourseStatus courseStatus, String courseId,
     print('Error: ' + responseEntity.getException.toString());
     return Text('Failed!');
   }
+}
+
+Future<List<CourseStatus>> _fetchCourseStatusList(
+    CourseRegisterStatus courseRegisterStatus) async {
+  List<CourseStatus> courseStatusList = <CourseStatus>[];
+  // Mock data courseStatusList
+  // CourseStatus courseStatus= new CourseStatus();
+  // UserProfile userProfile = new UserProfile();
+  // userProfile.rate = '5';
+  // userProfile.phoneNumber = '0123456789';
+  // userProfile.fullName = 'Nguyen Van A';
+  // userProfile.urlImageProfile = 'test';
+  // courseStatus.userProfile = userProfile;
+  // courseStatusList.add(courseStatus);
+  String courseId = '60e394825ded485c37a643f1';
+  APIOfferClient apiOfferClient =
+      APIOfferClient(Dio(BaseOptions(contentType: "application/json")));
+  ResponseEntity responseEntity = await apiOfferClient
+      .getListCourseStatusByTypeAndCourseId(courseRegisterStatus, courseId);
+  if (responseEntity.getStatus == HttpStatus.ok) {
+    List listDecoded = responseEntity.data;
+    CourseStatus courseStatusResponse =
+        CourseStatus.fromJson(responseEntity.data[0]);
+    print('ID: ' + courseStatusResponse.courseStatusId.toString());
+    return listDecoded
+        .map((courseStatus) => new CourseStatus.fromJson(courseStatus))
+        .toList();
+    // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+  } else {
+    // Show pop up notification about fail reason.
+    print('Error: ' + responseEntity.getException.toString());
+  }
+  return courseStatusList;
 }

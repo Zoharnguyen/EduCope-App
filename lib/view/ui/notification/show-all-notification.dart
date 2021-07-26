@@ -1,17 +1,22 @@
-import 'package:edu_cope/view/ui/basic-operate-course/detail-information-opening-and-not-offer-class-T-and-P.dart';
-import 'package:edu_cope/view/ui/homepage-T-and-P.dart';
-import 'package:edu_cope/view/ui/manage-course/manage-class-T-and-P.dart';
-import 'package:edu_cope/view/ui/manage-profile/manage-profile-T-and-P.dart';
-import 'package:flutter/material.dart';
+import 'dart:io';
 
-import '../basic-operate-course/create-offer-class-T.dart';
+import 'package:dio/dio.dart';
+import 'package:edu_cope/constant/course-register-status.dart';
+import 'package:edu_cope/constant/move-to-screen.dart';
+import 'package:edu_cope/dto/notification-element.dart';
+import 'package:edu_cope/dto/response-entity.dart';
+import 'package:edu_cope/service/api-notification.dart';
+import 'package:edu_cope/view/ui/manage-course/manage-register-course-opening-class-T.dart';
+import 'package:edu_cope/view/utils/common-utils.dart';
+import 'package:flutter/material.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-double width = 411.4285;
-double height = 683.4285;
+double width = CommonUtils.width;
+double height = CommonUtils.height;
+String userId = '607a8b832ea23669aaea68e3';
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -34,89 +39,9 @@ class ShowAllNotification extends StatefulWidget {
   _ShowAllNotificationState createState() => _ShowAllNotificationState();
 }
 
-class showNotifications extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<List<String>>(
-        future: _fetchNotifications(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            List<String>? data = snapshot.data;
-            return _notificationListView(data);
-          } else if (snapshot.hasError) {
-            return Text("${snapshot.error}");
-          }
-          return Text("${snapshot.error}");
-        });
-  }
-}
-
-Future<List<String>> _fetchNotifications() async {
-  List<String> notifications = <String>[];
-  notifications.add("Day la thong bao khan cap nhe");
-  notifications.add("Day la thong bao khan cap nhe");
-  notifications.add("Day la thong bao khan cap nhe");
-  notifications.add("Day la thong bao khan cap nhe");
-  notifications.add("Day la thong bao khan cap nhe");
-  notifications.add("Day la thong bao khan cap nhe");
-  notifications.add("Day la thong bao khan cap nhe");
-  notifications.add("Day la thong bao khan cap nhe");
-  notifications.add("Day la thong bao khan cap nhe");
-  return notifications;
-}
-
-ListView _notificationListView(data) {
-  return ListView.builder(
-      scrollDirection: Axis.vertical,
-      itemCount: data.length,
-      itemBuilder: (context, index) {
-        return _notificationShow(data[index], context);
-      });
-}
-
-Widget _notificationShow(String data, BuildContext context) {
-  return Container(
-    height: height * 0.5 / 5,
-    width: width * 1.4 / 2,
-    margin: EdgeInsets.only(
-      top: height * 0.03 / 5,
-      right: width * 0.1 / 2,
-      left: width * 0.2 / 2,
-    ),
-    decoration: BoxDecoration(
-      color: Colors.grey[200],
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(8),
-        topRight: Radius.circular(8),
-        bottomLeft: Radius.circular(8),
-        bottomRight: Radius.circular(8),
-      ),
-    ),
-    child: FlatButton(
-      onPressed: () {},
-      child: Column(
-        children: <Widget>[
-          Align(
-            child: Text(
-              data,
-              style: TextStyle(
-                fontSize: 16,
-                fontFamily: "Roboto",
-                fontStyle: FontStyle.normal,
-              ),
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
-}
-
 class _ShowAllNotificationState extends State<ShowAllNotification> {
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.lightBlue,
@@ -145,69 +70,162 @@ class _ShowAllNotificationState extends State<ShowAllNotification> {
           ),
         ),
       ),
-      body: Column(
-        children: <Widget>[
-          Container(
-            height: height * 3.95 / 5,
-            // decoration: BoxDecoration(
-            //     border: Border.all(
-            //   color: Colors.green,
-            //   width: 2,
-            // )),
-            child: showNotifications(),
-          ),
-          Container(
-            color: Colors.grey[100],
-            // margin: EdgeInsets.only(
-            //   top: height * 0.05 / 5,
-            // ),
-            child: Row(
-              children: <Widget>[
-                Container(
-                  height: height * 0.3 / 5,
-                  margin: EdgeInsets.only(
-                    left: width * 0.1 / 2,
-                  ),
-                  child: FlatButton(
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomePageTandP()));
-                    },
-                    child: new Image.asset('asset/image/homepage.png'),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(
-                    left: width * 0.26 / 2,
-                  ),
-                  height: height * 0.4 / 5,
-                  child: FlatButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CreateOfferClassTPage()));
-                    },
-                    child: new Image.asset('asset/image/add.png'),
-                  ),
-                ),
-                Container(
-                    margin: EdgeInsets.only(
-                      left: width * 0.2 / 2,
-                    ),
-                    height: height * 0.45 / 5,
-                    child: FlatButton(
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => ManageProfileTandPPage()));
-                      },
-                      child: new Image.asset('asset/image/blank-account.jpg'),
-                    )),
-              ],
-            ),
-          ),
-        ],
+      body: Container(
+        margin: EdgeInsets.only(
+          top: height * 0.05 / 5,
+        ),
+        height: height * 4.25 / 5,
+        child: showNotifications(),
       ),
     );
+  }
+}
+
+class showNotifications extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<NotificationElement>>(
+        future: _fetchNotifications(userId),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<NotificationElement>? data = snapshot.data;
+            return _notificationListView(data);
+          } else if (snapshot.hasError) {
+            return Text("${snapshot.error}");
+          }
+          return Text("${snapshot.error}");
+        });
+  }
+}
+
+ListView _notificationListView(data) {
+  return ListView.builder(
+      scrollDirection: Axis.vertical,
+      itemCount: data.length,
+      itemBuilder: (context, index) {
+        return _notificationShow(data[index], context);
+      });
+}
+
+Widget _notificationShow(
+    NotificationElement notificationElement, BuildContext context) {
+  return Container(
+    height: height * 0.6 / 5,
+    width: width * 1.4 / 2,
+    margin: EdgeInsets.only(
+      top: height * 0.05 / 5,
+      right: width * 0.1 / 2,
+      left: width * 0.1 / 2,
+    ),
+    decoration: BoxDecoration(
+      color: Colors.grey[100],
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(8),
+        topRight: Radius.circular(8),
+        bottomLeft: Radius.circular(8),
+        bottomRight: Radius.circular(8),
+      ),
+    ),
+    child: FlatButton(
+      onPressed: () {
+        moveToScreenWithNotification(notificationElement.screenName,
+            notificationElement.screenVariables, context);
+      },
+      child: Row(
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(
+              right: width * 0.05 / 2,
+            ),
+            height: height * 0.3 / 5,
+            child: new Image.asset('asset/image/personal_blue.png'),
+          ),
+          Container(
+            margin: EdgeInsets.only(
+              top: height * 0.05 / 5,
+            ),
+            width: width * 1.33 / 2,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  child: RichText(
+                    text: TextSpan(children: <TextSpan>[
+                      TextSpan(
+                        text: CommonUtils.catchCaseStringNull(
+                                notificationElement.sender) +
+                            ' ',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Open Sans',
+                        ),
+                      ),
+                      TextSpan(
+                          text: CommonUtils.catchCaseStringNull(
+                              notificationElement.content),
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.black54,
+                          ))
+                    ]),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(
+                    top: height * 0.02 / 5,
+                  ),
+                  child: Text(
+                    CommonUtils.catchCaseStringNull(
+                        notificationElement.timeCreated),
+                    style: TextStyle(fontSize: 14, color: Colors.black54),
+                  ),
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    ),
+  );
+}
+
+Future<List<NotificationElement>> _fetchNotifications(String userId) async {
+  List<NotificationElement> notifications = <NotificationElement>[];
+  APINotificationClient apiNotificationClient =
+      APINotificationClient(Dio(BaseOptions(contentType: "application/json")));
+  ResponseEntity responseEntity =
+      await apiNotificationClient.getNotificationsByUserId(userId);
+  if (responseEntity.getStatus == HttpStatus.ok) {
+    List listDecoded = responseEntity.data;
+    NotificationElement response =
+        NotificationElement.fromJson(responseEntity.data[0]);
+    print('Id: ' + response.notificationId.toString());
+    return listDecoded
+        .map((notification) => new NotificationElement.fromJson(notification))
+        .toList();
+  } else {
+    // Show pop up notification about fail reason.
+    print('Error: ' + responseEntity.getException.toString());
+  }
+  return notifications;
+}
+
+void moveToScreenWithNotification(
+    String? screenName, List<String>? screenVariables, BuildContext context) {
+  if (screenName != null) {
+    if (MoveToScreen.moveToManageOpenCourseAndDecideRegisterCourse ==
+        screenName) {
+      // Execute when get courseRegisterStatus
+      // CourseRegisterStatus courseRegisterStatus = CourseRegisterStatus.PENDING;
+      // if (screenVariables != null && !screenVariables.isEmpty) {
+      //   courseRegisterStatus = CourseRegisterStatusHelper.convertStringToEnum(screenVariables.first)!;
+      // }
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ManageRegisterCourseOpeningClassTPage()));
+    }
   }
 }

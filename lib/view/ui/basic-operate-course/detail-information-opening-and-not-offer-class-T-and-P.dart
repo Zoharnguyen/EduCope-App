@@ -4,10 +4,13 @@ import 'package:dio/dio.dart';
 import 'package:edu_cope/constant/user-type.dart';
 import 'package:edu_cope/dto/course-status-wrap.dart';
 import 'package:edu_cope/dto/course-status.dart';
+import 'package:edu_cope/dto/notification-element.dart';
+import 'package:edu_cope/dto/notification-request-dto.dart';
 import 'package:edu_cope/dto/offer.dart';
 import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/dto/schedule-offer.dart';
 import 'package:edu_cope/dto/user-profile.dart';
+import 'package:edu_cope/service/api-notification.dart';
 import 'package:edu_cope/service/api-offer.dart';
 import 'package:edu_cope/view/ui/manage-course/edit-detail-information-opening-and-not-offer-class-T.dart';
 import 'package:edu_cope/view/ui/manage-profile/manage-profile-T-and-P.dart';
@@ -473,6 +476,7 @@ Container buttonRegister(UserType userType, BuildContext context) {
         ),
         onPressed: () {
           createCourseStatus(new CourseStatusWrap());
+          sendNotification(new NotificationRequestDto());
           showDialog(
               context: context,
               builder: (BuildContext context) {
@@ -488,9 +492,7 @@ class RegisterSuccessAlert extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4.0)
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
         child: Stack(
           overflow: Overflow.visible,
           alignment: Alignment.topCenter,
@@ -501,15 +503,35 @@ class RegisterSuccessAlert extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(10, 70, 10, 10),
                 child: Column(
                   children: [
-                    Text('Thành Công', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.blue),),
-                    SizedBox(height: 5,),
-                    Text('Khóa học đã được đăng ký', style: TextStyle(fontSize: 14),),
-                    SizedBox(height: 20,),
-                    RaisedButton(onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePageTandP()));
-                    },
+                    Text(
+                      'Thành Công',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Colors.blue),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      'Khóa học đã được đăng ký',
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    RaisedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomePageTandP()));
+                      },
                       color: Colors.lightBlue,
-                      child: Text('Đóng', style: TextStyle(color: Colors.white),),
+                      child: Text(
+                        'Đóng',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     )
                   ],
                 ),
@@ -520,12 +542,14 @@ class RegisterSuccessAlert extends StatelessWidget {
                 child: CircleAvatar(
                   backgroundColor: Colors.lightBlue,
                   radius: 60,
-                  child: Icon(Icons.save, color: Colors.white, size: 50,),
-                )
-            ),
+                  child: Icon(
+                    Icons.save,
+                    color: Colors.white,
+                    size: 50,
+                  ),
+                )),
           ],
-        )
-    );
+        ));
   }
 }
 
@@ -533,11 +557,33 @@ Future<Widget> createCourseStatus(CourseStatusWrap courseStatusWrap) async {
   courseStatusWrap.courseId = courseId;
   courseStatusWrap.courseStatus = mockCourseStatus();
   APIOfferClient apiOfferClient =
-  APIOfferClient(Dio(BaseOptions(contentType: "application/json")));
-  ResponseEntity responseEntity = await apiOfferClient.createCourseStatus(courseStatusWrap);
+      APIOfferClient(Dio(BaseOptions(contentType: "application/json")));
+  ResponseEntity responseEntity =
+      await apiOfferClient.createCourseStatus(courseStatusWrap);
   if (responseEntity.getStatus == HttpStatus.ok) {
     CourseStatusWrap response = CourseStatusWrap.fromJson(responseEntity.data);
     print('Id: ' + response.courseId.toString());
+    return Text('Success!');
+    // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+  } else {
+    // Show pop up notification about fail reason.
+    print('Error: ' + responseEntity.getException.toString());
+    return Text('Failed!');
+  }
+}
+
+Future<Widget> sendNotification(
+    NotificationRequestDto notificationRequestDto) async {
+  mockNotificationRequestDto(notificationRequestDto);
+  String receiverId = '607a8b832ea23669aaea68e3';
+  APINotificationClient apiNotificationClient =
+      APINotificationClient(Dio(BaseOptions(contentType: "application/json")));
+  ResponseEntity responseEntity =
+      await apiNotificationClient.sendPnsToTopic(notificationRequestDto, receiverId);
+  if (responseEntity.getStatus == HttpStatus.ok) {
+    NotificationElement response =
+        NotificationElement.fromJson(responseEntity.data);
+    print('Id: ' + response.notificationId.toString());
     return Text('Success!');
     // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
   } else {
@@ -557,4 +603,15 @@ CourseStatus mockCourseStatus() {
   userProfile.id = '607a8b832ea23669aaea68e3';
   courseStatus.userProfile = userProfile;
   return courseStatus;
+}
+
+void mockNotificationRequestDto(NotificationRequestDto notificationRequestDto) {
+  if (notificationRequestDto == null)
+    notificationRequestDto = new NotificationRequestDto();
+  notificationRequestDto.target = 'trungnq-topic';
+  notificationRequestDto.title = 'Notification-Test';
+  NotificationElement notificationElement = new NotificationElement();
+  notificationElement.sender = 'AAA Nguyen';
+  notificationElement.content = 'Da dang ky mon hoc cua bro day';
+  notificationRequestDto.notificationElement = notificationElement;
 }

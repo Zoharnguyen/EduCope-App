@@ -27,7 +27,7 @@ void main() async {
 
 final double height = CommonUtils.height;
 final double width = CommonUtils.width;
-var counter = 1;
+var counter = 0;
 UserType userType = UserType.STUDENTPARENT;
 
 class MyApp extends StatelessWidget {
@@ -54,6 +54,7 @@ class HomePageTandP extends StatefulWidget {
 class _HomePageTandPState extends State<HomePageTandP> {
   late FirebaseMessaging messaging;
 
+  // Set up for Notification with FCM
   @override
   void initState() {
     super.initState();
@@ -113,6 +114,9 @@ class _HomePageTandPState extends State<HomePageTandP> {
                   new IconButton(
                       icon: Icon(Icons.message),
                       onPressed: () {
+                        setState(() {
+                          counter = 0;
+                        });
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -157,6 +161,9 @@ class _HomePageTandPState extends State<HomePageTandP> {
                   new IconButton(
                       icon: Icon(Icons.notifications),
                       onPressed: () {
+                        setState(() {
+                          counter = 0;
+                        });
                         Navigator.push(
                             context,
                             MaterialPageRoute(
