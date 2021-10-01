@@ -1,4 +1,5 @@
 import 'package:edu_cope/view/ui/manage-course/add-new-adjust-student-learning-class-T.dart';
+import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -46,7 +47,7 @@ class _ShowAdjustStudentLearningClassTandPPageState
             child: Text(
               'Nguyen Van A',
               style: TextStyle(
-                fontSize: 24,
+                fontSize: CommonUtils.getUnitPx() * 20,
                 fontFamily: "Roboto",
                 fontStyle: FontStyle.normal,
               ),
@@ -88,7 +89,7 @@ class _ShowAdjustStudentLearningClassTandPPageState
                         child: Text(
                           'Ngay: 01/01/2021',
                           style: TextStyle(
-                            fontSize: 24,
+                            fontSize: CommonUtils.getUnitPx() * 20,
                             fontFamily: "Roboto",
                             fontStyle: FontStyle.normal,
                           ),
@@ -98,7 +99,7 @@ class _ShowAdjustStudentLearningClassTandPPageState
                         child: Text(
                           'Noi Dung: Ket qua cua hoc sinh da tien bo rat nhieu so voi 1 thang truoc, the hien ro o ket qua kiem tra lan nay.',
                           style: TextStyle(
-                            fontSize: 24,
+                            fontSize: CommonUtils.getUnitPx() * 20,
                             fontFamily: "Roboto",
                             fontStyle: FontStyle.normal,
                           ),
@@ -139,7 +140,7 @@ class _ShowAdjustStudentLearningClassTandPPageState
                         child: Text(
                           'Ngay: 01/01/2021',
                           style: TextStyle(
-                            fontSize: 24,
+                            fontSize: CommonUtils.getUnitPx() * 20,
                             fontFamily: "Roboto",
                             fontStyle: FontStyle.normal,
                           ),
@@ -149,7 +150,7 @@ class _ShowAdjustStudentLearningClassTandPPageState
                         child: Text(
                           'Noi Dung: Ket qua cua hoc sinh da tien bo rat nhieu so voi 1 thang truoc, the hien ro o ket qua kiem tra lan nay.',
                           style: TextStyle(
-                            fontSize: 24,
+                            fontSize: CommonUtils.getUnitPx() * 20,
                             fontFamily: "Roboto",
                             fontStyle: FontStyle.normal,
                           ),
@@ -190,7 +191,7 @@ class _ShowAdjustStudentLearningClassTandPPageState
                         child: Text(
                           'Ngay: 01/01/2021',
                           style: TextStyle(
-                            fontSize: 24,
+                            fontSize: CommonUtils.getUnitPx() * 20,
                             fontFamily: "Roboto",
                             fontStyle: FontStyle.normal,
                           ),
@@ -200,7 +201,7 @@ class _ShowAdjustStudentLearningClassTandPPageState
                         child: Text(
                           'Noi Dung: Ket qua cua hoc sinh da tien bo rat nhieu so voi 1 thang truoc, the hien ro o ket qua kiem tra lan nay.',
                           style: TextStyle(
-                            fontSize: 24,
+                            fontSize: CommonUtils.getUnitPx() * 20,
                             fontFamily: "Roboto",
                             fontStyle: FontStyle.normal,
                           ),
@@ -217,7 +218,7 @@ class _ShowAdjustStudentLearningClassTandPPageState
               left: width * 1.2 / 2,
             ),
             height: height * 0.4 / 5,
-            child: FlatButton(
+            child: TextButton(
               onPressed: () {
                 Navigator.push(
                     context,

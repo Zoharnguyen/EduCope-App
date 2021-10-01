@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:edu_cope/constant/from-screen.dart';
 import 'package:edu_cope/constant/user-type.dart';
 import 'package:edu_cope/dto/course-status-wrap.dart';
 import 'package:edu_cope/dto/course-status.dart';
@@ -10,11 +11,15 @@ import 'package:edu_cope/dto/offer.dart';
 import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/dto/schedule-offer.dart';
 import 'package:edu_cope/dto/user-profile.dart';
+import 'package:edu_cope/service/api-account.dart';
 import 'package:edu_cope/service/api-notification.dart';
 import 'package:edu_cope/service/api-offer.dart';
+import 'package:edu_cope/view/ui/common/widget-utils.dart';
 import 'package:edu_cope/view/ui/manage-course/edit-detail-information-opening-and-not-offer-class-T.dart';
 import 'package:edu_cope/view/ui/manage-profile/manage-profile-T-and-P.dart';
+import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 import '../homepage-T-and-P.dart';
 
@@ -22,23 +27,31 @@ void main() {
   runApp(MyApp());
 }
 
-double width = 411.4285;
-double height = 683.4285;
-UserType userType = UserType.STUDENTPARENT;
-String courseId = "60e394825ded485c37a643f1";
+double width = CommonUtils.width;
+double height = CommonUtils.height;
+UserType userType = CommonUtils.currentUserType;
+String courseIdGlobal = '';
+bool checkCourseBelongUserGlobal = false;
+String fromScreenGlobal = '';
+String userIdGlobal = CommonUtils.currentUserId;
+CourseStatusWrap courseStatusWrap = new CourseStatusWrap();
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: DetailInformationOpeningAndNotOfferClassTandPPage(),
+      home: DetailInformationOpeningAndNotOfferClassTandPPage(false, '', ''),
     );
   }
 }
 
 class DetailInformationOpeningAndNotOfferClassTandPPage extends StatefulWidget {
-  DetailInformationOpeningAndNotOfferClassTandPPage();
+  DetailInformationOpeningAndNotOfferClassTandPPage(
+      bool checkCourseBelongUser, String fromScreen, String courseId) {
+    checkCourseBelongUserGlobal = checkCourseBelongUser;
+    fromScreenGlobal = fromScreen;
+    courseIdGlobal = courseId;
+  }
 
   @override
   _DetailInformationOpeningAndNotOfferClassTandPPageState createState() =>
@@ -48,19 +61,29 @@ class DetailInformationOpeningAndNotOfferClassTandPPage extends StatefulWidget {
 class _DetailInformationOpeningAndNotOfferClassTandPPageState
     extends State<DetailInformationOpeningAndNotOfferClassTandPPage> {
   Offer _offer = _initializeOffer();
+  var stars = [];
+  Image? profileImageInternal = null;
+
+  @override
+  void initState() {
+    super.initState();
+    getUserProfileById(userIdGlobal).then((value) {
+      courseStatusWrap.courseStatus!.userProfile = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.lightBlue,
+        backgroundColor: Color(WidgetUtils.valueColorAppBar),
         title: Container(
           child: Align(
             child: Text(
               'Thông tin lớp học',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 22,
+                fontSize: CommonUtils.getUnitPx() * 20,
                 fontFamily: "Roboto",
                 fontStyle: FontStyle.normal,
               ),
@@ -77,19 +100,27 @@ class _DetailInformationOpeningAndNotOfferClassTandPPageState
           ),
         ),
         actions: [
-          buttonEdit(userType, context),
+          buttonEdit(context),
         ],
       ),
       body: SingleChildScrollView(
         reverse: false,
-        // padding: EdgeInsets.only(
-        //   bottom: bottomKeyboard * 0.1,
-        // ),
         child: FutureBuilder<Offer>(
           future: getOfferById(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               _offer = snapshot.data!;
+
+              // Convert base64 to image
+              if (_offer != null &&
+                  _offer.profileAuthor != null &&
+                  _offer.profileAuthor!.urlImageProfile != null &&
+                  _offer.profileAuthor!.urlImageProfile != ' ') {
+                profileImageInternal = new Image.memory(
+                    WidgetUtils.dataFromBase64String(
+                        _offer.profileAuthor!.urlImageProfile.toString()));
+              }
+
             }
             return Column(
               // Make list containers in Column start with left screen
@@ -112,7 +143,7 @@ class _DetailInformationOpeningAndNotOfferClassTandPPageState
                       ),
                       Container(
                           decoration: BoxDecoration(
-                            color: Colors.lightBlue[50],
+                            color: Color(0xFFe9f0ef),
                             border: Border.all(
                               color: Colors.grey.shade400,
                               width: 1,
@@ -136,77 +167,86 @@ class _DetailInformationOpeningAndNotOfferClassTandPPageState
                               Container(
                                 margin: EdgeInsets.only(
                                   top: height * 0.05 / 5,
+                                  right: width * 0.5 / 2,
+                                  bottom: height * 0.04 / 5,
                                 ),
                                 child: Text(
                                   _catchCaseStringNull('Người đăng:'),
                                   style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: CommonUtils.getUnitPx() * 12,
                                     fontFamily: "Roboto",
                                     fontStyle: FontStyle.normal,
                                   ),
                                 ),
                               ),
                               Container(
-                                height: height * 0.6 / 5,
-                                child: new Image.asset(
-                                    'asset/image/blank-account.jpg'),
+                                height: height * 0.8 / 5,
+                                width: width * 0.45 / 2,
+                                margin: EdgeInsets.only(
+                                  bottom: height * 0.05 / 5,
+                                ),
+                                decoration: BoxDecoration(
+                                    color: Color(0xFFe4f2f0),
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(17),
+                                      topRight: Radius.circular(17),
+                                      bottomLeft: Radius.circular(17),
+                                      bottomRight: Radius.circular(17),
+                                    ),
+                                    border: Border.all(
+                                      color: Color(0xFFe1f5f2),
+                                      width: 2,
+                                    ),
+                                    image: DecorationImage(
+                                        fit: BoxFit.fill,
+                                        image: profileImageInternal != null
+                                            ? profileImageInternal!.image
+                                            : NetworkImage(
+                                                'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'))),
                               ),
+                              WidgetUtils.showRatingStarsMinor(
+                                  _catchCaseStringNull(
+                                      _offer.profileAuthor!.rate ?? '0'),
+                                  stars),
                               Container(
                                 margin: EdgeInsets.only(
                                   top: height * 0.05 / 5,
                                 ),
                                 child: Text(
-                                  _catchCaseStringNull('5'),
+                                  _catchCaseStringNull(
+                                      _offer.profileAuthor!.fullName ?? ''),
                                   style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: CommonUtils.getUnitPx() * 14,
                                     fontFamily: "Roboto",
                                     fontStyle: FontStyle.normal,
                                   ),
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.only(
-                                  top: height * 0.05 / 5,
-                                ),
-                                child: Text(
-                                  _catchCaseStringNull('Nguyen Van A'),
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontFamily: "Roboto",
-                                    fontStyle: FontStyle.normal,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(
-                                  top: height * 0.05 / 5,
-                                ),
-                                child: Text(
-                                  _catchCaseStringNull('0123456789'),
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontFamily: "Roboto",
-                                    fontStyle: FontStyle.normal,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                height: height * 0.2 / 5,
+                                height: height * 0.25 / 5,
                                 margin: EdgeInsets.only(
                                   top: height * 0.03 / 5,
                                 ),
-                                child: FlatButton(
+                                child: TextButton(
                                   onPressed: () {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                ManageProfileTandPPage()));
+                                                ManageProfileTandPPage(
+                                                    CommonUtils
+                                                        .catchCaseStringNull(
+                                                            _offer
+                                                                .profileAuthor!
+                                                                .id))));
                                   },
                                   child: Text(
                                     'Chi tiết >>>',
                                     style: TextStyle(
-                                        fontSize: 16, color: Colors.black),
+                                      fontSize: CommonUtils.getUnitPx() * 16,
+                                      color: Colors.black,
+                                      fontStyle: FontStyle.italic,
+                                    ),
                                   ),
                                 ),
                               )
@@ -215,20 +255,20 @@ class _DetailInformationOpeningAndNotOfferClassTandPPageState
                     ],
                   ),
                 ),
-                titleForItems('Hinh thuc hoc'),
+                titleForItems('Hình thức học'),
                 inputShortContentItem(_offer.formatLearning.toString()),
                 titleForItems('Cấp học'),
                 inputShortContentItem(_offer.level.toString()),
-                titleForItems('Ngay hoc trong tuan'),
+                titleForItems('Ngày học trong tuần'),
                 inputShortContentItem(
                     _offer.scheduleOffer!.overview.toString()),
-                titleForItems('Thoi gian hoc'),
+                titleForItems('Thời gian học'),
                 inputShortContentItem(_offer.scheduleOffer!.detail.toString()),
-                titleForItems('Dia diem(Neu chon hoc tai nha)'),
+                titleForItems('Địa điểm(Nếu chọn học tại nhà)'),
                 inputShortContentItem(_offer.preferAddress.toString()),
-                titleForItems('Luu y'),
+                titleForItems('Lưu ý'),
                 inputLongContentItem(_offer.note.toString()),
-                buttonRegister(userType, context),
+                buttonRegister(context),
               ],
             );
           },
@@ -247,16 +287,16 @@ Container inputShortestContentItem(String value) {
       left: width * 0.3 / 2,
     ),
     decoration: BoxDecoration(
-      color: Colors.lightBlue[50],
+      color: Color(0xFFe9f0ef),
       border: Border.all(
         color: Colors.grey.shade400,
         width: 1,
       ),
       borderRadius: BorderRadius.only(
-        bottomLeft: Radius.circular(10),
-        topLeft: Radius.circular(10),
-        bottomRight: Radius.circular(10),
-        topRight: Radius.circular(10),
+        topLeft: Radius.circular(25),
+        topRight: Radius.circular(8),
+        bottomLeft: Radius.circular(8),
+        bottomRight: Radius.circular(25),
       ),
     ),
     child: Container(
@@ -264,7 +304,7 @@ Container inputShortestContentItem(String value) {
       child: Text(
         _catchCaseStringNull(value),
         style: TextStyle(
-          fontSize: 16,
+          fontSize: CommonUtils.getUnitPx() * 16,
         ),
       ),
     ),
@@ -280,16 +320,16 @@ Container inputShortContentItem(String value) {
       left: width * 0.3 / 2,
     ),
     decoration: BoxDecoration(
-      color: Colors.lightBlue[50],
+      color: Color(0xFFe9f0ef),
       border: Border.all(
         color: Colors.grey.shade400,
         width: 1,
       ),
       borderRadius: BorderRadius.only(
-        bottomLeft: Radius.circular(10),
-        topLeft: Radius.circular(10),
-        bottomRight: Radius.circular(10),
-        topRight: Radius.circular(10),
+        topLeft: Radius.circular(25),
+        topRight: Radius.circular(8),
+        bottomLeft: Radius.circular(8),
+        bottomRight: Radius.circular(25),
       ),
     ),
     child: Container(
@@ -297,7 +337,7 @@ Container inputShortContentItem(String value) {
       child: Text(
         _catchCaseStringNull(value),
         style: TextStyle(
-          fontSize: 16,
+          fontSize: CommonUtils.getUnitPx() * 16,
         ),
       ),
     ),
@@ -317,8 +357,9 @@ Container titleForItems(String initialValueTitle) {
             child: Text(
               initialValueTitle,
               style: TextStyle(
-                color: Colors.blue,
-                fontSize: 20,
+                color: Color(0xFF1298e0),
+                fontSize: CommonUtils.getUnitPx() * 20,
+                fontStyle: FontStyle.italic,
               ),
             )),
       ],
@@ -335,7 +376,7 @@ Container inputLongContentItem(String value) {
       left: width * 0.3 / 2,
     ),
     decoration: BoxDecoration(
-      color: Colors.lightBlue[50],
+      color: Color(0xFFe9f0ef),
       border: Border.all(
         color: Colors.grey.shade400,
         width: 1,
@@ -351,7 +392,7 @@ Container inputLongContentItem(String value) {
       margin: EdgeInsets.only(top: height * 0.02 / 5, left: width * 0.02 / 2),
       child: Text(
         _catchCaseStringNull(value),
-        style: TextStyle(fontSize: 16),
+        style: TextStyle(fontSize: CommonUtils.getUnitPx() * 16),
       ),
     ),
   );
@@ -359,17 +400,7 @@ Container inputLongContentItem(String value) {
 
 Future<Offer> getOfferById() async {
   Offer offer = new Offer();
-  //Mock data
-  // Offer offer = new Offer();
-  // UserProfile userProfile = new UserProfile();
-  // userProfile.rate = '5';
-  // userProfile.phoneNumber = '0123456789';
-  // offer.profileAuthor = userProfile;
-  // offer.subject = 'Toan';
-  // offer.salary = '500k/1b';
-  // offer.formatLearning = 'Hoc tai nha';
-  // offer.level = 'Trung hoc';
-  String courseId = '60a9d1ae40a781483137bd76';
+  String courseId = courseIdGlobal;
   APIOfferClient apiOfferClient =
       APIOfferClient(Dio(BaseOptions(contentType: "application/json")));
   ResponseEntity responseEntity = await apiOfferClient.getCourseById(courseId);
@@ -377,9 +408,7 @@ Future<Offer> getOfferById() async {
     Offer offerResponse = Offer.fromJson(responseEntity.data);
     print('Subject: ' + offerResponse.subject.toString());
     return offerResponse;
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
   } else {
-    // Show pop up notification about fail reason.
     print('Error: ' + responseEntity.getException.toString());
   }
   return offer;
@@ -413,8 +442,9 @@ Offer _initializeOffer() {
   return offer;
 }
 
-Container buttonEdit(UserType userType, BuildContext context) {
-  if (UserType.TEACHER == userType)
+Container buttonEdit(BuildContext context) {
+  if (checkCourseBelongUserGlobal &&
+      FromScreen.fromScreenManageEndClass != fromScreenGlobal)
     return Container(
       child: TextButton(
         onPressed: () {
@@ -422,12 +452,13 @@ Container buttonEdit(UserType userType, BuildContext context) {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      EditDetailInformationOpeningAndNotOfferClassTPage()));
+                      EditDetailInformationOpeningAndNotOfferClassTPage(
+                          courseIdGlobal)));
         },
         child: Text(
           "Sửa",
           style: TextStyle(
-            fontSize: 20,
+            fontSize: CommonUtils.getUnitPx() * 20,
             color: Colors.white,
             fontStyle: FontStyle.italic,
           ),
@@ -437,8 +468,9 @@ Container buttonEdit(UserType userType, BuildContext context) {
   return Container();
 }
 
-Container buttonRegister(UserType userType, BuildContext context) {
-  if (UserType.STUDENTPARENT == userType)
+Container buttonRegister(BuildContext context) {
+  if (!checkCourseBelongUserGlobal &&
+      fromScreenGlobal == FromScreen.fromScreenHomePage)
     return Container(
       height: height * 0.3 / 5,
       width: width * 0.6 / 2,
@@ -449,10 +481,6 @@ Container buttonRegister(UserType userType, BuildContext context) {
       ),
       decoration: BoxDecoration(
           color: Colors.blue[300],
-          // border: Border.all(
-          //   color: Colors.green,
-          //   width: 2,
-          // ),
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(27),
             topLeft: Radius.circular(27),
@@ -465,17 +493,17 @@ Container buttonRegister(UserType userType, BuildContext context) {
               offset: Offset(0, 4),
             ),
           ]),
-      child: FlatButton(
+      child: TextButton(
         child: Text(
           "Đăng ký",
           style: TextStyle(
-              fontSize: 18,
+              fontSize: CommonUtils.getUnitPx() * 18,
               color: Colors.white,
               fontFamily: "Roboto",
               fontStyle: FontStyle.normal),
         ),
         onPressed: () {
-          createCourseStatus(new CourseStatusWrap());
+          createCourseStatus(courseStatusWrap);
           sendNotification(new NotificationRequestDto());
           showDialog(
               context: context,
@@ -485,7 +513,11 @@ Container buttonRegister(UserType userType, BuildContext context) {
         },
       ),
     );
-  return Container();
+  return Container(
+    margin: EdgeInsets.only(
+      top: height * 0.5 / 5,
+    ),
+  );
 }
 
 class RegisterSuccessAlert extends StatelessWidget {
@@ -507,7 +539,7 @@ class RegisterSuccessAlert extends StatelessWidget {
                       'Thành Công',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 20,
+                          fontSize: CommonUtils.getUnitPx() * 20,
                           color: Colors.blue),
                     ),
                     SizedBox(
@@ -515,7 +547,7 @@ class RegisterSuccessAlert extends StatelessWidget {
                     ),
                     Text(
                       'Khóa học đã được đăng ký',
-                      style: TextStyle(fontSize: 14),
+                      style: TextStyle(fontSize: CommonUtils.getUnitPx() * 14),
                     ),
                     SizedBox(
                       height: 20,
@@ -525,7 +557,8 @@ class RegisterSuccessAlert extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => HomePageTandP()));
+                                builder: (context) =>
+                                    HomePageTandP(userIdGlobal)));
                       },
                       color: Colors.lightBlue,
                       child: Text(
@@ -554,8 +587,8 @@ class RegisterSuccessAlert extends StatelessWidget {
 }
 
 Future<Widget> createCourseStatus(CourseStatusWrap courseStatusWrap) async {
-  courseStatusWrap.courseId = courseId;
-  courseStatusWrap.courseStatus = mockCourseStatus();
+  courseStatusWrap.courseId = courseIdGlobal;
+  mockCourseStatus(courseStatusWrap.courseStatus ?? new CourseStatus());
   APIOfferClient apiOfferClient =
       APIOfferClient(Dio(BaseOptions(contentType: "application/json")));
   ResponseEntity responseEntity =
@@ -564,45 +597,50 @@ Future<Widget> createCourseStatus(CourseStatusWrap courseStatusWrap) async {
     CourseStatusWrap response = CourseStatusWrap.fromJson(responseEntity.data);
     print('Id: ' + response.courseId.toString());
     return Text('Success!');
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
   } else {
-    // Show pop up notification about fail reason.
     print('Error: ' + responseEntity.getException.toString());
     return Text('Failed!');
   }
+}
+
+Future<UserProfile> getUserProfileById(String userId) async {
+  UserProfile userProfile = new UserProfile();
+  APIAcountClient apiAcountClient =
+      APIAcountClient(Dio(BaseOptions(contentType: "application/json")));
+  ResponseEntity responseEntity =
+      await apiAcountClient.getUserProfileById(userId);
+  if (responseEntity.getStatus == HttpStatus.ok) {
+    UserProfile response = UserProfile.fromJson(responseEntity.data);
+    print('Id: ' + response.id.toString());
+    return response;
+  } else {
+    print('Error: ' + responseEntity.getException.toString());
+  }
+  return userProfile;
+}
+
+void mockCourseStatus(CourseStatus courseStatus) {
+  courseStatus.courseStatusId = new Uuid().v1();
+  courseStatus.reason = "Toi dong y dang ky";
 }
 
 Future<Widget> sendNotification(
     NotificationRequestDto notificationRequestDto) async {
   mockNotificationRequestDto(notificationRequestDto);
-  String receiverId = '607a8b832ea23669aaea68e3';
+  String receiverId = '';
   APINotificationClient apiNotificationClient =
       APINotificationClient(Dio(BaseOptions(contentType: "application/json")));
-  ResponseEntity responseEntity =
-      await apiNotificationClient.sendPnsToTopic(notificationRequestDto, receiverId);
+  ResponseEntity responseEntity = await apiNotificationClient.sendPnsToTopic(
+      notificationRequestDto, receiverId);
   if (responseEntity.getStatus == HttpStatus.ok) {
     NotificationElement response =
         NotificationElement.fromJson(responseEntity.data);
     print('Id: ' + response.notificationId.toString());
     return Text('Success!');
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
   } else {
-    // Show pop up notification about fail reason.
     print('Error: ' + responseEntity.getException.toString());
     return Text('Failed!');
   }
-}
-
-CourseStatus mockCourseStatus() {
-  CourseStatus courseStatus = new CourseStatus();
-  courseStatus.courseStatusId = "abcdef111";
-  courseStatus.reason = "Một hai ba bon";
-  UserProfile userProfile = new UserProfile();
-  userProfile.fullName = "AAAAA";
-  userProfile.rate = '2';
-  userProfile.id = '607a8b832ea23669aaea68e3';
-  courseStatus.userProfile = userProfile;
-  return courseStatus;
 }
 
 void mockNotificationRequestDto(NotificationRequestDto notificationRequestDto) {
@@ -612,6 +650,6 @@ void mockNotificationRequestDto(NotificationRequestDto notificationRequestDto) {
   notificationRequestDto.title = 'Notification-Test';
   NotificationElement notificationElement = new NotificationElement();
   notificationElement.sender = 'AAA Nguyen';
-  notificationElement.content = 'Da dang ky mon hoc cua bro day';
+  notificationElement.content = 'Da dang ky Môn học cua bro day';
   notificationRequestDto.notificationElement = notificationElement;
 }

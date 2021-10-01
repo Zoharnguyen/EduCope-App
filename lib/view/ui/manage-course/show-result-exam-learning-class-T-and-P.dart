@@ -11,7 +11,7 @@ void main() {
 
 final double width = CommonUtils.width;
 final double height = CommonUtils.height;
-UserType userType = UserType.STUDENTPARENT;
+UserType userType = CommonUtils.currentUserType;
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -36,29 +36,32 @@ class _ShowResultExamLearningClassTandPPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: Container(
-          child: IconButton(
-            icon: Icon(Icons.arrow_back_ios),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ),
-        centerTitle: true,
-        title: Container(
-          child: Text(
-            'Kết quả học tập',
-            style: TextStyle(
-              fontSize: 24,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(height*0.41/5),
+        child: AppBar(
+          leading: Container(
+            child: IconButton(
+              icon: Icon(Icons.arrow_back_ios),
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
           ),
-        ),
+          centerTitle: true,
+          title: Container(
+            child: Text(
+              'Kết quả học tập',
+              style: TextStyle(
+                fontSize: CommonUtils.getUnitPx() * 20,
+              ),
+            ),
+          ),
+        )
       ),
       body: Column(
         children: <Widget>[
           Container(
-            height: height * 3.95 / 5,
+            height: height * 3.9 / 5,
             child: ListView(
               children: <Widget>[
                 Container(
@@ -68,17 +71,11 @@ class _ShowResultExamLearningClassTandPPageState
                       top: height * 0.1 / 5,
                       left: width * 0.15 / 2,
                     ),
-                    // decoration: BoxDecoration(
-                    //     border: Border.all(
-                    //       color: Colors.green,
-                    //       width: 2,
-                    //     )
-                    // ),
                     child: Text(
                       'Kết quả kiểm tra',
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: 20,
+                        fontSize: CommonUtils.getUnitPx() * 20,
                       ),
                     )),
                 Container(
@@ -102,7 +99,7 @@ class _ShowResultExamLearningClassTandPPageState
                                   'File_1.txt',
                                   style: TextStyle(
                                     color: Colors.green,
-                                    fontSize: 18,
+                                    fontSize: CommonUtils.getUnitPx() * 18,
                                     fontFamily: "Roboto",
                                     fontStyle: FontStyle.normal,
                                   ),
@@ -131,7 +128,7 @@ class _ShowResultExamLearningClassTandPPageState
                                   'File_2.txt',
                                   style: TextStyle(
                                     color: Colors.green,
-                                    fontSize: 18,
+                                    fontSize: CommonUtils.getUnitPx() * 18,
                                     fontFamily: "Roboto",
                                     fontStyle: FontStyle.normal,
                                   ),
@@ -145,7 +142,7 @@ class _ShowResultExamLearningClassTandPPageState
                       Container(
                         margin: EdgeInsets.only(bottom: height * 0.07 / 5),
                         width: width * 0.4 / 2,
-                        child: FlatButton(
+                        child: TextButton(
                           onPressed: () {
                             Navigator.push(
                                 context,
@@ -166,17 +163,11 @@ class _ShowResultExamLearningClassTandPPageState
                       top: height * 0.1 / 5,
                       left: width * 0.15 / 2,
                     ),
-                    // decoration: BoxDecoration(
-                    //     border: Border.all(
-                    //       color: Colors.green,
-                    //       width: 2,
-                    //     )
-                    // ),
                     child: Text(
                       'Nhận xét học sinh',
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: 20,
+                        fontSize: CommonUtils.getUnitPx() * 20,
                       ),
                     )),
                 Container(
@@ -216,7 +207,7 @@ class _ShowResultExamLearningClassTandPPageState
                               'Nguyen Van A',
                               style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 20,
+                                fontSize: CommonUtils.getUnitPx() * 20,
                               ),
                             ),
                           ),
@@ -277,7 +268,7 @@ class _ShowResultExamLearningClassTandPPageState
                               'Nguyen Van B',
                               style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 20,
+                                fontSize: CommonUtils.getUnitPx() * 20,
                               ),
                             ),
                           ),

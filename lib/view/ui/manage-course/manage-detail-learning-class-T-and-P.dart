@@ -9,15 +9,12 @@ import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/dto/user-profile.dart';
 import 'package:edu_cope/service/api-offer.dart';
 import 'package:edu_cope/view/ui/common/developing-feature-screen-T-and-P.dart';
-import 'package:edu_cope/view/ui/homepage-T-and-P.dart';
-import 'package:edu_cope/view/ui/manage-course/manage-adjust-mem-in-class-T-and-P.dart';
+import 'package:edu_cope/view/ui/common/widget-utils.dart';
 import 'package:edu_cope/view/ui/manage-course/manage-attendance-learning-class-T-and-P.dart';
-import 'package:edu_cope/view/ui/manage-course/show-result-exam-learning-class-T-and-P.dart';
-import 'package:edu_cope/view/ui/manage-profile/manage-profile-T-and-P.dart';
+import 'package:edu_cope/view/ui/manage-course/manage-class-T-and-P.dart';
 import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/material.dart';
 
-import '../basic-operate-course/create-offer-class-T.dart';
 import 'detail-information-learning-class-T-and-P.dart';
 
 void main() {
@@ -25,73 +22,63 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // title: 'Edu Cope',
-      // theme: ThemeData(
-      //   primarySwatch: Colors.blue,
-      // ),
-      home: ManageDetailLearningClassTandPPage(),
+      home: ManageDetailLearningClassTandPPage(courseIdGlobal),
     );
   }
 }
 
-String courseId = '60e394825ded485c37a643f1';
+String courseIdGlobal = '';
 final double width = CommonUtils.width;
 final double height = CommonUtils.height;
 AdjustUserProfile adjustUserProfile = new AdjustUserProfile();
-String currentUserId = '607a8b832ea23669aaea68e3';
+var userType = CommonUtils.currentUserType;
+String userIdGlobal = CommonUtils.currentUserId;
 
 class ManageDetailLearningClassTandPPage extends StatefulWidget {
-  ManageDetailLearningClassTandPPage();
+  ManageDetailLearningClassTandPPage(String courseId) {
+    courseIdGlobal = courseId;
+  }
 
   @override
   _ManageDetailLearningClassTandPPageState createState() =>
       _ManageDetailLearningClassTandPPageState();
 }
 
-class _ManageDetailLearningClassTandPPageState extends State<ManageDetailLearningClassTandPPage> {
+class _ManageDetailLearningClassTandPPageState
+    extends State<ManageDetailLearningClassTandPPage> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.lightBlue,
-        title: Container(
-          margin: EdgeInsets.only(
-            right: width * 0.3 / 2,
-          ),
-          child: Align(
-            child: Text(
-              'Môn toán - Đang học',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 22,
-                fontFamily: "Roboto",
-                fontStyle: FontStyle.normal,
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(height * 0.41 / 5),
+          child: AppBar(
+              backgroundColor: Color(WidgetUtils.valueColorAppBar),
+            title: Container(
+                child: Text(
+                  'Môn toán - Đang học',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: CommonUtils.getUnitPx() * 20,
+                    fontFamily: "Roboto",
+                    fontStyle: FontStyle.normal,
+                  ),
+                ),
+            ),
+            centerTitle: true,
+            leading: Container(
+              child: IconButton(
+                icon: Icon(Icons.arrow_back_ios),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
             ),
-          ),
-        ),
-        leading: Container(
-          // width: width * 0.29 / 2,
-          // decoration: BoxDecoration(
-          //   border: Border.all(
-          //     color: Colors.green,
-          //     width: 2,
-          //   )
-          // ),
-          child: IconButton(
-            icon: Icon(Icons.arrow_back_ios),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ),
-      ),
+          )),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -108,10 +95,10 @@ class _ManageDetailLearningClassTandPPageState extends State<ManageDetailLearnin
                     decoration: BoxDecoration(
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(8),
+                        topLeft: Radius.circular(25),
                         topRight: Radius.circular(8),
                         bottomLeft: Radius.circular(8),
-                        bottomRight: Radius.circular(8),
+                        bottomRight: Radius.circular(25),
                       ),
                     ),
                     child: Row(
@@ -126,25 +113,20 @@ class _ManageDetailLearningClassTandPPageState extends State<ManageDetailLearnin
                             margin: EdgeInsets.only(
                               left: width * 0.1 / 2,
                             ),
-                            // decoration: BoxDecoration(
-                            //     border: Border.all(
-                            //       color: Colors.green,
-                            //       width: 2,
-                            //     )
-                            // ),
                             child: TextButton(
                               onPressed: () {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            DetailInformationLearingClassTandPPage()));
+                                            DetailInformationLearingClassTandPPage(
+                                                courseIdGlobal)));
                               },
                               child: Text(
                                 'Thông tin lớp học',
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 20,
+                                  fontSize: CommonUtils.getUnitPx() * 20,
                                 ),
                               ),
                             )),
@@ -160,10 +142,10 @@ class _ManageDetailLearningClassTandPPageState extends State<ManageDetailLearnin
                     decoration: BoxDecoration(
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(8),
+                        topLeft: Radius.circular(25),
                         topRight: Radius.circular(8),
                         bottomLeft: Radius.circular(8),
-                        bottomRight: Radius.circular(8),
+                        bottomRight: Radius.circular(25),
                       ),
                     ),
                     child: Row(
@@ -178,25 +160,19 @@ class _ManageDetailLearningClassTandPPageState extends State<ManageDetailLearnin
                             margin: EdgeInsets.only(
                               left: width * 0.1 / 2,
                             ),
-                            // decoration: BoxDecoration(
-                            //     border: Border.all(
-                            //       color: Colors.green,
-                            //       width: 2,
-                            //     )
-                            // ),
                             child: TextButton(
                               onPressed: () {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            ShowResultExamLearningClassTandPPage()));
+                                            DevelopingFeatureScreenTandPPage()));
                               },
                               child: Text(
                                 'Kết quả học tập',
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 20,
+                                  fontSize: CommonUtils.getUnitPx() * 20,
                                 ),
                               ),
                             )),
@@ -212,10 +188,10 @@ class _ManageDetailLearningClassTandPPageState extends State<ManageDetailLearnin
                     decoration: BoxDecoration(
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(8),
+                        topLeft: Radius.circular(25),
                         topRight: Radius.circular(8),
                         bottomLeft: Radius.circular(8),
-                        bottomRight: Radius.circular(8),
+                        bottomRight: Radius.circular(25),
                       ),
                     ),
                     child: Row(
@@ -229,25 +205,20 @@ class _ManageDetailLearningClassTandPPageState extends State<ManageDetailLearnin
                             margin: EdgeInsets.only(
                               left: width * 0.1 / 2,
                             ),
-                            // decoration: BoxDecoration(
-                            //     border: Border.all(
-                            //       color: Colors.green,
-                            //       width: 2,
-                            //     )
-                            // ),
                             child: TextButton(
                               onPressed: () {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            ManageAttendanceLearningClassTandPPage()));
+                                            ManageAttendanceLearningClassTandPPage(
+                                                courseIdGlobal)));
                               },
                               child: Text(
                                 'Điểm danh',
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 20,
+                                  fontSize: CommonUtils.getUnitPx() * 20,
                                 ),
                               ),
                             )),
@@ -263,10 +234,10 @@ class _ManageDetailLearningClassTandPPageState extends State<ManageDetailLearnin
                     decoration: BoxDecoration(
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(8),
+                        topLeft: Radius.circular(25),
                         topRight: Radius.circular(8),
                         bottomLeft: Radius.circular(8),
-                        bottomRight: Radius.circular(8),
+                        bottomRight: Radius.circular(25),
                       ),
                     ),
                     child: Row(
@@ -280,12 +251,6 @@ class _ManageDetailLearningClassTandPPageState extends State<ManageDetailLearnin
                             margin: EdgeInsets.only(
                               left: width * 0.1 / 2,
                             ),
-                            // decoration: BoxDecoration(
-                            //     border: Border.all(
-                            //       color: Colors.green,
-                            //       width: 2,
-                            //     )
-                            // ),
                             child: TextButton(
                               onPressed: () {
                                 Navigator.push(
@@ -298,7 +263,7 @@ class _ManageDetailLearningClassTandPPageState extends State<ManageDetailLearnin
                                 'Hợp đồng',
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 20,
+                                  fontSize: CommonUtils.getUnitPx() * 20,
                                 ),
                               ),
                             )),
@@ -314,10 +279,10 @@ class _ManageDetailLearningClassTandPPageState extends State<ManageDetailLearnin
                     decoration: BoxDecoration(
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(8),
+                        topLeft: Radius.circular(25),
                         topRight: Radius.circular(8),
                         bottomLeft: Radius.circular(8),
-                        bottomRight: Radius.circular(8),
+                        bottomRight: Radius.circular(25),
                       ),
                     ),
                     child: Row(
@@ -331,12 +296,6 @@ class _ManageDetailLearningClassTandPPageState extends State<ManageDetailLearnin
                             margin: EdgeInsets.only(
                               left: width * 0.1 / 2,
                             ),
-                            // decoration: BoxDecoration(
-                            //     border: Border.all(
-                            //       color: Colors.green,
-                            //       width: 2,
-                            //     )
-                            // ),
                             child: TextButton(
                               onPressed: () {
                                 showDialog(
@@ -352,7 +311,7 @@ class _ManageDetailLearningClassTandPPageState extends State<ManageDetailLearnin
                                 'Kết thúc lớp học',
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 20,
+                                  fontSize: CommonUtils.getUnitPx() * 20,
                                 ),
                               ),
                             )),
@@ -362,61 +321,7 @@ class _ManageDetailLearningClassTandPPageState extends State<ManageDetailLearnin
                 ],
               ),
             ),
-            Container(
-              color: Colors.grey[100],
-              margin: EdgeInsets.only(
-                top: height * 0.1 / 5,
-              ),
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    // height: height * 0.3 / 5,
-                    width: width * 0.45 / 2,
-                    margin: EdgeInsets.only(
-                      left: width * 0.07 / 2,
-                    ),
-                    child: FlatButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HomePageTandP()));
-                      },
-                      child: new Image.asset('asset/image/homepage_green.jpg'),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(
-                      left: width * 0.25 / 2,
-                    ),
-                    height: height * 0.4 / 5,
-                    child: FlatButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => CreateOfferClassTPage()));
-                      },
-                      child: new Image.asset('asset/image/add.png'),
-                    ),
-                  ),
-                  Container(
-                      margin: EdgeInsets.only(
-                        left: width * 0.2 / 2,
-                      ),
-                      height: height * 0.4 / 5,
-                      child: FlatButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ManageProfileTandPPage()));
-                        },
-                        child: new Image.asset('asset/image/personal_blue.png'),
-                      )),
-                ],
-              ),
-            )
+            WidgetUtils.mainButton(context, height * 0.05 / 5, userType)
           ],
         ),
       ),
@@ -424,35 +329,9 @@ class _ManageDetailLearningClassTandPPageState extends State<ManageDetailLearnin
   }
 }
 
-Future<Widget> updateOffer() async {
-  Offer offer = new Offer();
-  offer.id = courseId;
-  offer.courseType = CourseType.END;
-  APIOfferClient apiOfferClient =
-      APIOfferClient(Dio(BaseOptions(contentType: "application/json")));
-  ResponseEntity responseEntity = await apiOfferClient.updateOffer(offer);
-  if (responseEntity.getStatus == HttpStatus.ok) {
-    Offer offerResponse = Offer.fromJson(responseEntity.data);
-    print('Subject: ' + offerResponse.subject.toString());
-    print('Id: ' + offerResponse.id.toString());
-    return Text('Success!');
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-  } else {
-    // Show pop up notification about fail reason.
-    print('Error: ' + responseEntity.getException.toString());
-    return Text('Failed!');
-  }
-}
-
 Container titleForItems(String initialValueTitle) {
   return Container(
     height: height * 0.35 / 5,
-    // decoration: BoxDecoration(
-    //     border: Border.all(
-    //       color: Colors.green,
-    //       width: 2,
-    //     )
-    // ),
     child: Row(
       children: <Widget>[
         Container(
@@ -460,17 +339,11 @@ Container titleForItems(String initialValueTitle) {
             margin: EdgeInsets.only(
               left: width * 0.15 / 2,
             ),
-            // decoration: BoxDecoration(
-            //     border: Border.all(
-            //       color: Colors.green,
-            //       width: 2,
-            //     )
-            // ),
             child: Text(
               initialValueTitle,
               style: TextStyle(
-                color: Colors.blue,
-                fontSize: 18,
+                color: Color(0xFF1298e0),
+                fontSize: CommonUtils.getUnitPx() * 18,
               ),
             )),
       ],
@@ -481,21 +354,12 @@ Container titleForItems(String initialValueTitle) {
 Container titleForItemAjust(String nameUser) {
   return Container(
     height: height * 0.35 / 5,
-    // decoration: BoxDecoration(
-    //     border: Border.all(
-    //       color: Colors.green,
-    //       width: 2,
-    //     )
-    // ),
-    // margin: EdgeInsets.only(
-    //   left: width*0.05/2,
-    // ),
     child: Align(
       child: Text(
         nameUser,
         style: TextStyle(
-          color: Colors.blue,
-          fontSize: 20,
+          color: Color(0xFF1298e0),
+          fontSize: CommonUtils.getUnitPx() * 20,
         ),
       ),
     ),
@@ -524,7 +388,7 @@ Container inputContentItem(String contentInitialValue, String fieldName,
       },
       decoration: InputDecoration(
         hintStyle: TextStyle(
-          fontSize: 14,
+          fontSize: CommonUtils.getUnitPx() * 14,
           color: Colors.lightBlue,
         ),
         enabledBorder: OutlineInputBorder(
@@ -542,23 +406,6 @@ Container inputContentItem(String contentInitialValue, String fieldName,
       ),
     ),
   );
-}
-
-Future<Offer> getOfferById(String courseId) async {
-  Offer offer = new Offer();
-  APIOfferClient apiOfferClient =
-      APIOfferClient(Dio(BaseOptions(contentType: "application/json")));
-  ResponseEntity responseEntity = await apiOfferClient.getCourseById(courseId);
-  if (responseEntity.getStatus == HttpStatus.ok) {
-    Offer offerResponse = Offer.fromJson(responseEntity.data);
-    print('Subject: ' + offerResponse.subject.toString());
-    return offerResponse;
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-  } else {
-    // Show pop up notification about fail reason.
-    print('Error: ' + responseEntity.getException.toString());
-  }
-  return offer;
 }
 
 void setValueForAdjustMember(
@@ -609,55 +456,65 @@ class QuestionYesOrNo extends StatelessWidget {
                         child: Text(
                           'Bạn sẽ kết thúc lớp học?',
                           style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.blue,
+                            fontSize: CommonUtils.getUnitPx() * 20,
+                            color: Color(0xFF1298e0),
                           ),
                         ),
                       ),
                     ),
-                    Row(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(
-                            left: width * 0.22 / 2,
-                          ),
-                          child: RaisedButton(
-                            onPressed: () {
-                              updateOffer();
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          ManageAdjustMemInClassTandPPage()));
-                            },
-                            color: Colors.lightBlue,
-                            child: Text(
-                              'Đồng ý',
-                              style: TextStyle(color: Colors.white),
+                    Container(
+                        width: width * 1.6 / 2,
+                        child: Row(
+                          children: [
+                            Container(
+                              width: width * 0.5 / 2,
+                              margin: EdgeInsets.only(
+                                left: width * 0.16 / 2,
+                              ),
+                              child: RaisedButton(
+                                onPressed: () {
+                                  updateOffer();
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ManageClassTandPPage(
+                                                  userIdGlobal)));
+                                },
+                                color: Colors.lightBlue,
+                                child: Text(
+                                  'Đồng ý',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: CommonUtils.getUnitPx() * 16),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                            left: width * 0.2 / 2,
-                          ),
-                          child: RaisedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          ManageDetailLearningClassTandPPage()));
-                            },
-                            color: Colors.lightBlue,
-                            child: Text(
-                              'Hủy bỏ',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        )
-                      ],
-                    )
+                            Container(
+                              width: width * 0.5 / 2,
+                              margin: EdgeInsets.only(
+                                left: width * 0.2 / 2,
+                              ),
+                              child: RaisedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ManageClassTandPPage(
+                                                  userIdGlobal)));
+                                },
+                                color: Colors.lightBlue,
+                                child: Text(
+                                  'Hủy bỏ',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: CommonUtils.getUnitPx() * 16),
+                                ),
+                              ),
+                            )
+                          ],
+                        )),
                   ],
                 ),
               ),
@@ -675,5 +532,38 @@ class QuestionYesOrNo extends StatelessWidget {
                 )),
           ],
         ));
+  }
+}
+
+Future<Offer> getOfferById(String courseId) async {
+  Offer offer = new Offer();
+  APIOfferClient apiOfferClient =
+      APIOfferClient(Dio(BaseOptions(contentType: "application/json")));
+  ResponseEntity responseEntity = await apiOfferClient.getCourseById(courseId);
+  if (responseEntity.getStatus == HttpStatus.ok) {
+    Offer offerResponse = Offer.fromJson(responseEntity.data);
+    print('Subject: ' + offerResponse.subject.toString());
+    return offerResponse;
+  } else {
+    print('Error: ' + responseEntity.getException.toString());
+  }
+  return offer;
+}
+
+Future<Widget> updateOffer() async {
+  Offer offer = new Offer();
+  offer.id = courseIdGlobal;
+  offer.courseType = CourseType.END;
+  APIOfferClient apiOfferClient =
+      APIOfferClient(Dio(BaseOptions(contentType: "application/json")));
+  ResponseEntity responseEntity = await apiOfferClient.updateOffer(offer);
+  if (responseEntity.getStatus == HttpStatus.ok) {
+    Offer offerResponse = Offer.fromJson(responseEntity.data);
+    print('Subject: ' + offerResponse.subject.toString());
+    print('Id: ' + offerResponse.id.toString());
+    return Text('Success!');
+  } else {
+    print('Error: ' + responseEntity.getException.toString());
+    return Text('Failed!');
   }
 }

@@ -8,6 +8,14 @@ class TokenResponse {
 
   late String _token;
 
+  late String _userId;
+
+  String get userId => _userId;
+
+  set userId(String value) {
+    _userId = value;
+  }
+
   String get token => _token;
 
   set token(String value) {

@@ -2,10 +2,14 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:edu_cope/constant/course-register-status.dart';
+import 'package:edu_cope/constant/from-screen.dart';
 import 'package:edu_cope/constant/user-type.dart';
 import 'package:edu_cope/dto/course-status-wrap.dart';
 import 'package:edu_cope/dto/course-status.dart';
+import 'package:edu_cope/dto/notification-element.dart';
+import 'package:edu_cope/dto/notification-request-dto.dart';
 import 'package:edu_cope/dto/response-entity.dart';
+import 'package:edu_cope/service/api-notification.dart';
 import 'package:edu_cope/service/api-offer.dart';
 import 'package:edu_cope/view/ui/common/widget-utils.dart';
 import 'package:edu_cope/view/utils/common-utils.dart';
@@ -20,24 +24,26 @@ void main() {
 final double width = CommonUtils.width;
 final double height = CommonUtils.height;
 
-String courseId = '60e394825ded485c37a643f1';
+String courseIdGlobal = '';
+bool checkCourseBelongUserGlobal = false;
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // title: 'Edu Cope',
-      // theme: ThemeData(
-      //   primarySwatch: Colors.blue,
-      // ),
-      home: ManageRegisterCourseOpeningClassTPage(),
+      home: ManageRegisterCourseOpeningClassTPage(
+          '', checkCourseBelongUserGlobal),
     );
   }
 }
 
 class ManageRegisterCourseOpeningClassTPage extends StatefulWidget {
-  ManageRegisterCourseOpeningClassTPage();
+  ManageRegisterCourseOpeningClassTPage(
+      String courseId, bool checkCourseBelongUser) {
+    courseIdGlobal = courseId;
+    checkCourseBelongUserGlobal = checkCourseBelongUser;
+  }
 
   @override
   _ManageRegisterCourseOpeningClassTPageState createState() =>
@@ -52,7 +58,7 @@ class _ManageRegisterCourseOpeningClassTPageState
       body: Column(
         children: <Widget>[
           Container(
-            height: height * 4.55 / 5,
+            height: height * 4.5 / 5,
             child: DefaultTabController(
               initialIndex: 1,
               length: 3,
@@ -60,19 +66,24 @@ class _ManageRegisterCourseOpeningClassTPageState
                   appBar: PreferredSize(
                     preferredSize: Size(width * 0.9, height * 0.6 / 5),
                     child: AppBar(
+                      backgroundColor: Color(WidgetUtils.valueColorAppBar),
                       leading: Container(
                         margin: EdgeInsets.only(
                           top: height * 0.04 / 5,
                         ),
                         child: IconButton(
                           icon: Icon(Icons.arrow_back_ios),
-                          // iconSize: 20,
                           onPressed: () {
+                            // Navigator.pop(context);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        ManageDetailOpeningClassTandPPage()));
+                                        ManageDetailOpeningClassTandPPage(
+                                            courseIdGlobal,
+                                            checkCourseBelongUserGlobal,
+                                            FromScreen
+                                                .fromScreenRegisterCourseOpening)));
                           },
                         ),
                       ),
@@ -80,22 +91,28 @@ class _ManageRegisterCourseOpeningClassTPageState
                       title: Text(
                         'Trạng thái lớp Hoc',
                         style: TextStyle(
-                          fontSize: 24,
+                          fontSize: CommonUtils.getUnitPx() * 20,
                         ),
                       ),
                       bottom: TabBar(
                         tabs: <Widget>[
                           Text(
                             'Chấp thuận',
-                            style: TextStyle(fontSize: 20),
+                            style: TextStyle(
+                                fontSize: CommonUtils.getUnitPx() * 20,
+                                fontStyle: FontStyle.italic),
                           ),
                           Text(
                             'Đang chờ',
-                            style: TextStyle(fontSize: 20),
+                            style: TextStyle(
+                                fontSize: CommonUtils.getUnitPx() * 20,
+                                fontStyle: FontStyle.italic),
                           ),
                           Text(
                             'Từ chối',
-                            style: TextStyle(fontSize: 20),
+                            style: TextStyle(
+                                fontSize: CommonUtils.getUnitPx() * 20,
+                                fontStyle: FontStyle.italic),
                           ),
                         ],
                       ),
@@ -155,6 +172,13 @@ ListView _jobsListView(data, CourseRegisterStatus courseRegisterStatus) {
 
 Widget _jobsShowUserProfileRegisterOffer(CourseStatus courseStatus,
     BuildContext context, CourseRegisterStatus courseRegisterStatus) {
+  // Get image from profileAuthor
+  Image? profileImageInternal = null;
+  if (courseStatus != null && courseStatus.userProfile != null) {
+    profileImageInternal =
+        WidgetUtils.getImageFromUserProfile(courseStatus.userProfile!);
+  }
+
   return Container(
     height: height * 0.5 / 5,
     width: width * 1.6 / 2,
@@ -165,11 +189,7 @@ Widget _jobsShowUserProfileRegisterOffer(CourseStatus courseStatus,
       left: width * 0.2 / 2,
     ),
     decoration: BoxDecoration(
-        color: Colors.lightBlue[50],
-        // border: Border.all(
-        //   color: Colors.green,f
-        //   width: 2,
-        // ),
+        color: Color(0xFFe9f0ef),
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(17),
           bottomRight: Radius.circular(17),
@@ -190,7 +210,20 @@ Widget _jobsShowUserProfileRegisterOffer(CourseStatus courseStatus,
               children: <Widget>[
                 Container(
                   height: height * 0.4 / 5,
-                  child: new Image.asset('asset/image/personal.png'),
+                  margin: EdgeInsets.only(
+                    right: width * 0.03 / 2,
+                  ),
+                  child: CircleAvatar(
+                    radius: height * 0.19 / 5,
+                    backgroundColor: Color(0xFFe1f5f2),
+                    child: CircleAvatar(
+                      radius: height * 0.18 / 5,
+                      backgroundImage: profileImageInternal != null
+                          ? profileImageInternal.image
+                          : NetworkImage(
+                              'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
+                    ),
+                  ),
                 ),
                 Container(
                   child: Column(
@@ -203,7 +236,9 @@ Widget _jobsShowUserProfileRegisterOffer(CourseStatus courseStatus,
                         child: Text(
                           CommonUtils.catchCaseStringNull(
                               courseStatus.userProfile!.fullName),
-                          style: TextStyle(fontSize: 16, color: Colors.black87),
+                          style: TextStyle(
+                              fontSize: CommonUtils.getUnitPx() * 16,
+                              color: Colors.black87),
                         ),
                       ),
                       Container(
@@ -214,7 +249,9 @@ Widget _jobsShowUserProfileRegisterOffer(CourseStatus courseStatus,
                         child: Text(
                           CommonUtils.catchCaseStringNull(
                               courseStatus.userProfile!.rate),
-                          style: TextStyle(fontSize: 16, color: Colors.black87),
+                          style: TextStyle(
+                              fontSize: CommonUtils.getUnitPx() * 16,
+                              color: Colors.black87),
                         ),
                       ),
                     ],
@@ -233,14 +270,16 @@ Widget _jobsShowUserProfileRegisterOffer(CourseStatus courseStatus,
 
 Widget showAcceptButton(CourseRegisterStatus courseRegisterStatus,
     BuildContext context, CourseStatus courseStatus) {
-  if (courseRegisterStatus == CourseRegisterStatus.PENDING)
+  if (courseRegisterStatus == CourseRegisterStatus.PENDING &&
+      checkCourseBelongUserGlobal == true)
     return Container(
       height: height * 0.5 / 5,
       child: IconButton(
         icon: new Image.asset('asset/image/accept.png'),
         onPressed: () {
           _updateCourseStatus(
-              courseStatus, courseId, CourseRegisterStatus.ACCEPT);
+              courseStatus, courseIdGlobal, CourseRegisterStatus.ACCEPT);
+          _sendNotification(new NotificationRequestDto());
           showDialog(
               context: context,
               builder: (BuildContext context) {
@@ -254,7 +293,8 @@ Widget showAcceptButton(CourseRegisterStatus courseRegisterStatus,
 
 Widget showRejectButton(CourseRegisterStatus courseRegisterStatus,
     BuildContext context, CourseStatus courseStatus) {
-  if (courseRegisterStatus == CourseRegisterStatus.PENDING)
+  if (courseRegisterStatus == CourseRegisterStatus.PENDING &&
+      checkCourseBelongUserGlobal == true)
     return Container(
       height: height * 0.5 / 5,
       alignment: Alignment.center,
@@ -262,7 +302,7 @@ Widget showRejectButton(CourseRegisterStatus courseRegisterStatus,
         icon: new Image.asset('asset/image/reject.png'),
         onPressed: () {
           _updateCourseStatus(
-              courseStatus, courseId, CourseRegisterStatus.REJECT);
+              courseStatus, courseIdGlobal, CourseRegisterStatus.REJECT);
           showDialog(
               context: context,
               builder: (BuildContext context) {
@@ -293,7 +333,7 @@ class AcceptRegisterAlert extends StatelessWidget {
                       'Thành Công',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 20,
+                          fontSize: CommonUtils.getUnitPx() * 20,
                           color: Colors.blue),
                     ),
                     SizedBox(
@@ -301,7 +341,7 @@ class AcceptRegisterAlert extends StatelessWidget {
                     ),
                     Text(
                       'Bạn đã thêm thành viên mới',
-                      style: TextStyle(fontSize: 14),
+                      style: TextStyle(fontSize: CommonUtils.getUnitPx() * 14),
                     ),
                     SizedBox(
                       height: 20,
@@ -312,7 +352,10 @@ class AcceptRegisterAlert extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    ManageRegisterCourseOpeningClassTPage()));
+                                    ManageRegisterCourseOpeningClassTPage(
+                                        courseIdGlobal,
+                                        checkCourseBelongUserGlobal)));
+                        // Navigator.pop(context);
                       },
                       color: Colors.lightBlue,
                       child: Text(
@@ -357,7 +400,7 @@ class RejectRegisterAlert extends StatelessWidget {
                   children: [
                     Text(
                       'Bạn đã từ chối đơn đăng ký',
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: CommonUtils.getUnitPx() * 16),
                     ),
                     SizedBox(
                       height: 20,
@@ -368,7 +411,9 @@ class RejectRegisterAlert extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    ManageRegisterCourseOpeningClassTPage()));
+                                    ManageRegisterCourseOpeningClassTPage(
+                                        courseIdGlobal,
+                                        checkCourseBelongUserGlobal)));
                       },
                       color: Colors.redAccent,
                       child: Text(
@@ -411,9 +456,7 @@ Future<Widget> _updateCourseStatus(CourseStatus courseStatus, String courseId,
         CourseStatusWrap.fromJson(responseEntity.data);
     print('Id: ' + courseStatusWrapResponse.courseId.toString());
     return Text('Success!');
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
   } else {
-    // Show pop up notification about fail reason.
     print('Error: ' + responseEntity.getException.toString());
     return Text('Failed!');
   }
@@ -422,16 +465,7 @@ Future<Widget> _updateCourseStatus(CourseStatus courseStatus, String courseId,
 Future<List<CourseStatus>> _fetchCourseStatusList(
     CourseRegisterStatus courseRegisterStatus) async {
   List<CourseStatus> courseStatusList = <CourseStatus>[];
-  // Mock data courseStatusList
-  // CourseStatus courseStatus= new CourseStatus();
-  // UserProfile userProfile = new UserProfile();
-  // userProfile.rate = '5';
-  // userProfile.phoneNumber = '0123456789';
-  // userProfile.fullName = 'Nguyen Van A';
-  // userProfile.urlImageProfile = 'test';
-  // courseStatus.userProfile = userProfile;
-  // courseStatusList.add(courseStatus);
-  String courseId = '60e394825ded485c37a643f1';
+  String courseId = courseIdGlobal;
   APIOfferClient apiOfferClient =
       APIOfferClient(Dio(BaseOptions(contentType: "application/json")));
   ResponseEntity responseEntity = await apiOfferClient
@@ -444,10 +478,40 @@ Future<List<CourseStatus>> _fetchCourseStatusList(
     return listDecoded
         .map((courseStatus) => new CourseStatus.fromJson(courseStatus))
         .toList();
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
   } else {
-    // Show pop up notification about fail reason.
     print('Error: ' + responseEntity.getException.toString());
   }
   return courseStatusList;
+}
+
+Future<Widget> _sendNotification(
+    NotificationRequestDto notificationRequestDto) async {
+  mockNotificationRequestDto(notificationRequestDto);
+  String receiverId = '';
+  APINotificationClient apiNotificationClient =
+      APINotificationClient(Dio(BaseOptions(contentType: "application/json")));
+  ResponseEntity responseEntity = await apiNotificationClient.sendPnsToTopic(
+      notificationRequestDto, receiverId);
+  if (responseEntity.getStatus == HttpStatus.ok) {
+    NotificationElement response =
+        NotificationElement.fromJson(responseEntity.data);
+    print('Id: ' + response.notificationId.toString());
+    return Text('Success!');
+  } else {
+    print('Error: ' + responseEntity.getException.toString());
+    return Text('Failed!');
+  }
+}
+
+void mockNotificationRequestDto(NotificationRequestDto notificationRequestDto) {
+  if (notificationRequestDto == null)
+    notificationRequestDto = new NotificationRequestDto();
+  notificationRequestDto.target = 'trungnq-topic';
+  notificationRequestDto.title = 'Noti-Decide-Register-Course';
+  NotificationElement notificationElement = new NotificationElement();
+  notificationElement.sender = 'BBB Nguyen';
+  notificationElement.content = 'Da chap nhan don dang ky hoc cua ban';
+  notificationElement.screenName =
+      'ManageDetailOpeningClassTandPPage(CourseID)';
+  notificationRequestDto.notificationElement = notificationElement;
 }

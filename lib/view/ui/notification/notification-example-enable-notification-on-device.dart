@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/material.dart';
 import 'package:notification_permissions/notification_permissions.dart';
 
@@ -77,7 +78,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                     if (snapshot.hasData) {
                       var textWidget = Text(
                         "The permission status is ${snapshot.data}",
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: CommonUtils.getUnitPx() * 20),
                         softWrap: true,
                         textAlign: TextAlign.center,
                       );
@@ -94,8 +95,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                           SizedBox(
                             height: 20,
                           ),
-                          FlatButton(
-                            color: Colors.amber,
+                          TextButton(
                             child:
                             Text("Ask for notification status".toUpperCase()),
                             onPressed: () {

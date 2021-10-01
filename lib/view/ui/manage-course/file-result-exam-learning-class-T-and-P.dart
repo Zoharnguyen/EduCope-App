@@ -1,3 +1,4 @@
+import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -64,7 +65,7 @@ class _FileResultExamLearningClassTandPPageState extends State<FileResultExamLea
                             'File_1.txt',
                             style: TextStyle(
                               color: Colors.green,
-                              fontSize: 18,
+                              fontSize: CommonUtils.getUnitPx() * 18,
                               fontFamily: "Roboto",
                               fontStyle: FontStyle.normal,
                             ),
@@ -96,7 +97,7 @@ class _FileResultExamLearningClassTandPPageState extends State<FileResultExamLea
                             'File_2.txt',
                             style: TextStyle(
                               color: Colors.green,
-                              fontSize: 18,
+                              fontSize: CommonUtils.getUnitPx() * 18,
                               fontFamily: "Roboto",
                               fontStyle: FontStyle.normal,
                             ),
@@ -128,7 +129,7 @@ class _FileResultExamLearningClassTandPPageState extends State<FileResultExamLea
                             'File_3.txt',
                             style: TextStyle(
                               color: Colors.green,
-                              fontSize: 18,
+                              fontSize: CommonUtils.getUnitPx() * 18,
                               fontFamily: "Roboto",
                               fontStyle: FontStyle.normal,
                             ),
@@ -160,7 +161,7 @@ class _FileResultExamLearningClassTandPPageState extends State<FileResultExamLea
                             'File_4.txt',
                             style: TextStyle(
                               color: Colors.green,
-                              fontSize: 18,
+                              fontSize: CommonUtils.getUnitPx() * 18,
                               fontFamily: "Roboto",
                               fontStyle: FontStyle.normal,
                             ),

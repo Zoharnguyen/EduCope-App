@@ -29,8 +29,8 @@ class NotificationRequestDto {
 
   NotificationRequestDto();
 
-  Map<String?, dynamic> toJson() => _$notificationRequestDtoToJson(this);
+  Map<String, dynamic> toJson() => _$NotificationRequestDtoToJson(this);
 
   factory NotificationRequestDto.fromJson(Map<String, dynamic> json) =>
-      _$notificationRequestDtoFromJson(json);
+      _$NotificationRequestDtoFromJson(json);
 }

@@ -1,23 +1,20 @@
+import 'package:edu_cope/view/ui/common/widget-utils.dart';
+import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-double width = 411.4285;
-double height = 683.4285;
+double width = CommonUtils.width;
+double height = CommonUtils.height;
 
 String courseId = '60e394825ded485c37a643f1';
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // title: 'Edu Cope',
-      // theme: ThemeData(
-      //   primarySwatch: Colors.blue,
-      // ),
       home: DevelopingFeatureScreenTandPPage(),
     );
   }
@@ -36,6 +33,7 @@ class _DevelopingFeatureScreenTandPPageState extends State<DevelopingFeatureScre
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Color(WidgetUtils.valueColorAppBar),
           title: Container(
             margin: EdgeInsets.only(
               right: width * 0.3 / 2,
@@ -45,7 +43,7 @@ class _DevelopingFeatureScreenTandPPageState extends State<DevelopingFeatureScre
                 'Tính năng đang phát triển',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 22,
+                  fontSize: CommonUtils.getUnitPx() * 20,
                   fontFamily: "Roboto",
                   fontStyle: FontStyle.normal,
                 ),
@@ -65,7 +63,7 @@ class _DevelopingFeatureScreenTandPPageState extends State<DevelopingFeatureScre
             alignment: Alignment.center,
             child: Text(
               'Tính năng đang được phát triển.',
-              style: TextStyle(color: Colors.blue, fontSize: 18),
+              style: TextStyle(color: Color(0xFF1298e0), fontSize: CommonUtils.getUnitPx() * 18),
             )));
   }
 }

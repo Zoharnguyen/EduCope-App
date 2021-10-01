@@ -6,6 +6,7 @@ import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/dto/schedule-offer.dart';
 import 'package:edu_cope/dto/user-profile.dart';
 import 'package:edu_cope/service/api-offer.dart';
+import 'package:edu_cope/view/ui/common/widget-utils.dart';
 import 'package:edu_cope/view/ui/manage-course/manage-detail-learning-class-T-and-P.dart';
 import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/material.dart';
@@ -14,22 +15,24 @@ void main() {
   runApp(MyApp());
 }
 
-double width = 411.4285;
-double height = 683.4285;
-String courseId = '60e394825ded485c37a643f1';
+double width = CommonUtils.width;
+double height = CommonUtils.height;
+String courseIdGlobal = '60e394825ded485c37a643f1';
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: DetailInformationLearingClassTandPPage(),
+      home: DetailInformationLearingClassTandPPage(courseIdGlobal),
     );
   }
 }
 
 class DetailInformationLearingClassTandPPage extends StatefulWidget {
-  DetailInformationLearingClassTandPPage();
+  DetailInformationLearingClassTandPPage(String courseId) {
+    courseIdGlobal = courseId;
+  }
 
   @override
   _DetailInformationLearingClassTandPPageState createState() =>
@@ -46,7 +49,7 @@ class _DetailInformationLearingClassTandPPageState
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
         body: FutureBuilder<Offer>(
-      future: getOfferById(courseId),
+      future: getOfferById(courseIdGlobal),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           _offer = snapshot.data!;
@@ -56,14 +59,14 @@ class _DetailInformationLearingClassTandPPageState
                 appBar: PreferredSize(
                   preferredSize: Size(width * 0.9, height * 0.6 / 5),
                   child: AppBar(
-                    backgroundColor: Colors.lightBlue,
+                    backgroundColor: Color(WidgetUtils.valueColorAppBar),
                     centerTitle: true,
                     title: Container(
                       child: Text(
                         'Thông tin lớp học',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 22,
+                          fontSize: CommonUtils.getUnitPx() * 20,
                           fontFamily: "Roboto",
                           fontStyle: FontStyle.normal,
                         ),
@@ -73,11 +76,7 @@ class _DetailInformationLearingClassTandPPageState
                       child: IconButton(
                         icon: Icon(Icons.arrow_back_ios),
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      ManageDetailLearningClassTandPPage()));
+                          Navigator.pop(context);
                         },
                       ),
                     ),
@@ -85,11 +84,11 @@ class _DetailInformationLearingClassTandPPageState
                       tabs: <Widget>[
                         Text(
                           'Thông tin chung',
-                          style: TextStyle(fontSize: 20),
+                          style: TextStyle(fontSize: CommonUtils.getUnitPx() * 20, fontStyle: FontStyle.italic),
                         ),
                         Text(
                           'Thành viên',
-                          style: TextStyle(fontSize: 20),
+                          style: TextStyle(fontSize: CommonUtils.getUnitPx() * 20, fontStyle: FontStyle.italic),
                         ),
                       ],
                     ),
@@ -97,7 +96,8 @@ class _DetailInformationLearingClassTandPPageState
                 ),
                 body: TabBarView(children: <Widget>[
                   generalInformationClass(_offer),
-                  membersClass(_offer.memberClassList),
+                  if(_offer.memberClassList != null) membersClass(_offer.memberClassList)
+                  else Container(),
                 ]),
               ));
         } else
@@ -127,11 +127,7 @@ Widget _showMemberClass(UserProfile userProfile) {
       left: width * 0.2 / 2,
     ),
     decoration: BoxDecoration(
-        color: Colors.lightBlue[50],
-        // border: Border.all(
-        //   color: Colors.green,f
-        //   width: 2,
-        // ),
+        color: Color(0xFFe9f0ef),
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(17),
           bottomRight: Radius.circular(17),
@@ -152,7 +148,19 @@ Widget _showMemberClass(UserProfile userProfile) {
               children: <Widget>[
                 Container(
                   height: height * 0.4 / 5,
-                  child: new Image.asset('asset/image/personal.png'),
+                  margin: EdgeInsets.only(
+                    right: width * 0.03/2,
+                  ),
+                  child: CircleAvatar(
+                    radius: height * 0.19 / 5,
+                    backgroundColor: Color(0xFFe1f5f2),
+                    child: CircleAvatar(
+                      radius: height * 0.18 / 5,
+                      backgroundImage:
+                      AssetImage('asset/image/profile-image-1.jpeg'),
+                    ),
+                  )
+
                 ),
                 Container(
                   child: Column(
@@ -164,7 +172,7 @@ Widget _showMemberClass(UserProfile userProfile) {
                         ),
                         child: Text(
                           CommonUtils.catchCaseStringNull(userProfile.fullName),
-                          style: TextStyle(fontSize: 16, color: Colors.black87),
+                          style: TextStyle(fontSize: CommonUtils.getUnitPx() * 16, color: Colors.black87),
                         ),
                       ),
                       Container(
@@ -174,7 +182,7 @@ Widget _showMemberClass(UserProfile userProfile) {
                         ),
                         child: Text(
                           CommonUtils.catchCaseStringNull(userProfile.rate),
-                          style: TextStyle(fontSize: 16, color: Colors.black87),
+                          style: TextStyle(fontSize: CommonUtils.getUnitPx() * 16, color: Colors.black87),
                         ),
                       ),
                     ],
@@ -194,7 +202,7 @@ Widget _showMemberClass(UserProfile userProfile) {
             child: Text(
               CommonUtils.mappingRoleWithUserTypeInClass(
                   CommonUtils.catchCaseStringNull(userProfile.userType.toString())),
-              style: TextStyle(fontSize: 16, color: Colors.lightBlue),
+              style: TextStyle(fontSize: CommonUtils.getUnitPx() * 16, color: Colors.lightBlue, fontStyle: FontStyle.italic),
             ),
           ),
         ),
@@ -206,9 +214,6 @@ Widget _showMemberClass(UserProfile userProfile) {
 Widget generalInformationClass(Offer offer) {
   return SingleChildScrollView(
       reverse: false,
-      // padding: EdgeInsets.only(
-      //   bottom: bottomKeyboard * 0.1,
-      // ),
       child: Column(
         // Make list containers in Column start with left screen
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -238,39 +243,6 @@ Widget generalInformationClass(Offer offer) {
       ));
 }
 
-Container inputShortestContentItem(String value) {
-  return Container(
-    height: height * 0.3 / 5,
-    width: width * 0.6 / 2,
-    margin: EdgeInsets.only(
-      right: width * 0.2 / 2,
-      left: width * 0.3 / 2,
-    ),
-    decoration: BoxDecoration(
-      color: Colors.lightBlue[50],
-      border: Border.all(
-        color: Colors.grey.shade400,
-        width: 1,
-      ),
-      borderRadius: BorderRadius.only(
-        bottomLeft: Radius.circular(10),
-        topLeft: Radius.circular(10),
-        bottomRight: Radius.circular(10),
-        topRight: Radius.circular(10),
-      ),
-    ),
-    child: Container(
-      margin: EdgeInsets.only(top: height * 0.07 / 5, left: width * 0.02 / 2),
-      child: Text(
-        CommonUtils.catchCaseStringNull(value),
-        style: TextStyle(
-          fontSize: 16,
-        ),
-      ),
-    ),
-  );
-}
-
 Container inputShortContentItem(String value) {
   return Container(
     height: height * 0.3 / 5,
@@ -280,16 +252,16 @@ Container inputShortContentItem(String value) {
       left: width * 0.3 / 2,
     ),
     decoration: BoxDecoration(
-      color: Colors.lightBlue[50],
+      color: Color(0xFFe9f0ef),
       border: Border.all(
         color: Colors.grey.shade400,
         width: 1,
       ),
       borderRadius: BorderRadius.only(
-        bottomLeft: Radius.circular(10),
-        topLeft: Radius.circular(10),
-        bottomRight: Radius.circular(10),
-        topRight: Radius.circular(10),
+        topLeft: Radius.circular(25),
+        topRight: Radius.circular(8),
+        bottomLeft: Radius.circular(8),
+        bottomRight: Radius.circular(25),
       ),
     ),
     child: Container(
@@ -297,7 +269,7 @@ Container inputShortContentItem(String value) {
       child: Text(
         CommonUtils.catchCaseStringNull(value),
         style: TextStyle(
-          fontSize: 16,
+          fontSize: CommonUtils.getUnitPx() * 16,
         ),
       ),
     ),
@@ -307,12 +279,6 @@ Container inputShortContentItem(String value) {
 Container titleForItems(String initialValueTitle) {
   return Container(
     height: height * 0.35 / 5,
-    // decoration: BoxDecoration(
-    //     border: Border.all(
-    //       color: Colors.green,
-    //       width: 2,
-    //     )
-    // ),
     child: Row(
       children: <Widget>[
         Container(
@@ -320,17 +286,12 @@ Container titleForItems(String initialValueTitle) {
             margin: EdgeInsets.only(
               left: width * 0.15 / 2,
             ),
-            // decoration: BoxDecoration(
-            //     border: Border.all(
-            //       color: Colors.green,
-            //       width: 2,
-            //     )
-            // ),
             child: Text(
               initialValueTitle,
               style: TextStyle(
-                color: Colors.blue,
-                fontSize: 20,
+                color: Color(0xFF1298e0),
+                fontSize: CommonUtils.getUnitPx() * 18,
+                fontStyle: FontStyle.italic
               ),
             )),
       ],
@@ -347,7 +308,7 @@ Container inputLongContentItem(String value) {
       left: width * 0.3 / 2,
     ),
     decoration: BoxDecoration(
-      color: Colors.lightBlue[50],
+      color: Color(0xFFe9f0ef),
       border: Border.all(
         color: Colors.grey.shade400,
         width: 1,
@@ -363,7 +324,7 @@ Container inputLongContentItem(String value) {
       margin: EdgeInsets.only(top: height * 0.02 / 5, left: width * 0.02 / 2),
       child: Text(
         CommonUtils.catchCaseStringNull(value),
-        style: TextStyle(fontSize: 16),
+        style: TextStyle(fontSize: CommonUtils.getUnitPx() * 16),
       ),
     ),
   );
@@ -378,25 +339,11 @@ Future<Offer> getOfferById(String courseId) async {
     Offer offerResponse = Offer.fromJson(responseEntity.data);
     print('Subject: ' + offerResponse.subject.toString());
     return offerResponse;
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+
   } else {
-    // Show pop up notification about fail reason.
+
     print('Error: ' + responseEntity.getException.toString());
   }
-  return offer;
-}
-
-Offer mockOffer() {
-  //Mock data
-  Offer offer = new Offer();
-  // UserProfile userProfile = new UserProfile();
-  // userProfile.rate = '5';
-  // userProfile.phoneNumber = '0123456789';
-  // offer.profileAuthor = userProfile;
-  // offer.subject = 'Toan';
-  // offer.salary = '500k/1b';
-  // offer.formatLearning = 'Hoc tai nha';
-  // offer.level = 'Trung hoc';
   return offer;
 }
 

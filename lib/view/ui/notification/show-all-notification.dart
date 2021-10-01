@@ -1,11 +1,12 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:edu_cope/constant/course-register-status.dart';
 import 'package:edu_cope/constant/move-to-screen.dart';
 import 'package:edu_cope/dto/notification-element.dart';
 import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/service/api-notification.dart';
+import 'package:edu_cope/view/ui/common/widget-utils.dart';
+import 'package:edu_cope/view/ui/manage-course/manage-detail-openning-class-T-and-P.dart';
 import 'package:edu_cope/view/ui/manage-course/manage-register-course-opening-class-T.dart';
 import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/material.dart';
@@ -16,17 +17,13 @@ void main() {
 
 double width = CommonUtils.width;
 double height = CommonUtils.height;
-String userId = '607a8b832ea23669aaea68e3';
+String userId = CommonUtils.currentUserId;
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // title: 'Edu Cope',
-      // theme: ThemeData(
-      //   primarySwatch: Colors.blue,
-      // ),
       home: ShowAllNotification(),
     );
   }
@@ -44,7 +41,7 @@ class _ShowAllNotificationState extends State<ShowAllNotification> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.lightBlue,
+        backgroundColor: Color(WidgetUtils.valueColorAppBar),
         title: Container(
           margin: EdgeInsets.only(
             right: width * 0.2 / 2,
@@ -54,7 +51,7 @@ class _ShowAllNotificationState extends State<ShowAllNotification> {
               'Thông báo',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 22,
+                fontSize: CommonUtils.getUnitPx() * 20,
                 fontFamily: "Roboto",
                 fontStyle: FontStyle.normal,
               ),
@@ -110,7 +107,7 @@ ListView _notificationListView(data) {
 Widget _notificationShow(
     NotificationElement notificationElement, BuildContext context) {
   return Container(
-    height: height * 0.6 / 5,
+    height: height * 0.65 / 5,
     width: width * 1.4 / 2,
     margin: EdgeInsets.only(
       top: height * 0.05 / 5,
@@ -126,7 +123,7 @@ Widget _notificationShow(
         bottomRight: Radius.circular(8),
       ),
     ),
-    child: FlatButton(
+    child: TextButton(
       onPressed: () {
         moveToScreenWithNotification(notificationElement.screenName,
             notificationElement.screenVariables, context);
@@ -134,12 +131,19 @@ Widget _notificationShow(
       child: Row(
         children: <Widget>[
           Container(
-            margin: EdgeInsets.only(
-              right: width * 0.05 / 2,
-            ),
-            height: height * 0.3 / 5,
-            child: new Image.asset('asset/image/personal_blue.png'),
-          ),
+              margin: EdgeInsets.only(
+                right: width * 0.05 / 2,
+              ),
+              height: height * 0.3 / 5,
+              child: CircleAvatar(
+                radius: height * 0.19 / 5,
+                backgroundColor: Color(0xFFe1f5f2),
+                child: CircleAvatar(
+                  radius: height * 0.18 / 5,
+                  backgroundImage:
+                      AssetImage('asset/image/profile-image-1.jpeg'),
+                ),
+              )),
           Container(
             margin: EdgeInsets.only(
               top: height * 0.05 / 5,
@@ -156,7 +160,7 @@ Widget _notificationShow(
                                 notificationElement.sender) +
                             ' ',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: CommonUtils.getUnitPx() * 18,
                           color: Colors.black,
                           fontWeight: FontWeight.w600,
                           fontFamily: 'Open Sans',
@@ -166,7 +170,7 @@ Widget _notificationShow(
                           text: CommonUtils.catchCaseStringNull(
                               notificationElement.content),
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: CommonUtils.getUnitPx() * 18,
                             color: Colors.black54,
                           ))
                     ]),
@@ -179,7 +183,9 @@ Widget _notificationShow(
                   child: Text(
                     CommonUtils.catchCaseStringNull(
                         notificationElement.timeCreated),
-                    style: TextStyle(fontSize: 14, color: Colors.black54),
+                    style: TextStyle(
+                        fontSize: CommonUtils.getUnitPx() * 14,
+                        color: Colors.black54),
                   ),
                 )
               ],
@@ -206,7 +212,6 @@ Future<List<NotificationElement>> _fetchNotifications(String userId) async {
         .map((notification) => new NotificationElement.fromJson(notification))
         .toList();
   } else {
-    // Show pop up notification about fail reason.
     print('Error: ' + responseEntity.getException.toString());
   }
   return notifications;
@@ -225,7 +230,14 @@ void moveToScreenWithNotification(
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => ManageRegisterCourseOpeningClassTPage()));
+              builder: (context) => ManageRegisterCourseOpeningClassTPage(
+                  screenVariables!.first, true)));
+    } else if (MoveToScreen.moveToManageOpeningCourse == screenName) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ManageDetailOpeningClassTandPPage(
+                  screenVariables!.first, false, '')));
     }
   }
 }

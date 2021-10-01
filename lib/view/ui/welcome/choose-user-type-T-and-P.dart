@@ -7,19 +7,16 @@ import 'package:flutter/material.dart';
 
 import '../homepage-T-and-P.dart';
 
+String userIdGlobal = CommonUtils.currentUserId;
+
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // title: 'Edu Cope',
-      // theme: ThemeData(
-      //   primarySwatch: Colors.blue,
-      // ),
       home: ChooseUserTypeTandPPage(),
     );
   }
@@ -29,7 +26,8 @@ class ChooseUserTypeTandPPage extends StatefulWidget {
   ChooseUserTypeTandPPage();
 
   @override
-  _ChooseUserTypeTandPPageState createState() => _ChooseUserTypeTandPPageState();
+  _ChooseUserTypeTandPPageState createState() =>
+      _ChooseUserTypeTandPPageState();
 }
 
 class _ChooseUserTypeTandPPageState extends State<ChooseUserTypeTandPPage> {
@@ -40,32 +38,21 @@ class _ChooseUserTypeTandPPageState extends State<ChooseUserTypeTandPPage> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(widget.title),
-      // ),
       body: Column(
         children: <Widget>[
           Container(
-            height: height * 2 / 5,
-            // decoration: BoxDecoration(
-            //   border: Border.all(
-            //     color: Colors.green,
-            //     width: 2,
-            //   )
-            // ),
+            height: height * 1.5 / 5,
+            width: width * 0.8 / 2,
             padding: EdgeInsets.only(
               top: height * 0.5 / 5,
             ),
-            child: new Image.asset('asset/image/logo-1.jpeg'),
+            child: new Image.asset('asset/image/logo-edu-3.png'),
           ),
           Container(
             height: height * 0.5 / 5,
-            // decoration: BoxDecoration(
-            //   border: Border.all(
-            //     color: Colors.green,
-            //     width: 2,
-            //   )
-            // ),
+            margin: EdgeInsets.only(
+              top: height * 0.2/5,
+            ),
             padding: EdgeInsets.only(
               bottom: height * 0.8 / 14,
             ),
@@ -76,10 +63,10 @@ class _ChooseUserTypeTandPPageState extends State<ChooseUserTypeTandPPage> {
                 child: Text(
                   "Ứng dụng kết nối gia sư và phụ huynh",
                   style: TextStyle(
-                    color: Colors.purple[200],
-                    fontSize: 18,
-                    fontFamily: "Roboto",
+                    fontSize: CommonUtils.getUnitPx() * 18,
                     fontStyle: FontStyle.italic,
+                    color: Colors.cyanAccent[250],
+                    fontWeight: FontWeight.w300,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -89,21 +76,12 @@ class _ChooseUserTypeTandPPageState extends State<ChooseUserTypeTandPPage> {
           Container(
             height: height * 2 / 5,
             padding: EdgeInsets.only(left: width * 0.4 / 5),
-            // decoration: BoxDecoration(
-            //     border: Border.all(
-            //       color: Colors.green,
-            //       width: 2,
-            //     )
-            // ),
             child: Row(
               children: <Widget>[
                 Container(
-                  height: height * 1.2 / 5,
+                  height: height * 1.25 / 5,
+                  width: width * 0.6 / 2,
                   decoration: BoxDecoration(
-                      // border: Border.all(
-                      //   color: Colors.green,
-                      //   width: 2,
-                      // ),
                       color: Colors.lightBlue[50],
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(27),
@@ -118,10 +96,9 @@ class _ChooseUserTypeTandPPageState extends State<ChooseUserTypeTandPPage> {
                         ),
                       ]),
                   margin: EdgeInsets.only(
-                    right: width * 0.1 / 2,
-                    bottom: height * 0.4 / 5,
+                    left: width * 0.12 / 2,
                   ),
-                  child: FlatButton(
+                  child: TextButton(
                     onPressed: () async {
                       CommonUtils.saveValue(
                           describeEnum(CommonConstant.USER_TYPE).toString(),
@@ -139,15 +116,20 @@ class _ChooseUserTypeTandPPageState extends State<ChooseUserTypeTandPPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => HomePageTandP()));
+                                builder: (context) =>
+                                    HomePageTandP(userIdGlobal)));
                       }
                     },
                     child: Column(
                       children: <Widget>[
                         Container(
-                          child: Text('Gia Sư'),
+                          child: Text('Gia Sư',
+                              style: TextStyle(
+                                  fontSize: CommonUtils.getUnitPx() * 12.5)),
                         ),
                         Container(
+                          height: height * 1 / 5,
+                          width: width * 0.5 / 2,
                           child: new Image.asset('asset/image/teacher.png'),
                         ),
                       ],
@@ -155,16 +137,13 @@ class _ChooseUserTypeTandPPageState extends State<ChooseUserTypeTandPPage> {
                   ),
                 ),
                 Container(
-                  height: height * 1.2 / 5,
+                  height: height * 1.25 / 5,
+                  width: width * 0.6 / 2,
                   margin: EdgeInsets.only(
-                    bottom: height * 0.4 / 5,
+                    left: width * 0.2 / 2,
                   ),
                   decoration: BoxDecoration(
                       color: Colors.lightBlue[50],
-                      // border: Border.all(
-                      //   color: Colors.green,
-                      //   width: 2,
-                      // ),
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(27),
                         topLeft: Radius.circular(27),
@@ -177,7 +156,7 @@ class _ChooseUserTypeTandPPageState extends State<ChooseUserTypeTandPPage> {
                           offset: Offset(0, 4),
                         ),
                       ]),
-                  child: FlatButton(
+                  child: TextButton(
                     onPressed: () async {
                       CommonUtils.saveValue(
                           describeEnum(CommonConstant.USER_TYPE).toString(),
@@ -195,15 +174,22 @@ class _ChooseUserTypeTandPPageState extends State<ChooseUserTypeTandPPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => HomePageTandP()));
+                                builder: (context) =>
+                                    HomePageTandP(userIdGlobal)));
                       }
                     },
                     child: Column(
                       children: <Widget>[
                         Container(
-                          child: Text('Phụ Huynh'),
+                          child: Text(
+                            'Phụ Huynh',
+                            style: TextStyle(
+                                fontSize: CommonUtils.getUnitPx() * 12.5),
+                          ),
                         ),
                         Container(
+                          height: height * 1 / 5,
+                          width: width * 0.5 / 2,
                           child: new Image.asset('asset/image/parent.png'),
                         ),
                       ],
@@ -215,13 +201,13 @@ class _ChooseUserTypeTandPPageState extends State<ChooseUserTypeTandPPage> {
           ),
           Container(
             margin: EdgeInsets.only(
-              top: height * 0.3 / 5,
+              top: height * 0.55 / 5,
             ),
             child: Text(
-              'Copyrigh by TrungNQ',
+              'Bản quyền của TrungNQ',
               style: TextStyle(
                 color: Colors.grey[400],
-                fontSize: 18,
+                fontSize: CommonUtils.getUnitPx() * 18,
                 fontFamily: "Roboto",
                 fontStyle: FontStyle.italic,
               ),

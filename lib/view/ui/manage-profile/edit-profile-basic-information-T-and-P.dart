@@ -1,12 +1,15 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:edu_cope/constant/from-screen.dart';
 import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/dto/user-information.dart';
 import 'package:edu_cope/service/api-account.dart';
+import 'package:edu_cope/view/ui/common/widget-utils.dart';
 import 'package:edu_cope/view/ui/manage-profile/profile-basic-information-T-and-P.dart';
 import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,17 +17,14 @@ void main() {
 
 final double height = CommonUtils.height;
 final double width = CommonUtils.width;
-final String userId = '607a8b832ea23669aaea68e3';
+final String userId = CommonUtils.currentUserId;
+Image? profileImage = null;
+bool pickedImage = false;
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // title: 'Edu Cope',
-      // theme: ThemeData(
-      //   primarySwatch: Colors.blue,
-      // ),
       home: EditProfileBasicInformationTandPPage(),
     );
   }
@@ -40,11 +40,34 @@ class EditProfileBasicInformationTandPPage extends StatefulWidget {
 
 class _EditProfileBasicInformationTandPPageState
     extends State<EditProfileBasicInformationTandPPage> {
+  late PickedFile _imageFile = new PickedFile("");
+  final ImagePicker _picker = ImagePicker();
+
+  Future<void> uploadImage(String filepath, String currentUserId) async {
+    String authorId = currentUserId;
+    await WidgetUtils.uploadFile(filepath, authorId);
+  }
+
+  void _pickImage() async {
+    try {
+      final pickedFile = await _picker.getImage(source: ImageSource.gallery);
+      setState(() {
+        if (pickedFile != null) {
+          _imageFile = pickedFile;
+          profileImage = Image.file(File(pickedFile.path));
+          pickedImage = true;
+        }
+      });
+    } catch (e) {
+      print("Image picker error ");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.lightBlue,
+        backgroundColor: Color(WidgetUtils.valueColorAppBar),
         leading: Container(
           margin: EdgeInsets.only(
             top: height * 0.04 / 5,
@@ -61,7 +84,7 @@ class _EditProfileBasicInformationTandPPageState
         title: Text(
           'Cập nhật',
           style: TextStyle(
-            fontSize: 24,
+            fontSize: CommonUtils.getUnitPx() * 20,
           ),
         ),
       ),
@@ -73,16 +96,52 @@ class _EditProfileBasicInformationTandPPageState
             userInformation = snapshot.data!;
             return SingleChildScrollView(
               reverse: false,
-              // padding: EdgeInsets.only(
-              //   bottom: bottomKeyboard * 0.1,
-              // ),
               child: Column(
                 children: <Widget>[
                   Container(
-                    width: width / 2,
-                    height: height / 5,
-                    child: new Image.asset(
-                      'asset/image/blank-account.jpg',
+                    height: height * 1.7 / 5,
+                    child: Row(
+                      children: [
+                        Container(
+                          width: width / 2,
+                          height: height * 1.7 / 5,
+                          margin: EdgeInsets.only(
+                            left: width * 0.9 / 4,
+                          ),
+                          decoration: BoxDecoration(
+                              color: Color(0xFFe4f2f0),
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(17),
+                                topRight: Radius.circular(17),
+                                bottomLeft: Radius.circular(17),
+                                bottomRight: Radius.circular(17),
+                              ),
+                              border: Border.all(
+                                color: Color(0xFFe1f5f2),
+                                width: 2,
+                              ),
+                              image: DecorationImage(
+                                  fit: BoxFit.fill,
+                                  image: profileImage != null
+                                      ? profileImage!.image
+                                      : NetworkImage(
+                                          'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'))),
+                        ),
+                        Container(
+                          width: width * 0.4 * 0.7 / 2,
+                          height: height * 0.5 * 0.7 / 5,
+                          margin: EdgeInsets.only(
+                              left: width * 0.01 / 2, top: height * 1.3 / 5),
+                          child: IconButton(
+                            onPressed: () {
+                              _pickImage();
+                            },
+                            icon: new Image.asset(
+                              'asset/image/edit.png',
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
                   titleForItems('Họ và tên'),
@@ -143,22 +202,29 @@ class _EditProfileBasicInformationTandPPageState
                             offset: Offset(0, 4),
                           ),
                         ]),
-                    child: FlatButton(
+                    child: TextButton(
                       child: Text(
                         "Cập nhật",
                         style: TextStyle(
-                            fontSize: 18,
+                            fontSize: CommonUtils.getUnitPx() * 18,
                             color: Colors.white,
                             fontFamily: "Roboto",
                             fontStyle: FontStyle.normal),
                       ),
-                      onPressed: () {
+                      onPressed: () async {
+                        uploadImage(_imageFile.path, userId);
+                        userInformation.urlImageProfile = '';
                         updateUserInformation(userInformation);
+                        pickedImage = false;
+                        await Future.delayed(const Duration(milliseconds: 500));
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    ProfileBasicInformationTandPPage()));
+                                    ProfileBasicInformationTandPPage(
+                                        userInformation.id ?? '',
+                                        FromScreen
+                                            .fromScreenEditBasicInformationProfile)));
                       },
                     ),
                   )
@@ -186,8 +252,9 @@ Container titleForItems(String initialValueTitle) {
             child: Text(
               initialValueTitle,
               style: TextStyle(
-                color: Colors.blue,
-                fontSize: 20,
+                color: Color(0xFF1298e0),
+                fontSize: CommonUtils.getUnitPx() * 20,
+                fontStyle: FontStyle.italic,
               ),
             )),
       ],
@@ -197,7 +264,7 @@ Container titleForItems(String initialValueTitle) {
 
 Container inputContentItem(String contentItem, int maxLine,
     UserInformation userInformation, String fieldName) {
-  print("contentItem: " + contentItem);
+  // print("contentItem: " + contentItem);
   setValueFieldsForUserInformation(userInformation, fieldName, contentItem);
   return Container(
     margin: EdgeInsets.only(
@@ -215,14 +282,9 @@ Container inputContentItem(String contentItem, int maxLine,
       },
       decoration: InputDecoration(
         hintStyle: TextStyle(
-          fontSize: 14,
+          fontSize: CommonUtils.getUnitPx() * 14,
           color: Colors.grey,
         ),
-        // border: OutlineInputBorder(
-        //   borderSide: BorderSide(
-        //     width: 1,
-        //   ),
-        // ),
       ),
     ),
   );
@@ -247,10 +309,14 @@ Future<UserInformation> getUserInformation(String userId) async {
   if (responseEntity.getStatus == HttpStatus.ok) {
     UserInformation response = UserInformation.fromJson(responseEntity.data);
     print('Id: ' + response.id.toString());
+
+    // Get Image of userInformation
+    if(!pickedImage) {
+      profileImage = WidgetUtils.getImageFromUserInformation(response);
+    }
+
     return response;
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
   } else {
-    // Show pop up notification about fail reason.
     print('Error: ' + responseEntity.getException.toString());
   }
   return userInformation;
@@ -264,9 +330,7 @@ void updateUserInformation(UserInformation userInformation) async {
   if (responseEntity.getStatus == HttpStatus.ok) {
     UserInformation response = UserInformation.fromJson(responseEntity.data);
     print('Id: ' + response.id.toString());
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
   } else {
-    // Show pop up notification about fail reason.
     print('Error: ' + responseEntity.getException.toString());
   }
 }

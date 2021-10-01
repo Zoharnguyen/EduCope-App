@@ -25,7 +25,7 @@ abstract class APIOfferClient {
   Future<ResponseEntity> getOffersByOfferType(
       @Query("offerType", encoded: false) OfferType offerType);
 
-  @GET("/offer/get-offers-by-type-and-subject")
+  @GET("/offer/get-courses-by-type-and-subject")
   Future<ResponseEntity> getOffersByOfferTypeAndSubject(
     @Query("offerType", encoded: false) OfferType offerType,
     @Query("subject", encoded: false) String subject,
@@ -61,4 +61,13 @@ abstract class APIOfferClient {
   Future<ResponseEntity> getListClassByCourseTypeAndAuthorId(
       @Query("courseType", encoded: false) CourseType courseType,
       @Query("authorId", encoded: false) String authorId);
+
+  @GET("/offer/get-contract-by-course-id")
+  Future<ResponseEntity> getContractByCourseId(
+      @Query("courseId", encoded: false) String courseId);
+
+  @PATCH("/offer/update-course-contract")
+  Future<ResponseEntity> updateCourseContract(
+      @Body() CourseContractWrap courseContractWrap);
+
 }

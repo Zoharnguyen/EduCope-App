@@ -1,3 +1,4 @@
+import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -44,7 +45,7 @@ class _AddNewAdjustStudentLearningClassTPageState extends State<AddNewAdjustStud
             child: Text(
               'Nguyen Van A',
               style: TextStyle(
-                fontSize: 24,
+                fontSize: CommonUtils.getUnitPx() * 20,
                 fontFamily: "Roboto",
                 fontStyle: FontStyle.normal,
               ),
@@ -58,7 +59,7 @@ class _AddNewAdjustStudentLearningClassTPageState extends State<AddNewAdjustStud
                   child: Text(
                     'Thoi gian',
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: CommonUtils.getUnitPx() * 20,
                       fontFamily: "Roboto",
                       fontStyle: FontStyle.normal,
                     ),
@@ -77,7 +78,7 @@ class _AddNewAdjustStudentLearningClassTPageState extends State<AddNewAdjustStud
                     onChanged: (text) {},
                     decoration: InputDecoration(
                       hintStyle: TextStyle(
-                        fontSize: 14,
+                        fontSize: CommonUtils.getUnitPx() * 14,
                         color: Colors.grey,
                       ),
                       // border: OutlineInputBorder(
@@ -95,7 +96,7 @@ class _AddNewAdjustStudentLearningClassTPageState extends State<AddNewAdjustStud
                   child: Text(
                     'Noi dung',
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: CommonUtils.getUnitPx() * 20,
                       fontFamily: "Roboto",
                       fontStyle: FontStyle.normal,
                     ),
@@ -114,7 +115,7 @@ class _AddNewAdjustStudentLearningClassTPageState extends State<AddNewAdjustStud
                     onChanged: (text) {},
                     decoration: InputDecoration(
                       hintStyle: TextStyle(
-                        fontSize: 14,
+                        fontSize: CommonUtils.getUnitPx() * 14,
                         color: Colors.grey,
                       ),
                       // border: OutlineInputBorder(
@@ -151,11 +152,11 @@ class _AddNewAdjustStudentLearningClassTPageState extends State<AddNewAdjustStud
                           offset: Offset(0, 4),
                         ),
                       ]),
-                  child: FlatButton(
+                  child: TextButton(
                     child: Text(
                       "Tao moi",
                       style: TextStyle(
-                          fontSize: 18,
+                          fontSize: CommonUtils.getUnitPx() * 18,
                           color: Colors.white,
                           fontFamily: "Roboto",
                           fontStyle: FontStyle.normal),

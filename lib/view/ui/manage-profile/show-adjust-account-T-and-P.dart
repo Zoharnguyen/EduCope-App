@@ -15,79 +15,104 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // title: 'Edu Cope',
-      // theme: ThemeData(
-      //   primarySwatch: Colors.blue,
-      // ),
-      home: ShowAdjustAccountTandPPage(),
+      home: ShowAdjustAccountTandPPage(userIdGlobal),
     );
   }
 }
 
 final double height = CommonUtils.height;
 final double width = CommonUtils.width;
-final stars = [
-  'asset/image/rating-star.png',
-  'asset/image/rating-star.png',
-  'asset/image/rating-star.png',
-];
-String userId = "607a8b832ea23669aaea68e3";
-UserType userType = UserType.TEACHER;
+var stars = [];
+String userIdGlobal = CommonUtils.currentUserId;
+UserType userType = CommonUtils.currentUserType;
+Image? profileImage = null;
 
 class ShowAdjustAccountTandPPage extends StatefulWidget {
-  ShowAdjustAccountTandPPage();
+  ShowAdjustAccountTandPPage(String userId) {
+    userIdGlobal = userId;
+  }
 
   @override
-  _ShowAdjustAccountTandPPageState createState() => _ShowAdjustAccountTandPPageState();
+  _ShowAdjustAccountTandPPageState createState() =>
+      _ShowAdjustAccountTandPPageState();
 }
 
-class _ShowAdjustAccountTandPPageState extends State<ShowAdjustAccountTandPPage> {
+class _ShowAdjustAccountTandPPageState
+    extends State<ShowAdjustAccountTandPPage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<UserProfile>(
-        future: getUserProfile(userId),
+        future: getUserProfile(userIdGlobal),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             UserProfile? userProfile = snapshot.data;
             return Scaffold(
-              appBar: AppBar(
-                leading: Container(
-                    child: IconButton(
-                  icon: Icon(Icons.arrow_back_ios),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                )),
-                title: Container(
-                  margin: EdgeInsets.only(
-                    left: width * 0.4 / 2,
-                  ),
-                  child: Text(
-                    'Đánh giá',
-                    style: TextStyle(
-                      fontSize: 22,
+              appBar: PreferredSize(
+                  preferredSize: Size.fromHeight(height * 0.41 / 5),
+                  child: AppBar(
+                    backgroundColor: Color(WidgetUtils.valueColorAppBar),
+                    leading: Container(
+                        child: IconButton(
+                      icon: Icon(Icons.arrow_back_ios),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    )),
+                    centerTitle: true,
+                    title: Container(
+                      child: Text(
+                        'Đánh giá',
+                        style: TextStyle(
+                          fontSize: CommonUtils.getUnitPx() * 20,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
+                  )),
               body: Column(
                 children: <Widget>[
                   Container(
                     height: height * 0.7 / 5,
+                    decoration: BoxDecoration(
+                        color: Color(0xFFf0f5f5),
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(17),
+                          bottomRight: Radius.circular(17),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.shade300,
+                            offset: Offset(0, 4),
+                          ),
+                        ]),
                     child: Row(
                       children: <Widget>[
                         Container(
                           height: height * 0.6 / 5,
+                          width: width * 0.35 / 2,
                           margin: EdgeInsets.only(
                             left: width * 0.8 / 4,
                           ),
-                          child: new Image.asset(
-                            'asset/image/blank-account.jpg',
-                          ),
+                          decoration: BoxDecoration(
+                              color: Color(0xFFe4f2f0),
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(17),
+                                topRight: Radius.circular(17),
+                                bottomLeft: Radius.circular(17),
+                                bottomRight: Radius.circular(17),
+                              ),
+                              border: Border.all(
+                                color: Color(0xFFe1f5f2),
+                                width: 2,
+                              ),
+                              image: DecorationImage(
+                                  fit: BoxFit.fill,
+                                  image: profileImage != null
+                                      ? profileImage!.image
+                                      : NetworkImage(
+                                          'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'))),
                         ),
                         Container(
                           width: width * 0.8 / 2,
@@ -97,20 +122,20 @@ class _ShowAdjustAccountTandPPageState extends State<ShowAdjustAccountTandPPage>
                             children: <Widget>[
                               Container(
                                 margin: EdgeInsets.only(
-                                  top: height * 0.1 / 5,
+                                  top: height * 0.15 / 5,
                                   left: width * 0.05 / 2,
                                 ),
                                 child: Text(
                                   CommonUtils.catchCaseStringNull(
                                       userProfile!.fullName),
                                   style: TextStyle(
-                                    color: Colors.blue,
-                                    fontSize: 20,
+                                    color: Color(0xFF1298e0),
+                                    fontSize: CommonUtils.getUnitPx() * 20,
                                   ),
                                 ),
                               ),
-                              showRating(
-                                  stars, width * 0.8 / 2, width * 0.1 / 2),
+                              showRating(userProfile.rate, width * 0.8 / 2,
+                                  width * 0.05 / 2),
                             ],
                           ),
                         ),
@@ -118,16 +143,26 @@ class _ShowAdjustAccountTandPPageState extends State<ShowAdjustAccountTandPPage>
                     ),
                   ),
                   Container(
-                    height: height * 3.2 / 5,
+                    height: height * 3.15 / 5,
                     margin: EdgeInsets.only(
                       top: height * 0.05 / 5,
                     ),
-                    child: ListView.builder(
-                        itemCount: userProfile.adjustUserProfileList!.length,
-                        itemBuilder: (context, index) {
-                          return showOverviewAdjustment(
-                              userProfile.adjustUserProfileList![index]);
-                        }),
+                    child: (userProfile.adjustUserProfileList != null)
+                        ? ListView.builder(
+                            itemCount:
+                                userProfile.adjustUserProfileList!.length,
+                            itemBuilder: (context, index) {
+                              return showOverviewAdjustment(
+                                  userProfile.adjustUserProfileList![index]);
+                            })
+                        : Container(
+                            child: Text(
+                              'Hiện bạn chưa nhận được đánh giá nào',
+                              style: TextStyle(
+                                  fontSize: CommonUtils.getUnitPx() * 18,
+                                  color: Colors.grey),
+                            ),
+                          ),
                   ),
                   WidgetUtils.mainButton(context, 0, userType),
                 ],
@@ -140,33 +175,40 @@ class _ShowAdjustAccountTandPPageState extends State<ShowAdjustAccountTandPPage>
 }
 
 Container showOverviewAdjustment(AdjustUserProfile adjustUserProfile) {
+
+  Image? profileImageInternal = null;
+  // Convert base64 to image
+  if (adjustUserProfile != null &&
+      adjustUserProfile.userAdjust != null &&
+      adjustUserProfile.userAdjust!.urlImageProfile != null &&
+      adjustUserProfile.userAdjust!.urlImageProfile != ' ') {
+    profileImageInternal = new Image.memory(WidgetUtils.dataFromBase64String(
+        adjustUserProfile.userAdjust!.urlImageProfile.toString()));
+  }
+
   return Container(
     height: height / 5,
     width: width * 1.4 / 2,
     margin: EdgeInsets.only(
-      top: height * 0.05 / 5,
+      top: height * 0.1 / 5,
       right: width * 0.1 / 2,
       left: width * 0.2 / 2,
     ),
     decoration: BoxDecoration(
-        color: Colors.lightBlue[50],
-        // border: Border.all(
-        //   color: Colors.green,
-        //   width: 2,
-        // ),
+        color: Color(0xFFe9f0ef),
         borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(27),
+          bottomLeft: Radius.circular(17),
           topLeft: Radius.circular(27),
-          bottomRight: Radius.circular(27),
+          bottomRight: Radius.circular(17),
           topRight: Radius.circular(27),
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.shade400,
+            color: Colors.grey.shade300,
             offset: Offset(0, 4),
           ),
         ]),
-    child: FlatButton(
+    child: TextButton(
       onPressed: () {},
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -177,13 +219,22 @@ Container showOverviewAdjustment(AdjustUserProfile adjustUserProfile) {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  width: width * 0.25 / 2,
-                  margin: EdgeInsets.only(
-                    left: width * 0.05 / 2,
-                    right: width * 0.07 / 2,
-                  ),
-                  child: new Image.asset('asset/image/personal.png'),
-                ),
+                    width: width * 0.25 / 2,
+                    margin: EdgeInsets.only(
+                      left: width * 0.05 / 2,
+                      right: width * 0.07 / 2,
+                    ),
+                    child: CircleAvatar(
+                      radius: height * 0.19 / 5,
+                      backgroundColor: Color(0xFFe1f5f2),
+                      child: CircleAvatar(
+                        radius: height * 0.18 / 5,
+                        backgroundImage: profileImageInternal != null
+                            ? profileImageInternal.image
+                            : NetworkImage(
+                                'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
+                      ),
+                    )),
                 Container(
                   margin: EdgeInsets.only(
                     top: height * 0.05 / 5,
@@ -200,7 +251,7 @@ Container showOverviewAdjustment(AdjustUserProfile adjustUserProfile) {
                                     adjustUserProfile.userAdjust!.fullName),
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 20,
+                                  fontSize: CommonUtils.getUnitPx() * 20,
                                 ),
                               ))),
                       Container(
@@ -210,13 +261,14 @@ Container showOverviewAdjustment(AdjustUserProfile adjustUserProfile) {
                                 adjustUserProfile.dateAdjust.toString()),
                             style: TextStyle(
                               color: Colors.black54,
-                              fontSize: 14,
+                              fontSize: CommonUtils.getUnitPx() * 14,
                             ),
                           ))
                     ],
                   ),
                 ),
-                showRating(stars, width * 0.3 / 2, width * 0.06 / 2),
+                showRating(
+                    adjustUserProfile.rate, width * 0.3 / 2, width * 0.06 / 2),
               ],
             ),
           ),
@@ -229,7 +281,7 @@ Container showOverviewAdjustment(AdjustUserProfile adjustUserProfile) {
               CommonUtils.catchCaseStringNull(adjustUserProfile.content),
               style: TextStyle(
                   color: Colors.black54,
-                  fontSize: 18,
+                  fontSize: CommonUtils.getUnitPx() * 18,
                   fontStyle: FontStyle.italic),
             ),
           ),
@@ -239,30 +291,34 @@ Container showOverviewAdjustment(AdjustUserProfile adjustUserProfile) {
   );
 }
 
-Widget showRating(List<String> stars, double widthSize, double starSize) {
-  return Expanded(
-    child: Container(
-      width: widthSize,
-      margin: EdgeInsets.only(
-        left: width * 0.05 / 2,
+Widget showRating(String? rate, double widthSize, double starSize) {
+  if (rate != null) {
+    stars = CommonUtils.mapNumStarsToListStars(rate);
+    return Expanded(
+      child: Container(
+        width: widthSize,
+        margin: EdgeInsets.only(
+          left: width * 0.05 / 2,
+        ),
+        child: new ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: stars.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                margin: EdgeInsets.only(
+                  left: width * 0.01 / 2,
+                ),
+                width: starSize,
+                child: new Image.asset(
+                  stars[index],
+                  fit: BoxFit.fitWidth,
+                ),
+              );
+            }),
       ),
-      child: new ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: stars.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Container(
-              margin: EdgeInsets.only(
-                left: width * 0.01 / 2,
-              ),
-              width: starSize,
-              child: new Image.asset(
-                stars[index],
-                fit: BoxFit.fitWidth,
-              ),
-            );
-          }),
-    ),
-  );
+    );
+  } else
+    return Container();
 }
 
 Future<UserProfile> getUserProfile(String userId) async {
@@ -274,10 +330,12 @@ Future<UserProfile> getUserProfile(String userId) async {
   if (responseEntity.getStatus == HttpStatus.ok) {
     UserProfile response = UserProfile.fromJson(responseEntity.data);
     print('Id: ' + response.id.toString());
+
+    // Get image from profileAuthor
+    profileImage = WidgetUtils.getImageFromUserProfile(response);
+
     return response;
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
   } else {
-    // Show pop up notification about fail reason.
     print('Error: ' + responseEntity.getException.toString());
   }
   return userProfile;

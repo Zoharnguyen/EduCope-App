@@ -6,6 +6,7 @@ import 'package:edu_cope/dto/adjust-user-profile.dart';
 import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/dto/user-basic.dart';
 import 'package:edu_cope/dto/user-information.dart';
+import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:retrofit/http.dart';
 part 'api-account-impl.dart';
 
@@ -34,5 +35,9 @@ abstract class APIAcountClient {
   @PUT("/user/add-user-information")
   Future<ResponseEntity> updateUserInformation(
       @Body() UserInformation userInformation);
+
+  @GET("/user/get-list-chat")
+  Future<ResponseEntity> getListChat(
+      @Query("userId", encoded: false) String userId);
 
 }

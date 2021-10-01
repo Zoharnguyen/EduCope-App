@@ -34,6 +34,11 @@ dependencies:
   shared_preferences_platform_interface: ^2.0.0
   shared_preferences_windows: ^2.0.0
   http_parser: ^4.0.0
+  stomp_dart_client: ^0.4.2
+  scroll_to_index: ^1.0.6
+  dart_amqp: ^0.2.0
+  uuid: 3.0.4
+  enum_to_string: ^2.0.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -46,6 +51,19 @@ dev_dependencies:
   json_annotation: ^4.0.1
   json_serializable: ^4.1.2
   build_runner: ^2.0.3
+  flutter_native_splash: ^1.2.3
+  flutter_launcher_icons: ^0.9.2
+  percent_indicator: ^2.1.7+2
+  image_picker: ^0.7.4
+
+flutter_native_splash:
+  color: "#ffffff"
+  image: asset/image/logo-edu-3-laucher.png
+
+flutter_icons:
+  android: true
+  image_path: asset/image/logo-edu-3-laucher.png
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -86,13 +104,19 @@ flutter:
     - asset/image/cancel.png
     - asset/image/class_information.png
     - asset/image/class_status.png
-    - asset/image/homepage_green.jpg
+    - asset/image/homepage_green.png
     - asset/image/personal_green.png
     - asset/image/personal_blue.png
     - asset/image/reject.png
     - asset/image/accept.png
     - asset/image/contract.png
     - asset/image/attendance.png
+    - asset/image/chat-user-profile.png
+    - asset/image/forum.png
+    - asset/image/logo-edu-1.png
+    - asset/image/logo-edu-2.png
+    - asset/image/logo-edu-3.png
+    - asset/image/profile-image-1.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

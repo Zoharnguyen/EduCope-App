@@ -7,7 +7,7 @@ import 'package:edu_cope/dto/attendance-course.dart';
 import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/dto/user-profile.dart';
 import 'package:edu_cope/service/api-attendance-course.dart';
-import 'package:edu_cope/view/ui/manage-course/manage-detail-learning-class-T-and-P.dart';
+import 'package:edu_cope/view/ui/common/widget-utils.dart';
 import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/material.dart';
 
@@ -17,27 +17,24 @@ void main() {
 
 final double width = CommonUtils.width;
 final double height = CommonUtils.height;
-String courseId = '60e394825ded485c37a643f1';
+String courseIdGlobal = '60e394825ded485c37a643f1';
 AttendanceCourse attendanceCourse = new AttendanceCourse();
 CourseRegisterStatus attendanceCourseStatus = CourseRegisterStatus.PENDING;
-UserType userType = UserType.STUDENTPARENT;
+UserType userType = CommonUtils.currentUserType;
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // title: 'Edu Cope',
-      // theme: ThemeData(
-      //   primarySwatch: Colors.blue,
-      // ),
-      home: ManageAttendanceLearningClassTandPPage(),
+      home: ManageAttendanceLearningClassTandPPage(courseIdGlobal),
     );
   }
 }
 
 class ManageAttendanceLearningClassTandPPage extends StatefulWidget {
-  ManageAttendanceLearningClassTandPPage();
+  ManageAttendanceLearningClassTandPPage(String courseId) {
+    courseIdGlobal = courseId;
+  }
 
   @override
   _ManageAttendanceLearningClassTandPPageState createState() =>
@@ -48,11 +45,11 @@ class _ManageAttendanceLearningClassTandPPageState
     extends State<ManageAttendanceLearningClassTandPPage> {
   @override
   Widget build(BuildContext context) {
-    double heightAttendances = height * 4.4 / 5;
+    double heightAttendances = height * 5 / 5;
     if (UserType.STUDENTPARENT == userType) heightAttendances = height * 5 / 5;
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(
+        child: Stack(
           children: <Widget>[
             Container(
               height: heightAttendances,
@@ -63,6 +60,7 @@ class _ManageAttendanceLearningClassTandPPageState
                     appBar: PreferredSize(
                       preferredSize: Size(width * 0.9, height * 0.6 / 5),
                       child: AppBar(
+                        backgroundColor: Color(WidgetUtils.valueColorAppBar),
                         leading: Container(
                           margin: EdgeInsets.only(
                             top: height * 0.04 / 5,
@@ -71,11 +69,7 @@ class _ManageAttendanceLearningClassTandPPageState
                             icon: Icon(Icons.arrow_back_ios),
                             // iconSize: 20,
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          ManageDetailLearningClassTandPPage()));
+                              Navigator.pop(context);
                             },
                           ),
                         ),
@@ -83,22 +77,28 @@ class _ManageAttendanceLearningClassTandPPageState
                         title: Text(
                           'Điểm danh',
                           style: TextStyle(
-                            fontSize: 24,
+                            fontSize: CommonUtils.getUnitPx() * 20,
                           ),
                         ),
                         bottom: TabBar(
                           tabs: <Widget>[
                             Text(
                               'Chấp thuận',
-                              style: TextStyle(fontSize: 20),
+                              style: TextStyle(
+                                  fontSize: CommonUtils.getUnitPx() * 20,
+                                  fontStyle: FontStyle.italic),
                             ),
                             Text(
                               'Đang chờ',
-                              style: TextStyle(fontSize: 20),
+                              style: TextStyle(
+                                  fontSize: CommonUtils.getUnitPx() * 20,
+                                  fontStyle: FontStyle.italic),
                             ),
                             Text(
                               'Từ chối',
-                              style: TextStyle(fontSize: 20),
+                              style: TextStyle(
+                                  fontSize: CommonUtils.getUnitPx() * 20,
+                                  fontStyle: FontStyle.italic),
                             ),
                           ],
                         ),
@@ -111,7 +111,8 @@ class _ManageAttendanceLearningClassTandPPageState
                     ])),
               ),
             ),
-            showButtonAddAttendance(context),
+            showButtonAddAttendancePosition(context),
+            // showButtonAddAttendance(context),
           ],
         ),
       ),
@@ -129,7 +130,8 @@ class AttendanceCourseBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<AttendanceCourse>>(
-        future: _fetchAttendanceCourseList(_courseRegisterStatus, courseId),
+        future:
+            _fetchAttendanceCourseList(_courseRegisterStatus, courseIdGlobal),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<AttendanceCourse>? data = snapshot.data;
@@ -146,40 +148,6 @@ class AttendanceCourseBar extends StatelessWidget {
   }
 }
 
-Future<List<AttendanceCourse>> _fetchAttendanceCourseList(
-    CourseRegisterStatus courseRegisterStatus, String courseId) async {
-  List<AttendanceCourse> attendanceCourseList = <AttendanceCourse>[];
-  // Mock data courseStatusList
-  // CourseStatus courseStatus= new CourseStatus();
-  // UserProfile userProfile = new UserProfile();
-  // userProfile.rate = '5';
-  // userProfile.phoneNumber = '0123456789';
-  // userProfile.fullName = 'Nguyen Van A';
-  // userProfile.urlImageProfile = 'test';
-  // courseStatus.userProfile = userProfile;
-  // courseStatusList.add(courseStatus);
-  APIAttendanceCourseClient apiAttendanceCourseClient =
-      APIAttendanceCourseClient(
-          Dio(BaseOptions(contentType: "application/json")));
-  ResponseEntity responseEntity = await apiAttendanceCourseClient
-      .getAttendanceCourseListByTypeAndCourseId(courseRegisterStatus, courseId);
-  if (responseEntity.getStatus == HttpStatus.ok) {
-    List listDecoded = responseEntity.data;
-    AttendanceCourse attendanceCourseResponse =
-        AttendanceCourse.fromJson(responseEntity.data[0]);
-    print('Id: ' + attendanceCourseResponse.id.toString());
-    return listDecoded
-        .map((attendanceCourse) =>
-            new AttendanceCourse.fromJson(attendanceCourse))
-        .toList();
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-  } else {
-    // Show pop up notification about fail reason.
-    print('Error: ' + responseEntity.getException.toString());
-  }
-  return attendanceCourseList;
-}
-
 ListView _jobsListView(data, CourseRegisterStatus courseRegisterStatus) {
   return ListView.builder(
       scrollDirection: Axis.vertical,
@@ -194,19 +162,15 @@ Widget _jobsShowAttendanceCourse(AttendanceCourse attendanceCourse,
     BuildContext context, CourseRegisterStatus courseRegisterStatus) {
   return Container(
     height: height * 1.2 / 5,
-    width: width * 1.6 / 2,
+    width: width * 1.5 / 2,
     margin: EdgeInsets.only(
       bottom: height * 0.02 / 5,
       top: height * 0.1 / 5,
-      right: width * 0.2 / 2,
-      left: width * 0.2 / 2,
+      right: width * 0.25 / 2,
+      left: width * 0.25 / 2,
     ),
     decoration: BoxDecoration(
-        color: Colors.lightBlue[50],
-        // border: Border.all(
-        //   color: Colors.green,f
-        //   width: 2,
-        // ),
+        color: Color(0xFFe9f0ef),
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(17),
           bottomRight: Radius.circular(17),
@@ -219,7 +183,7 @@ Widget _jobsShowAttendanceCourse(AttendanceCourse attendanceCourse,
         ]),
     child: Row(children: <Widget>[
       Container(
-        width: width * 1 / 2,
+        width: width * 0.9 / 2,
         child: TextButton(
           onPressed: () {},
           child: Column(
@@ -232,7 +196,9 @@ Widget _jobsShowAttendanceCourse(AttendanceCourse attendanceCourse,
                 ),
                 child: Text(
                   CommonUtils.catchCaseStringNull(attendanceCourse.dateStudy),
-                  style: TextStyle(fontSize: 16, color: Colors.black87),
+                  style: TextStyle(
+                      fontSize: CommonUtils.getUnitPx() * 16,
+                      color: Color(0xFF525d63)),
                 ),
               ),
               showTitle("Học trong: "),
@@ -242,7 +208,9 @@ Widget _jobsShowAttendanceCourse(AttendanceCourse attendanceCourse,
                 ),
                 child: Text(
                   CommonUtils.catchCaseStringNull(attendanceCourse.timeStudy),
-                  style: TextStyle(fontSize: 16, color: Colors.black87),
+                  style: TextStyle(
+                      fontSize: CommonUtils.getUnitPx() * 16,
+                      color: Color(0xFF525d63)),
                 ),
               ),
               showTitle("Lưu ý: "),
@@ -252,7 +220,9 @@ Widget _jobsShowAttendanceCourse(AttendanceCourse attendanceCourse,
                 ),
                 child: Text(
                   CommonUtils.catchCaseStringNull(attendanceCourse.note),
-                  style: TextStyle(fontSize: 16, color: Colors.black87),
+                  style: TextStyle(
+                      fontSize: CommonUtils.getUnitPx() * 16,
+                      color: Color(0xFF525d63)),
                 ),
               )
             ],
@@ -269,7 +239,9 @@ Widget _jobsShowAttendanceCourse(AttendanceCourse attendanceCourse,
 }
 
 Container showAttendanceStatus(CourseRegisterStatus? attendanceStatus) {
-  if (CourseRegisterStatus.PENDING != attendanceStatus)
+  if (CourseRegisterStatus.PENDING != attendanceStatus ||
+      (CourseRegisterStatus.PENDING == attendanceStatus &&
+          userType == UserType.TEACHER))
     return Container(
       margin: EdgeInsets.only(
         bottom: height * 0.1 / 5,
@@ -277,7 +249,8 @@ Container showAttendanceStatus(CourseRegisterStatus? attendanceStatus) {
       ),
       child: Text(
         CommonUtils.mappingValueWithCourseStatusEnum(attendanceStatus),
-        style: TextStyle(fontSize: 16, color: Colors.green),
+        style: TextStyle(
+            fontSize: CommonUtils.getUnitPx() * 16, color: Colors.green),
       ),
     );
   return Container();
@@ -287,7 +260,11 @@ Widget showTitle(String title) {
   return Container(
     child: Text(
       title,
-      style: TextStyle(fontSize: 16, color: Colors.blue),
+      style: TextStyle(
+        fontSize: CommonUtils.getUnitPx() * 16,
+        color: Color(0xFF1298e0),
+        fontStyle: FontStyle.italic,
+      ),
     ),
   );
 }
@@ -321,11 +298,15 @@ class CreateAttendanceCourse extends StatelessWidget {
                         child: RaisedButton(
                           onPressed: () {
                             _createAttendanceCourse(attendanceCourse);
+                            // Remove some unnecessary screens out stack
+                            Navigator.pop(context);
+                            Navigator.pop(context);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        ManageAttendanceLearningClassTandPPage()));
+                                        ManageAttendanceLearningClassTandPPage(
+                                            courseIdGlobal)));
                           },
                           color: Colors.lightBlue,
                           child: Text(
@@ -358,12 +339,6 @@ class CreateAttendanceCourse extends StatelessWidget {
 Container titleForItems(String initialValueTitle) {
   return Container(
     height: height * 0.35 / 5,
-    // decoration: BoxDecoration(
-    //     border: Border.all(
-    //       color: Colors.green,
-    //       width: 2,
-    //     )
-    // ),
     child: Row(
       children: <Widget>[
         Container(
@@ -371,17 +346,12 @@ Container titleForItems(String initialValueTitle) {
             margin: EdgeInsets.only(
               left: width * 0.15 / 2,
             ),
-            // decoration: BoxDecoration(
-            //     border: Border.all(
-            //       color: Colors.green,
-            //       width: 2,
-            //     )
-            // ),
             child: Text(
               initialValueTitle,
               style: TextStyle(
-                color: Colors.blue,
-                fontSize: 18,
+                color: Color(0xFF1298e0),
+                fontSize: CommonUtils.getUnitPx() * 18,
+                fontStyle: FontStyle.italic,
               ),
             )),
       ],
@@ -391,6 +361,7 @@ Container titleForItems(String initialValueTitle) {
 
 Container inputContentItem(String contentInitialValue, String fieldName,
     AttendanceCourse attendanceCourse, double heightInput) {
+  setValueForAttendanceCourse(contentInitialValue, fieldName, attendanceCourse);
   return Container(
     height: heightInput,
     width: width * 1.3 / 2,
@@ -410,7 +381,7 @@ Container inputContentItem(String contentInitialValue, String fieldName,
       },
       decoration: InputDecoration(
         hintStyle: TextStyle(
-          fontSize: 14,
+          fontSize: CommonUtils.getUnitPx() * 14,
           color: Colors.lightBlue,
         ),
         enabledBorder: OutlineInputBorder(
@@ -432,7 +403,8 @@ Container inputContentItem(String contentInitialValue, String fieldName,
 
 Widget showAcceptButton(CourseRegisterStatus? courseRegisterStatus,
     BuildContext context, AttendanceCourse attendanceCourse) {
-  if (courseRegisterStatus == CourseRegisterStatus.PENDING)
+  if (courseRegisterStatus == CourseRegisterStatus.PENDING &&
+      UserType.STUDENTPARENT == userType)
     return Container(
       height: height * 0.5 / 5,
       child: IconButton(
@@ -453,7 +425,8 @@ Widget showAcceptButton(CourseRegisterStatus? courseRegisterStatus,
 
 Widget showRejectButton(CourseRegisterStatus? courseRegisterStatus,
     BuildContext context, AttendanceCourse attendanceCourse) {
-  if (courseRegisterStatus == CourseRegisterStatus.PENDING)
+  if (courseRegisterStatus == CourseRegisterStatus.PENDING &&
+      UserType.STUDENTPARENT == userType)
     return Container(
       height: height * 0.5 / 5,
       alignment: Alignment.center,
@@ -492,7 +465,7 @@ class AcceptRegisterAlert extends StatelessWidget {
                       'Thành Công',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 20,
+                          fontSize: CommonUtils.getUnitPx() * 20,
                           color: Colors.blue),
                     ),
                     SizedBox(
@@ -500,18 +473,14 @@ class AcceptRegisterAlert extends StatelessWidget {
                     ),
                     Text(
                       'Bạn đã đồng ý điểm danh',
-                      style: TextStyle(fontSize: 14),
+                      style: TextStyle(fontSize: CommonUtils.getUnitPx() * 14),
                     ),
                     SizedBox(
                       height: 20,
                     ),
                     RaisedButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    ManageAttendanceLearningClassTandPPage()));
+                        Navigator.pop(context);
                       },
                       color: Colors.lightBlue,
                       child: Text(
@@ -556,18 +525,14 @@ class RejectRegisterAlert extends StatelessWidget {
                   children: [
                     Text(
                       'Bạn đã từ chối điểm danh',
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: CommonUtils.getUnitPx() * 16),
                     ),
                     SizedBox(
                       height: 20,
                     ),
                     RaisedButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    ManageAttendanceLearningClassTandPPage()));
+                        Navigator.pop(context);
                       },
                       color: Colors.redAccent,
                       child: Text(
@@ -593,6 +558,27 @@ class RejectRegisterAlert extends StatelessWidget {
           ],
         ));
   }
+}
+
+Widget showButtonAddAttendancePosition(BuildContext context) {
+  // if (UserType.TEACHER == userType)
+    return new Positioned(
+      top: height * 4.4/5,
+      left: width * 1.5/2,
+      child: Container(
+          height: height * 0.5 / 5,
+          child: TextButton(
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return CreateAttendanceCourse();
+                  });
+            },
+            child: new Image.asset('asset/image/add.png'),
+          )),
+    );
+  // return Container();
 }
 
 Container showButtonAddAttendance(BuildContext context) {
@@ -627,9 +613,17 @@ void setValueForAttendanceCourse(
   }
 }
 
+UserProfile initializeUserProfile() {
+  UserProfile userProfile = new UserProfile();
+  userProfile.id = 'jflasdjfljasdlfjsdf';
+  userProfile.fullName = 'Nguyen Van A';
+  userProfile.rate = '4';
+  return userProfile;
+}
+
 Future<Widget> _createAttendanceCourse(
     AttendanceCourse attendanceCourse) async {
-  attendanceCourse.courseId = courseId;
+  attendanceCourse.courseId = courseIdGlobal;
   attendanceCourse.userAttendance = initializeUserProfile();
   APIAttendanceCourseClient apiAttendanceCourseClient =
       APIAttendanceCourseClient(
@@ -641,23 +635,37 @@ Future<Widget> _createAttendanceCourse(
     ;
     print('Id: ' + response.id.toString());
     return Text('Success!');
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
   } else {
-    // Show pop up notification about fail reason.
     print('Error: ' + responseEntity.getException.toString());
     return Text('Failed!');
   }
 }
 
-UserProfile initializeUserProfile() {
-  UserProfile userProfile = new UserProfile();
-  userProfile.id = 'jflasdjfljasdlfjsdf';
-  userProfile.fullName = 'Nguyen Van A';
-  userProfile.rate = '4';
-  return userProfile;
+Future<List<AttendanceCourse>> _fetchAttendanceCourseList(
+    CourseRegisterStatus courseRegisterStatus, String courseId) async {
+  List<AttendanceCourse> attendanceCourseList = <AttendanceCourse>[];
+  APIAttendanceCourseClient apiAttendanceCourseClient =
+      APIAttendanceCourseClient(
+          Dio(BaseOptions(contentType: "application/json")));
+  ResponseEntity responseEntity = await apiAttendanceCourseClient
+      .getAttendanceCourseListByTypeAndCourseId(courseRegisterStatus, courseId);
+  if (responseEntity.getStatus == HttpStatus.ok) {
+    List listDecoded = responseEntity.data;
+    AttendanceCourse attendanceCourseResponse =
+        AttendanceCourse.fromJson(responseEntity.data[0]);
+    print('Id: ' + attendanceCourseResponse.id.toString());
+    return listDecoded
+        .map((attendanceCourse) =>
+            new AttendanceCourse.fromJson(attendanceCourse))
+        .toList();
+  } else {
+    print('Error: ' + responseEntity.getException.toString());
+  }
+  return attendanceCourseList;
 }
 
-Future<Widget> _updateAttendanceStatus(AttendanceCourse attendanceCourse) async {
+Future<Widget> _updateAttendanceStatus(
+    AttendanceCourse attendanceCourse) async {
   APIAttendanceCourseClient apiAttendanceCourseClient =
       APIAttendanceCourseClient(
           Dio(BaseOptions(contentType: "application/json")));
@@ -668,9 +676,7 @@ Future<Widget> _updateAttendanceStatus(AttendanceCourse attendanceCourse) async 
         AttendanceCourse.fromJson(responseEntity.data);
     print('Id: ' + attendanceCourseResponse.courseId.toString());
     return Text('Success!');
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
   } else {
-    // Show pop up notification about fail reason.
     print('Error: ' + responseEntity.getException.toString());
     return Text('Failed!');
   }
