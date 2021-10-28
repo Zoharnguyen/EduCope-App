@@ -143,8 +143,6 @@ class _SignInTandPPageState extends State<SignInTandPPage> {
               child: TextButton(
                 onPressed: () async {
                   login(userBasic, context);
-                  // Remove screen enter account
-                  Navigator.pop(context);
                 },
                 child: Text(
                   "Đăng nhập",
@@ -280,15 +278,25 @@ Future<Widget> login(UserBasic userBasic, BuildContext context) async {
   if (responseEntity.getStatus == HttpStatus.ok) {
     TokenResponse tokenResponse = TokenResponse.fromJson(responseEntity.data);
     print('Token: ' + tokenResponse.token);
+
     // Save token to reference-source and CommonUtils.userToken
     CommonUtils.saveValue(
         describeEnum(CommonConstant.TOKEN).toString(), tokenResponse.token);
+
     CommonUtils.userToken = tokenResponse.token;
     // Save userId to CommonUtils.currentUserId
-      CommonUtils.currentUserId = tokenResponse.userId;
+    CommonUtils.currentUserId = tokenResponse.userId;
+
+    // Save token to reference-source and CommonUtils.userToken
+    CommonUtils.saveValue(
+        describeEnum(CommonConstant.USER_ID).toString(), CommonUtils.currentUserId);
+
+    // Remove screen enter account
+    Navigator.pop(context);
     // Move to homePage screen after login success
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => HomePageTandP(userIdGlobal)));
+        MaterialPageRoute(builder: (context) => HomePageTandP(CommonUtils.currentUserId)));
+
     return Text("Success");
   } else {
     print('Error: ' + responseEntity.getException.toString());

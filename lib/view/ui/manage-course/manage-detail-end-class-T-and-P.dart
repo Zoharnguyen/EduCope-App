@@ -78,7 +78,7 @@ class _ManageDetailEndClassTandPPagePageState
               backgroundColor: Color(WidgetUtils.valueColorAppBar),
             title: Container(
                 child: Text(
-                  'Môn toán - Kết thúc',
+                  'Môn học - Kết thúc',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: CommonUtils.getUnitPx() * 20,

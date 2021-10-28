@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:edu_cope/constant/from-screen.dart';
 import 'package:edu_cope/constant/offer-type.dart';
-import 'package:edu_cope/constant/user-type.dart';
 import 'package:edu_cope/dto/course-status.dart';
 import 'package:edu_cope/dto/offer.dart';
 import 'package:edu_cope/dto/response-entity.dart';
@@ -34,7 +33,6 @@ void main() async {
 final double height = CommonUtils.height;
 final double width = CommonUtils.width;
 var counter = 0;
-UserType userType = CommonUtils.currentUserType;
 String userIdGlobal = CommonUtils.currentUserId;
 UserProfile userProfileGlobal = new UserProfile();
 var stars = [];
@@ -121,7 +119,8 @@ class _HomePageTandPState extends State<HomePageTandP> {
                   radius: height * 0.18 / 5,
                   backgroundImage: profileImage != null
                       ? profileImage!.image
-                      : NetworkImage('https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
+                      : NetworkImage(
+                          'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
                 ),
               ),
               actions: <Widget>[
@@ -445,7 +444,7 @@ class _HomePageTandPState extends State<HomePageTandP> {
             height: height * 2.01 / 5,
             child: new JobsListViewOffer(this),
           ),
-          WidgetUtils.mainButton(context, 0, userType)
+          WidgetUtils.mainButton(context, 0, CommonUtils.currentUserType)
         ],
       ),
     );
@@ -488,7 +487,8 @@ class JobsListViewOffer extends StatelessWidget {
       List<CourseStatus> courseStatusList,
       BuildContext context) {
     // Get image from profileAuthor
-    Image? profileImageInternal = WidgetUtils.getImageFromUserProfile(profileAuthor);
+    Image? profileImageInternal =
+        WidgetUtils.getImageFromUserProfile(profileAuthor);
 
     return Container(
       height: height / 5,
@@ -648,7 +648,8 @@ class JobsListViewOffer extends StatelessWidget {
                                   fit: BoxFit.fill,
                                   image: profileImageInternal != null
                                       ? profileImageInternal.image
-                                      : NetworkImage('https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'))),
+                                      : NetworkImage(
+                                          'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'))),
                         ),
                         Container(
                           margin: EdgeInsets.only(
@@ -730,7 +731,7 @@ class JobsListViewOffer extends StatelessWidget {
             List<Offer>? data = snapshot.data;
             return _jobsListView(data);
           } else
-            return Container();
+            return _jobsListView(mockOffers());
         });
   }
 }
@@ -776,6 +777,9 @@ Future<UserProfile> getUserProfileById(String userId) async {
     UserProfile response = UserProfile.fromJson(responseEntity.data);
     print('Id: ' + response.id.toString());
 
+    // Save current userType to global variable
+    CommonUtils.currentUserType = response.userType!;
+
     return response;
   } else {
     print('Error: ' + responseEntity.getException.toString());
@@ -796,4 +800,12 @@ bool checkUserRegisterCourse(List<UserProfile> listMemClass, String userId) {
     if (userId == userProfile.id) return true;
   }
   return false;
+}
+
+List<Offer> mockOffers() {
+  List<Offer>? mockOffers = <Offer>[];
+  Offer offer = new Offer();
+  mockOffers.add(offer);
+
+  return mockOffers;
 }

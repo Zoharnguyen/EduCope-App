@@ -9,7 +9,7 @@ import 'package:retrofit/http.dart';
 
 part 'api-notification-impl.dart';
 
-@RestApi(baseUrl: "http://172.17.0.1:8081")
+@RestApi(baseUrl: "http://192.168.1.35:8081")
 abstract class APINotificationClient {
   factory APINotificationClient(Dio dio) = _APINotificationClient;
 

@@ -9,6 +9,7 @@ import 'package:edu_cope/dto/course-status.dart';
 import 'package:edu_cope/dto/notification-element.dart';
 import 'package:edu_cope/dto/notification-request-dto.dart';
 import 'package:edu_cope/dto/response-entity.dart';
+import 'package:edu_cope/dto/user-profile.dart';
 import 'package:edu_cope/service/api-notification.dart';
 import 'package:edu_cope/service/api-offer.dart';
 import 'package:edu_cope/view/ui/common/widget-utils.dart';
@@ -348,6 +349,10 @@ class AcceptRegisterAlert extends StatelessWidget {
                     ),
                     RaisedButton(
                       onPressed: () {
+                        // Remove some unnecessary screens out stack
+                        // Navigator.pop(context);
+                        // Navigator.pop(context);
+
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -514,4 +519,8 @@ void mockNotificationRequestDto(NotificationRequestDto notificationRequestDto) {
   notificationElement.screenName =
       'ManageDetailOpeningClassTandPPage(CourseID)';
   notificationRequestDto.notificationElement = notificationElement;
+}
+
+bool checkRegisterCourseBelongToUserId(UserProfile author, String currentUserId) {
+  return false;
 }

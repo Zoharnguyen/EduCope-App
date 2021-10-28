@@ -222,16 +222,15 @@ void moveToScreenWithNotification(
   if (screenName != null) {
     if (MoveToScreen.moveToManageOpenCourseAndDecideRegisterCourse ==
         screenName) {
-      // Execute when get courseRegisterStatus
-      // CourseRegisterStatus courseRegisterStatus = CourseRegisterStatus.PENDING;
-      // if (screenVariables != null && !screenVariables.isEmpty) {
-      //   courseRegisterStatus = CourseRegisterStatusHelper.convertStringToEnum(screenVariables.first)!;
-      // }
+      String courseId = '';
+      if (screenVariables != null && !screenVariables.isEmpty) {
+        courseId = screenVariables.first;
+      }
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => ManageRegisterCourseOpeningClassTPage(
-                  screenVariables!.first, true)));
+                  courseId, true)));
     } else if (MoveToScreen.moveToManageOpeningCourse == screenName) {
       Navigator.push(
           context,

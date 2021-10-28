@@ -16,7 +16,7 @@ class CommonUtils {
   static double standardWidth = 411.428;
   static double standardHeight = 683.428;
   static String userToken = "";
-  static String baseUrl = "http://172.17.0.1:8081";
+  static String baseUrl = "http://192.168.1.35:8081";
 
   static saveValue(String key, String value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:edu_cope/constant/common-constant.dart';
+import 'package:edu_cope/constant/user-type.dart';
 import 'package:edu_cope/dto/response-entity.dart';
 import 'package:edu_cope/dto/response-token.dart';
 import 'package:edu_cope/dto/user-basic.dart';
@@ -136,7 +137,11 @@ class _SignUpTandPPageState extends State<SignUpTandPPage> {
                   ]),
               child: TextButton(
                 onPressed: () async {
-                  userBasic.userType = CommonUtils.currentUserType;
+                  UserType selectedUserType = UserType.TEACHER;
+                  await CommonUtils.getCurrentUserType().then((value) => {
+                    selectedUserType = value
+                  });
+                  userBasic.userType = selectedUserType;
                   // Create new account
                   await createAccount(userBasic);
                   // Do login into app

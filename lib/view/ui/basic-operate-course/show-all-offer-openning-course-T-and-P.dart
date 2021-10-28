@@ -179,7 +179,7 @@ class JobsListViewOffer extends StatelessWidget {
           } else if (snapshot.hasError) {
             return Text("${snapshot.error}");
           }
-          return Text("${snapshot.error}");
+          return _jobsListView(mockOffers());
         });
   }
 }
@@ -496,4 +496,12 @@ bool checkUserRegisterCourse(List<UserProfile> listMemClass, String userId) {
     if (userId == userProfile.id) return true;
   }
   return false;
+}
+
+List<Offer> mockOffers() {
+  List<Offer>? mockOffers = <Offer>[];
+  Offer offer = new Offer();
+  mockOffers.add(offer);
+
+  return mockOffers;
 }

@@ -7,7 +7,6 @@ import 'package:edu_cope/dto/schedule-offer.dart';
 import 'package:edu_cope/dto/user-profile.dart';
 import 'package:edu_cope/service/api-offer.dart';
 import 'package:edu_cope/view/ui/common/widget-utils.dart';
-import 'package:edu_cope/view/ui/manage-course/manage-detail-learning-class-T-and-P.dart';
 import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:flutter/material.dart';
 
@@ -84,11 +83,15 @@ class _DetailInformationLearingClassTandPPageState
                       tabs: <Widget>[
                         Text(
                           'Thông tin chung',
-                          style: TextStyle(fontSize: CommonUtils.getUnitPx() * 20, fontStyle: FontStyle.italic),
+                          style: TextStyle(
+                              fontSize: CommonUtils.getUnitPx() * 20,
+                              fontStyle: FontStyle.italic),
                         ),
                         Text(
                           'Thành viên',
-                          style: TextStyle(fontSize: CommonUtils.getUnitPx() * 20, fontStyle: FontStyle.italic),
+                          style: TextStyle(
+                              fontSize: CommonUtils.getUnitPx() * 20,
+                              fontStyle: FontStyle.italic),
                         ),
                       ],
                     ),
@@ -96,8 +99,10 @@ class _DetailInformationLearingClassTandPPageState
                 ),
                 body: TabBarView(children: <Widget>[
                   generalInformationClass(_offer),
-                  if(_offer.memberClassList != null) membersClass(_offer.memberClassList)
-                  else Container(),
+                  if (_offer.memberClassList != null)
+                    membersClass(_offer.memberClassList)
+                  else
+                    Container(),
                 ]),
               ));
         } else
@@ -117,6 +122,12 @@ ListView membersClass(data) {
 }
 
 Widget _showMemberClass(UserProfile userProfile) {
+  // Get image from profileAuthor
+  Image? profileImageInternal = null;
+  if (userProfile != null) {
+    profileImageInternal = WidgetUtils.getImageFromUserProfile(userProfile);
+  }
+
   return Container(
     height: height * 0.5 / 5,
     width: width * 1.6 / 2,
@@ -147,21 +158,20 @@ Widget _showMemberClass(UserProfile userProfile) {
             child: Row(
               children: <Widget>[
                 Container(
-                  height: height * 0.4 / 5,
-                  margin: EdgeInsets.only(
-                    right: width * 0.03/2,
-                  ),
-                  child: CircleAvatar(
-                    radius: height * 0.19 / 5,
-                    backgroundColor: Color(0xFFe1f5f2),
-                    child: CircleAvatar(
-                      radius: height * 0.18 / 5,
-                      backgroundImage:
-                      AssetImage('asset/image/profile-image-1.jpeg'),
+                    height: height * 0.4 / 5,
+                    margin: EdgeInsets.only(
+                      right: width * 0.03 / 2,
                     ),
-                  )
-
-                ),
+                    child: CircleAvatar(
+                      radius: height * 0.19 / 5,
+                      backgroundColor: Color(0xFFe1f5f2),
+                      child: CircleAvatar(
+                        radius: height * 0.18 / 5,
+                        backgroundImage: profileImageInternal != null
+                            ? profileImageInternal.image
+                            : NetworkImage('asset/image/profile-image-1.jpeg'),
+                      ),
+                    )),
                 Container(
                   child: Column(
                     children: <Widget>[
@@ -172,7 +182,9 @@ Widget _showMemberClass(UserProfile userProfile) {
                         ),
                         child: Text(
                           CommonUtils.catchCaseStringNull(userProfile.fullName),
-                          style: TextStyle(fontSize: CommonUtils.getUnitPx() * 16, color: Colors.black87),
+                          style: TextStyle(
+                              fontSize: CommonUtils.getUnitPx() * 16,
+                              color: Colors.black87),
                         ),
                       ),
                       Container(
@@ -182,7 +194,9 @@ Widget _showMemberClass(UserProfile userProfile) {
                         ),
                         child: Text(
                           CommonUtils.catchCaseStringNull(userProfile.rate),
-                          style: TextStyle(fontSize: CommonUtils.getUnitPx() * 16, color: Colors.black87),
+                          style: TextStyle(
+                              fontSize: CommonUtils.getUnitPx() * 16,
+                              color: Colors.black87),
                         ),
                       ),
                     ],
@@ -201,8 +215,12 @@ Widget _showMemberClass(UserProfile userProfile) {
           child: Align(
             child: Text(
               CommonUtils.mappingRoleWithUserTypeInClass(
-                  CommonUtils.catchCaseStringNull(userProfile.userType.toString())),
-              style: TextStyle(fontSize: CommonUtils.getUnitPx() * 16, color: Colors.lightBlue, fontStyle: FontStyle.italic),
+                  CommonUtils.catchCaseStringNull(
+                      userProfile.userType.toString())),
+              style: TextStyle(
+                  fontSize: CommonUtils.getUnitPx() * 16,
+                  color: Colors.lightBlue,
+                  fontStyle: FontStyle.italic),
             ),
           ),
         ),
@@ -219,21 +237,26 @@ Widget generalInformationClass(Offer offer) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           titleForItems('Môn học'),
-          inputShortContentItem(CommonUtils.catchCaseStringNull(offer.subject.toString())),
+          inputShortContentItem(
+              CommonUtils.catchCaseStringNull(offer.subject.toString())),
           titleForItems('Hình thức học'),
-          inputShortContentItem(CommonUtils.catchCaseStringNull(offer.formatLearning.toString())),
+          inputShortContentItem(
+              CommonUtils.catchCaseStringNull(offer.formatLearning.toString())),
           titleForItems('Cấp học'),
-          inputShortContentItem(CommonUtils.catchCaseStringNull(offer.level.toString())),
+          inputShortContentItem(
+              CommonUtils.catchCaseStringNull(offer.level.toString())),
           titleForItems('Ngày học trong tuần'),
-          inputShortContentItem(
-              CommonUtils.catchCaseStringNull(offer.scheduleOffer!.overview.toString())),
+          inputShortContentItem(CommonUtils.catchCaseStringNull(
+              offer.scheduleOffer!.overview.toString())),
           titleForItems('Thời gian học'),
-          inputShortContentItem(
-              CommonUtils.catchCaseStringNull(offer.scheduleOffer!.detail.toString())),
+          inputShortContentItem(CommonUtils.catchCaseStringNull(
+              offer.scheduleOffer!.detail.toString())),
           titleForItems('Địa điểm'),
-          inputLongContentItem(CommonUtils.catchCaseStringNull(offer.preferAddress.toString())),
+          inputLongContentItem(
+              CommonUtils.catchCaseStringNull(offer.preferAddress.toString())),
           titleForItems('Lưu ý'),
-          inputLongContentItem(CommonUtils.catchCaseStringNull(offer.note.toString())),
+          inputLongContentItem(
+              CommonUtils.catchCaseStringNull(offer.note.toString())),
           Container(
             margin: EdgeInsets.only(
               bottom: height * 0.5 / 5,
@@ -289,10 +312,9 @@ Container titleForItems(String initialValueTitle) {
             child: Text(
               initialValueTitle,
               style: TextStyle(
-                color: Color(0xFF1298e0),
-                fontSize: CommonUtils.getUnitPx() * 18,
-                fontStyle: FontStyle.italic
-              ),
+                  color: Color(0xFF1298e0),
+                  fontSize: CommonUtils.getUnitPx() * 18,
+                  fontStyle: FontStyle.italic),
             )),
       ],
     ),
@@ -339,9 +361,7 @@ Future<Offer> getOfferById(String courseId) async {
     Offer offerResponse = Offer.fromJson(responseEntity.data);
     print('Subject: ' + offerResponse.subject.toString());
     return offerResponse;
-
   } else {
-
     print('Error: ' + responseEntity.getException.toString());
   }
   return offer;

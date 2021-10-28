@@ -77,7 +77,7 @@ class _ManageDetailOpeningClassTandPPageState
               backgroundColor: Color(WidgetUtils.valueColorAppBar),
             title: Container(
                 child: Text(
-                  'Môn toán - Đang mở',
+                  'Môn học - Đang mở',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: CommonUtils.getUnitPx() * 20,

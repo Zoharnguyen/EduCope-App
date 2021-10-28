@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:edu_cope/constant/from-screen.dart';
+import 'package:edu_cope/constant/move-to-screen.dart';
 import 'package:edu_cope/constant/user-type.dart';
 import 'package:edu_cope/dto/course-status-wrap.dart';
 import 'package:edu_cope/dto/course-status.dart';
@@ -268,7 +269,7 @@ class _DetailInformationOpeningAndNotOfferClassTandPPageState
                 inputShortContentItem(_offer.preferAddress.toString()),
                 titleForItems('Lưu ý'),
                 inputLongContentItem(_offer.note.toString()),
-                buttonRegister(context),
+                buttonRegister(context, _offer),
               ],
             );
           },
@@ -398,22 +399,6 @@ Container inputLongContentItem(String value) {
   );
 }
 
-Future<Offer> getOfferById() async {
-  Offer offer = new Offer();
-  String courseId = courseIdGlobal;
-  APIOfferClient apiOfferClient =
-      APIOfferClient(Dio(BaseOptions(contentType: "application/json")));
-  ResponseEntity responseEntity = await apiOfferClient.getCourseById(courseId);
-  if (responseEntity.getStatus == HttpStatus.ok) {
-    Offer offerResponse = Offer.fromJson(responseEntity.data);
-    print('Subject: ' + offerResponse.subject.toString());
-    return offerResponse;
-  } else {
-    print('Error: ' + responseEntity.getException.toString());
-  }
-  return offer;
-}
-
 String _catchCaseStringNull(String value) {
   if (value == null)
     return '';
@@ -468,7 +453,7 @@ Container buttonEdit(BuildContext context) {
   return Container();
 }
 
-Container buttonRegister(BuildContext context) {
+Container buttonRegister(BuildContext context, Offer offer) {
   if (!checkCourseBelongUserGlobal &&
       fromScreenGlobal == FromScreen.fromScreenHomePage)
     return Container(
@@ -504,7 +489,7 @@ Container buttonRegister(BuildContext context) {
         ),
         onPressed: () {
           createCourseStatus(courseStatusWrap);
-          sendNotification(new NotificationRequestDto());
+          sendNotification(new NotificationRequestDto(), offer.profileAuthor!.id.toString(), offer.id.toString());
           showDialog(
               context: context,
               builder: (BuildContext context) {
@@ -530,7 +515,7 @@ class RegisterSuccessAlert extends StatelessWidget {
           alignment: Alignment.topCenter,
           children: [
             Container(
-              height: 200,
+              height: height * 1.5/5,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(10, 70, 10, 10),
                 child: Column(
@@ -550,7 +535,7 @@ class RegisterSuccessAlert extends StatelessWidget {
                       style: TextStyle(fontSize: CommonUtils.getUnitPx() * 14),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: CommonUtils.getUnitPx() * 20,
                     ),
                     RaisedButton(
                       onPressed: () {
@@ -619,15 +604,31 @@ Future<UserProfile> getUserProfileById(String userId) async {
   return userProfile;
 }
 
+Future<Offer> getOfferById() async {
+  Offer offer = new Offer();
+  String courseId = courseIdGlobal;
+  APIOfferClient apiOfferClient =
+  APIOfferClient(Dio(BaseOptions(contentType: "application/json")));
+  ResponseEntity responseEntity = await apiOfferClient.getCourseById(courseId);
+  if (responseEntity.getStatus == HttpStatus.ok) {
+    Offer offerResponse = Offer.fromJson(responseEntity.data);
+    print('Subject: ' + offerResponse.subject.toString());
+    return offerResponse;
+  } else {
+    print('Error: ' + responseEntity.getException.toString());
+  }
+  return offer;
+}
+
 void mockCourseStatus(CourseStatus courseStatus) {
   courseStatus.courseStatusId = new Uuid().v1();
   courseStatus.reason = "Toi dong y dang ky";
 }
 
 Future<Widget> sendNotification(
-    NotificationRequestDto notificationRequestDto) async {
-  mockNotificationRequestDto(notificationRequestDto);
-  String receiverId = '';
+    NotificationRequestDto notificationRequestDto, String receiverId, String offerId) async {
+  mockNotificationRequestDto(notificationRequestDto, offerId);
+  if(receiverId == null) receiverId = '';
   APINotificationClient apiNotificationClient =
       APINotificationClient(Dio(BaseOptions(contentType: "application/json")));
   ResponseEntity responseEntity = await apiNotificationClient.sendPnsToTopic(
@@ -643,13 +644,16 @@ Future<Widget> sendNotification(
   }
 }
 
-void mockNotificationRequestDto(NotificationRequestDto notificationRequestDto) {
+void mockNotificationRequestDto(NotificationRequestDto notificationRequestDto, String offerId) {
   if (notificationRequestDto == null)
     notificationRequestDto = new NotificationRequestDto();
   notificationRequestDto.target = 'trungnq-topic';
   notificationRequestDto.title = 'Notification-Test';
   NotificationElement notificationElement = new NotificationElement();
-  notificationElement.sender = 'AAA Nguyen';
+  notificationElement.sender = 'Student5';
   notificationElement.content = 'Da dang ky Môn học cua bro day';
+  notificationElement.screenName = MoveToScreen.moveToManageOpenCourseAndDecideRegisterCourse;
+  List<String>? variables = [offerId, 'true'];
+  notificationElement.screenVariables = variables;
   notificationRequestDto.notificationElement = notificationElement;
 }

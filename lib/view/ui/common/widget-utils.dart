@@ -203,9 +203,9 @@ class WidgetUtils {
 
   static Image? getImageFromUserProfile(UserProfile userProfile) {
     Image? profileImage = null;
-    if (userProfileGlobal != null && userProfileGlobal.urlImageProfile != null && userProfileGlobal.urlImageProfile != '') {
+    if (userProfile != null && userProfile.urlImageProfile != null && userProfile.urlImageProfile != '') {
       profileImage = new Image.memory(WidgetUtils.dataFromBase64String(
-          userProfileGlobal.urlImageProfile.toString()));
+          userProfile.urlImageProfile.toString()));
     }
     return profileImage;
   }

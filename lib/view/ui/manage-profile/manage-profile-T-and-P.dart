@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:edu_cope/constant/common-constant.dart';
 import 'package:edu_cope/constant/user-type.dart';
 import 'package:edu_cope/dto/chat-overview-dto.dart';
 import 'package:edu_cope/dto/response-entity.dart';
@@ -11,7 +12,9 @@ import 'package:edu_cope/view/ui/common/developing-feature-screen-T-and-P.dart';
 import 'package:edu_cope/view/ui/common/widget-utils.dart';
 import 'package:edu_cope/view/ui/manage-profile/profile-basic-information-T-and-P.dart';
 import 'package:edu_cope/view/ui/manage-profile/show-adjust-account-T-and-P.dart';
+import 'package:edu_cope/view/ui/welcome/welcome-T-and-P.dart';
 import 'package:edu_cope/view/utils/common-utils.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -20,7 +23,7 @@ void main() {
 
 double width = CommonUtils.width;
 double height = CommonUtils.height;
-String userIdGlobal = CommonUtils.currentUserId;
+String userIdGlobal = "";
 String userCurrentIdGlobal = CommonUtils.currentUserId;
 var stars = [];
 UserType userType = CommonUtils.currentUserType;
@@ -127,7 +130,7 @@ Container showButtonPerson(
               left: width * 0.1 / 2,
             ),
             child: TextButton(
-                onPressed: () {
+                onPressed: () async {
                   if (nameButton == 'Thông tin cá nhân') {
                     Navigator.push(
                         context,
@@ -141,6 +144,17 @@ Container showButtonPerson(
                         MaterialPageRoute(
                             builder: (context) =>
                                 ShowAdjustAccountTandPPage(userIdGlobal)));
+                  } else if (nameButton == 'Đăng xuất') {
+                    CommonUtils.userToken = "";
+                    CommonUtils.currentUserId = "";
+                    await CommonUtils.saveValue(
+                        describeEnum(CommonConstant.TOKEN).toString(), "");
+                    await CommonUtils.saveValue(
+                        describeEnum(CommonConstant.USER_ID).toString(), "");
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => WelcomeTandPPage()));
                   } else {
                     Navigator.push(
                         context,
@@ -267,7 +281,9 @@ class UserProfileOverview extends StatelessWidget {
           } else if (snapshot.hasError) {
             return Text("${snapshot.error}");
           }
-          return Text("${snapshot.error}");
+          return Container(
+            height: height * 1.9 / 5,
+          );
         });
   }
 }

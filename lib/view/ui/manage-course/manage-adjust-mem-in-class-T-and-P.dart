@@ -286,8 +286,10 @@ class AdjustMember extends StatelessWidget {
                                 adjustUserProfile.userBeAdjustedId =
                                     userProfileAdjusted.id;
                                 adjustMember(adjustUserProfile);
+                                // Remove some unnecessary screens out stack
                                 Navigator.pop(context);
                                 Navigator.pop(context);
+
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(

@@ -38,8 +38,9 @@ String previousScreenGlobal = '';
 String partnerNameGlobal = '';
 String partnerImageGlobal = '';
 Image? profileImageGlobal = null;
+final String tokenType = "Bearer ";
 
-final socketUrl = 'ws://10.0.2.2:8081/ws-message';
+final socketUrl = 'ws://192.168.1.35:8081/ws-message';
 
 class MyApp extends StatelessWidget {
   @override
@@ -83,10 +84,15 @@ class _DetailChatState extends State<DetailChat> {
   int messageSizeStart = 0;
   int messageSizeEnd = 0;
 
+  var _headers = <String, String>{};
+
   // '/chat/' + chatId
   void onConnect(StompFrame frame) {
+    // Add token to header
+    _headers.putIfAbsent("Authorization", () => tokenType + CommonUtils.userToken);
     stompClient.subscribe(
         destination: '/chat/' + chatIdGlobal,
+        // headers: _headers,
         callback: (StompFrame frame) {
           if (frame.body != null) {
             Map<String, dynamic> result = json.decode(frame.body ?? '');
@@ -138,7 +144,7 @@ class _DetailChatState extends State<DetailChat> {
 
     // Initialize Client of connection rabbitMQ
     ConnectionSettings settings = ConnectionSettings(
-        host: '172.17.0.1',
+        host: '192.168.1.35',
         port: 5672,
         authProvider: PlainAuthenticator("admin", "admin"));
     clientMQ = Client(settings: settings);

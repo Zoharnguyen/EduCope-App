@@ -4,39 +4,12 @@ import 'package:edu_cope/constant/common-constant.dart';
 import 'package:edu_cope/constant/user-type.dart';
 import 'package:edu_cope/view/ui/welcome/sign-in-T-and-P.dart';
 import 'package:edu_cope/view/utils/common-utils.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constant/common-constant.dart';
+import '../homepage-T-and-P.dart';
 import 'choose-user-type-T-and-P.dart';
-
-var pixelRatio = window.devicePixelRatio;
-//Size in physical pixels
-var physicalScreenSize = window.physicalSize;
-
-//Size in logical pixels
-var logicalScreenSize = window.physicalSize / pixelRatio;
-var logicalWidth = logicalScreenSize.width;
-var logicalHeight = logicalScreenSize.height;
-
-Future<void> main() async {
-  // Initialize value of width and height of screen
-  CommonUtils.width = logicalWidth;
-  CommonUtils.height = logicalHeight;
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: WelcomeTandPPage(),
-    );
-  }
-}
 
 class WelcomeTandPPage extends StatefulWidget {
   WelcomeTandPPage();
@@ -50,6 +23,9 @@ class _WelcomeTandPPageState extends State<WelcomeTandPPage> {
   void initState() {
     super.initState();
     // setValueForUserType();
+
+    // login by previous token
+    checkStatusLoginUser();
     print("Current user: " + CommonUtils.currentUserType.toString());
   }
 
@@ -61,6 +37,24 @@ class _WelcomeTandPPageState extends State<WelcomeTandPPage> {
     CommonUtils.getCurrentUserType().then((value) {
       CommonUtils.currentUserType = value;
     });
+  }
+
+  checkStatusLoginUser() async {
+    String token = "";
+    String userId = "";
+    await CommonUtils.getValue(describeEnum(CommonConstant.TOKEN).toString())
+        .then((value) => {token = value});
+
+    await CommonUtils.getValue(describeEnum(CommonConstant.USER_ID).toString())
+        .then((value) => {userId = value});
+
+    if (token != "" && userId != "") {
+      CommonUtils.userToken = token;
+      // Save userId to CommonUtils.currentUserId
+      CommonUtils.currentUserId = userId;
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => HomePageTandP(userId)));
+    }
   }
 
   @override
@@ -105,7 +99,7 @@ class _WelcomeTandPPageState extends State<WelcomeTandPPage> {
             height: height * 0.3 / 5,
             width: width * 4 / 7,
             margin: EdgeInsets.only(
-              top: height * 0.2/5,
+              top: height * 0.2 / 5,
             ),
             decoration: BoxDecoration(
                 color: Colors.blue.shade300,
