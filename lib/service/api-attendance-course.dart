@@ -10,7 +10,7 @@ import 'package:retrofit/http.dart';
 
 part 'api-attendance-course-impl.dart';
 
-@RestApi(baseUrl: "http://192.168.1.35:8081")
+@RestApi(baseUrl: "http://192.168.1.212:8081")
 abstract class APIAttendanceCourseClient {
   factory APIAttendanceCourseClient(Dio dio) = _APIAttendanceCourseClient;
 

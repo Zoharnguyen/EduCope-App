@@ -10,7 +10,7 @@ import 'package:edu_cope/view/utils/common-utils.dart';
 import 'package:retrofit/http.dart';
 part 'api-account-impl.dart';
 
-@RestApi(baseUrl: "http://192.168.1.35:8081")
+@RestApi(baseUrl: "http://192.168.1.212:8081")
 abstract class APIAcountClient {
 
   factory APIAcountClient(Dio dio) = _APIAcountClient;

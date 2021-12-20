@@ -72,8 +72,6 @@ class _APIOfferClient implements APIOfferClient {
     requestParam.putIfAbsent("subject", () => subject);
 
     var _headers = <String, dynamic>{};
-    // _headers.putIfAbsent("Authorization", () => tokenType + CommonUtils.userToken);
-
     ResponseEntity reponseEntity = new ResponseEntity();
     try {
       final result = await _dio.request<List<dynamic>>(

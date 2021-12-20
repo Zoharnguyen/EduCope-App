@@ -40,7 +40,7 @@ String partnerImageGlobal = '';
 Image? profileImageGlobal = null;
 final String tokenType = "Bearer ";
 
-final socketUrl = 'ws://192.168.1.35:8081/ws-message';
+final socketUrl = 'ws://192.168.1.212:8081/ws-message';
 
 class MyApp extends StatelessWidget {
   @override
@@ -144,7 +144,7 @@ class _DetailChatState extends State<DetailChat> {
 
     // Initialize Client of connection rabbitMQ
     ConnectionSettings settings = ConnectionSettings(
-        host: '192.168.1.35',
+        host: '192.168.1.212',
         port: 5672,
         authProvider: PlainAuthenticator("admin", "admin"));
     clientMQ = Client(settings: settings);
